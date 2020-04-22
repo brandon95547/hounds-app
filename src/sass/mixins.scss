@@ -1,0 +1,85 @@
+@function headings($from:1, $to:6) {
+    @if $from==$to {
+        @return 'h#{$from}';
+    }
+
+    @else {
+        @return 'h#{$from},'+headings($from+1, $to);
+    }
+}
+
+@mixin device-sm {
+    @media only screen and (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin device-md {
+    @media only screen and (min-width: 992px) {
+        @content;
+    }
+}
+
+@mixin device-md-max {
+    @media only screen and (max-width: 991px) {
+        @content;
+    }
+}
+
+@mixin device-lg {
+    @media only screen and (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin device-xl {
+    @media only screen and (min-width: 1366px) {
+        @content;
+    }
+}
+
+@mixin device-xxl {
+    @media only screen and (min-width: 1600px) {
+        @content;
+    }
+}
+
+@mixin device-xxxl {
+    @media only screen and (min-width: 1920px) {
+        @content;
+    }
+}
+
+/* @mixin font-size($sizeValue: 1) {
+    font-size: ($sizeValue * 16) + px;
+} */
+
+@mixin font-size($fs-map) {
+
+    @each $fs-breakpoint,
+    $fs-font-size in $fs-map {
+        @if $fs-breakpoint==null {
+            font-size: $fs-font-size;
+        }
+
+        @else {
+            @media screen and (min-width: $fs-breakpoint) {
+                font-size: $fs-font-size;
+            }
+        }
+    }
+}
+@mixin logo-size($fs-map) {
+    @each $fs-breakpoint,
+    $fs-img-size in $fs-map {
+        @if $fs-breakpoint==null {
+            max-width: $fs-img-size;
+        }
+
+        @else {
+            @media screen and (min-width: $fs-breakpoint) {
+                max-width: $fs-img-size;
+            }
+        }
+    }
+}
