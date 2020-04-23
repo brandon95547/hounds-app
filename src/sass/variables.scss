@@ -2,6 +2,7 @@
 $primary: rgb(228, 55, 55);
 $primaryHover: #85e2a7;
 $primaryDarker: #5aac78;
+$primaryLight: #FF9999;
 $secondary: #00b3b3;
 $dark: #444;
 $clightgray: #EEE;
@@ -11,41 +12,14 @@ $fontBody: "Roboto", sans-serif;
 $fontHeadings: "Poppins", serif;
 $cursive: "Pacifico", serif;
 
-$nav-font-sizes: (
-    null : 14px,
-    1024px : 15px,
-    1366px : 16px,
-    1600px : 18px,
-    1920px : 22px
-);
-$p-font-sizes: (
-    null : 17px,
-    1024px : 18px,
-    1366px : 19px,
-    1600px : 20px,
-    1920px : 22px
-);
-$icon-sizes : (
-    null : 20px,
-    1024px : 24px,
-    1600px : 30px
-);
-$logo-sizes: (
-    null : 260px,
-    1920px : 280px
-);
-$title1-sizes: (
-    null : 44px,
-    1024px : 52px,
-    1920px : 56px
-);
-$title2-sizes: (
-    null : 38px,
-    1024px : 40px,
-    1366px : 42px,
-    1920px : 44px
-);
-$row-space-1: 45px;
-$row-space-2: 60px;
-$row-space-3: 75px;
-$row-space-4: 90px;
+// font sizes
+$fontSize1: 14px;
+$fontSize2: 16px;
+$fontSize3: 18px;
+$fontSize4: 20px;
+$fontSize5: 22px;
+$fontSize6: 24px;
+
+$fontSize7: 32px;
+$fontSize8: 36px;
+$fontSize9: 40px;

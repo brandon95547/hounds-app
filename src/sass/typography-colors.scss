@@ -1,3 +1,31 @@
+// font sizes
+.fs-1 {
+    font-size: $fontSize1;
+}
+.fs-2 {
+    font-size: $fontSize2;
+}
+.fs-3 {
+    font-size: $fontSize3;
+}
+.fs-4 {
+    font-size: $fontSize4;
+}
+.fs-5 {
+    font-size: $fontSize5;
+}
+.fs-6 {
+    font-size: $fontSize6;
+}
+.fs-7 {
+    font-size: $fontSize7;
+}
+.fs-8 {
+    font-size: $fontSize8;
+}
+.fs-9 {
+    font-size: $fontSize9;
+}
 .c-primary {
     color: $primary !important;
 }
@@ -9,7 +37,9 @@
 .c-secondary {
     color: $secondary !important;
 }
-
+.bg-primary-light {
+    background-color: $primaryLight;
+}
 .dark {
     color: $dark;
 }

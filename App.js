@@ -9,6 +9,7 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 // screens
 import HomeScreen from './components/screens/HomeScreen';
 import StartScreen from './components/screens/StartScreen';
+import LoginScreen from './components/screens/LoginScreen';
 
 // stylesheets
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,8 +25,9 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator headerMode="none">
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Overview' }} />
-          <Stack.Screen name="Start" component={StartScreen} options={{ title: 'Overview' }} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+          <Stack.Screen name="Start" component={StartScreen} options={{ title: 'Start Order' }} />
+          <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
         </Stack.Navigator>
       </NavigationContainer>
     );

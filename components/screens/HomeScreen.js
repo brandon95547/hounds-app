@@ -1,7 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform, FlatList } from 'react-native';
+import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
+
+// bootstrap components
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+import Image from 'react-bootstrap/Image';
 
 // core components for layout
 import Header from '../Header';
@@ -44,17 +50,35 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <NavBar navigation={this.props.navigation}/>
 
-        <Header title="Kings Mountain"/>
+        <Header interior={false} navigation={this.props.navigation} title="Kings Mountain"/>
 
-        <Container>
+        <div className="flex-grow-1 bg-primary-light">
+          <Image src={require('../../assets/img/popcorn.gif')}/>
+        </div>
+
+        <Container className="bg-primary-light">
           <Row>
-            <Col>1 of 1</Col>
+            <Col>
+              <Button
+                className="w-medium"
+                onClick={() => this.props.navigation.navigate('Start')}
+                variant="white"
+                size="lg"
+                block>START NEW ORDER</Button>
+            </Col>
           </Row>
+          <Container>
+            <Row>
+              <Col className="text-center pv-1">
+                <strong onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
+              </Col>
+              <Col className="text-center pv-1">
+                <strong>Join</strong>
+              </Col>
+            </Row>
+          </Container>
         </Container>
 
-        <Button
-          title="START NEW ORDER"
-          onPress={() => this.props.navigation.navigate('Start')}/>
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>
@@ -71,5 +95,17 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: '#FFCE00',
     height: 20
+  },
+  header: {
+    backgroundColor: '#FF9999',
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  title: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: '900',
+    textTransform: 'uppercase'
   }
 });

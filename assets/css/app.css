@@ -4,6 +4,9 @@
 .width-100 {
   width: 100%; }
 
+.w-medium {
+  font-weight: 500; }
+
 .align-v {
   align-items: center; }
 
@@ -23,7 +26,7 @@
 
 .pt-sm,
 .pv-sm {
-  padding-top: 6px; }
+  padding-top: 8px; }
 
 .pt-1,
 .pv-1 {
@@ -56,6 +59,10 @@
 .pb-7,
 .pv-7 {
   padding-bottom: 100px; }
+
+.pb-sm,
+.pv-sm {
+  padding-bottom: 6px; }
 
 .pb-1,
 .pv-1 {
@@ -135,6 +142,10 @@
 .mv-6 {
   margin-top: 72px; }
 
+.mb-sm,
+.mv-sm {
+  margin-bottom: 6px; }
+
 .mb-1,
 .mv-1 {
   margin-bottom: 12px; }
@@ -184,8 +195,44 @@
 .mh-3 {
   margin-right: 36px; }
 
+img {
+  max-width: 100%; }
+
 .ins-app-navbar {
   width: 100%; }
+
+.btn-primary {
+  background-color: #00b3b3; }
+
+.btn-white {
+  background-color: white; }
+
+.fs-1 {
+  font-size: 14px; }
+
+.fs-2 {
+  font-size: 16px; }
+
+.fs-3 {
+  font-size: 18px; }
+
+.fs-4 {
+  font-size: 20px; }
+
+.fs-5 {
+  font-size: 22px; }
+
+.fs-6 {
+  font-size: 24px; }
+
+.fs-7 {
+  font-size: 32px; }
+
+.fs-8 {
+  font-size: 36px; }
+
+.fs-9 {
+  font-size: 40px; }
 
 .c-primary {
   color: #e43737 !important; }
@@ -195,6 +242,9 @@
 
 .c-secondary {
   color: #00b3b3 !important; }
+
+.bg-primary-light {
+  background-color: #FF9999; }
 
 .dark {
   color: #444; }
