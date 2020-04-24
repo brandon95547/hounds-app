@@ -48,7 +48,7 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <NavBar navigation={this.props.navigation}/>
+        <NavBar class="app-header-main" navigation={this.props.navigation}/>
 
         <Header interior={false} navigation={this.props.navigation} title="Kings Mountain"/>
 
@@ -70,10 +70,10 @@ export default class HomeScreen extends React.Component {
           <Container>
             <Row>
               <Col className="text-center pv-1">
-                <strong onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
+                <strong className="ml-4" onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
               </Col>
               <Col className="text-center pv-1">
-                <strong>Join</strong>
+                <strong className="mr-4">Join</strong>
               </Col>
             </Row>
           </Container>

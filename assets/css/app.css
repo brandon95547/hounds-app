@@ -101,6 +101,10 @@
 .ph-3 {
   padding-left: 36px; }
 
+.pl-4,
+.ph-4 {
+  padding-left: 48px; }
+
 .pr-1,
 .ph-1 {
   padding-right: 12px; }
@@ -112,6 +116,10 @@
 .pr-3,
 .ph-3 {
   padding-right: 36px; }
+
+.pr-4,
+.ph-4 {
+  padding-right: 48px; }
 
 /* MARGIN VERTICAL */
 .mt-sm,
@@ -198,14 +206,43 @@
 img {
   max-width: 100%; }
 
+.app-header-main {
+  background-color: #FF9999; }
+
+.app-header-main .app-heading {
+  font-size: 22px;
+  color: white;
+  font-weight: 500; }
+
+.app-header-main--interior {
+  background-color: #f74444;
+  color: white; }
+
 .ins-app-navbar {
   width: 100%; }
 
 .btn-primary {
-  background-color: #00b3b3; }
+  background-color: #f74444;
+  border-color: #f74444; }
+
+.btn-primary:hover, .btn-primary:active {
+  background-color: #e43737;
+  border-color: #e43737; }
+
+.btn-outline-primary {
+  color: #00b3b3;
+  border-color: #00b3b3; }
+
+.btn-outline-primary:hover, .btn-outline-primary:active {
+  color: #08cccc;
+  border-color: #08cccc;
+  background-color: transparent; }
 
 .btn-white {
   background-color: white; }
+
+.btn-link {
+  color: #f74444; }
 
 .fs-1 {
   font-size: 14px; }
@@ -235,10 +272,10 @@ img {
   font-size: 40px; }
 
 .c-primary {
-  color: #e43737 !important; }
+  color: #f74444 !important; }
 
 .c-primary-darker {
-  color: #5aac78 !important; }
+  color: #ce3131 !important; }
 
 .c-secondary {
   color: #00b3b3 !important; }
@@ -271,4 +308,4 @@ img {
   background-color: #2E2E2E !important; }
 
 .bgg-primary {
-  background-color: #e43737 !important; }
+  background-color: #f74444 !important; }

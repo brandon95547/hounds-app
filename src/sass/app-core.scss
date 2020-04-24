@@ -1,3 +1,15 @@
 img {
     max-width: 100%;
 }
+.app-header-main {
+    background-color: $primaryLight;
+}
+.app-header-main .app-heading {
+    font-size: $fontSize5;
+    color: white;
+    font-weight: 500;
+}
+.app-header-main--interior {
+    background-color: $primary;
+    color: white;
+}

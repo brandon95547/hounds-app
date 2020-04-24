@@ -1,9 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
+// custom components
 import Header from '../Header';
 import InputBar from '../InputBar';
 import TodoItem from '../TodoItem';
 import NavBar from '../NavBar';
+import SignupForm from '../SignupForm';
 
 export default class LoginScreen extends React.Component {
   constructor() {
@@ -28,19 +30,13 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header interior={true} navigation={this.props.navigation} title="Login" styles={styles} />
+        <Header
+          interior={true}
+          navigation={this.props.navigation}
+          title="Login"
+          styles={styles}/>
 
-        <InputBar
-          textChange={todoInput => this.setState({todoInput})}
-          addNewTodo={() => this.addNewTodo()}/>
-
-        <FlatList
-          data={this.state.todos}
-          extraData={this.state}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => {
-          return (<TodoItem TodoItem={item}/>)
-        }}/>
+          <SignupForm />
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>

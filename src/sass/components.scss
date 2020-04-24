@@ -2,8 +2,25 @@
     width: 100%;
 }
 .btn-primary {
-    background-color: $secondary;
+    background-color: $primary;
+    border-color: $primary;
+}
+.btn-primary:hover, .btn-primary:active {
+    background-color: $primaryHover;
+    border-color: $primaryHover;
+}
+.btn-outline-primary {
+    color: $secondary;
+    border-color: $secondary;
+}
+.btn-outline-primary:hover, .btn-outline-primary:active {
+    color: $secondaryHover;
+    border-color: $secondaryHover;
+    background-color: transparent;
 }
 .btn-white {
     background-color: white;
+}
+.btn-link {
+    color: $primary;
 }
