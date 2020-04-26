@@ -36,6 +36,7 @@ export default class SignupForm extends React.Component {
     [e.target.name]: e.target.value
   });
   showAlert(alertStatus) {
+    let _this = this;
     this.setState({
       formErrorsStatus: {
         show: true,
@@ -43,6 +44,14 @@ export default class SignupForm extends React.Component {
         message: alertStatus.message
       }
     });
+
+    setTimeout(function() {
+      _this.setState({
+        formErrorsStatus: {
+          show: false
+        }
+      });
+    }, 3000);
   }
   handleSubmit(event) {
     let _this = this;
@@ -56,12 +65,14 @@ export default class SignupForm extends React.Component {
       var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
       xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
           let response = JSON.parse(this.responseText);
           let alertStatus = {
             variant: response.success ? "success" : "danger",
             message: response.message
           }
           _this.showAlert(alertStatus);
+          localStorage.setItem('user', response.user);
         }
       };
 

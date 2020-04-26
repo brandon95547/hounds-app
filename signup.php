@@ -18,22 +18,26 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$data = parse_str(file_get_contents('php://input'), $dataArray);
+$data = json_decode(file_get_contents('php://input'), true);
 
-$email = isset($dataArray['email']) && !empty($dataArray['email']) ? $conn->escape_string($dataArray['email']) : '';
-$password = isset($dataArray['password']) && !empty($dataArray['password']) ? $conn->escape_string($dataArray['password']) : '';
+$email = isset($data['email']) && !empty($data['email']) ? $conn->escape_string($data['email']) : '';
+$password = isset($data['password']) && !empty($data['password']) ? $conn->escape_string($data['password']) : '';
+
+$sql = "select * from user where user_name = '$email' and password = md5('$password') and active = 1";
 
 $result = $conn->query("select * from user where user_name = '$email' and password = md5('$password') and active = 1");
 if($result->num_rows > 0) {
   $row = $result->fetch_assoc();
+  unset($row['password']);
 }
 else {
   $row = array();
 }
 $return = array(
   'success' => isset($row['user_name']) ? true : false,
-  'user' => $row,
-  'message' => isset($row['user_name']) ? 'Login Successful' : 'Login Unsuccessful'
+  'user' => json_encode($row),
+  'message' => isset($row['user_name']) ? 'Login Successful' : 'Account not found',
+  'sql' => $sql
 );
 
 echo json_encode($return);
