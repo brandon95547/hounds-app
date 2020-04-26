@@ -14,7 +14,7 @@ export default class SignupForm extends React.Component {
       password: "",
       formErrorsStatus: {
         show: false,
-        message: "this is a message",
+        message: "",
         variant: "success"
       }
     };
@@ -38,11 +38,14 @@ export default class SignupForm extends React.Component {
   showAlert(alertStatus) {
     this.setState({
       formErrorsStatus: {
-        show: true
+        show: true,
+        variant: alertStatus.variant,
+        message: alertStatus.message
       }
     });
   }
   handleSubmit(event) {
+    let _this = this;
     event.preventDefault();
     // console.log("Email submitted: " + this.state.email); console.log("Password
     // submitted: " + this.state.password);
@@ -58,7 +61,7 @@ export default class SignupForm extends React.Component {
             variant: response.success ? "success" : "danger",
             message: response.message
           }
-          this.showAlert(alertStatus);
+          _this.showAlert(alertStatus);
         }
       };
 

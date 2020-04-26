@@ -33,7 +33,7 @@ else {
 $return = array(
   'success' => isset($row['user_name']) ? true : false,
   'user' => $row,
-  'message' => 'message from query'
+  'message' => isset($row['user_name']) ? 'Login Successful' : 'Login Unsuccessful'
 );
 
 echo json_encode($return);

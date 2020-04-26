@@ -6,16 +6,13 @@ export default class TodoItem extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      message: props.message
-    }
   }
 
   render() {
     return (
       <View>
-        <Alert variant="success" show={this.props.status.show}>
-          {this.state.message}
+        <Alert variant={this.props.status.variant} show={this.props.status.show}>
+          {this.props.status.message}
         </Alert>
       </View>
     )
