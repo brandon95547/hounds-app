@@ -16,7 +16,7 @@
     "@react-navigation/stack": "^5.2.11",
     "bootstrap": "^4.4.1",
     "expo": "~37.0.3",
-    "jquery": "^2.2.4",
+    "jquery": "^3.4.0",
     "react": "~16.9.0",
     "react-bootstrap": "^1.0.0",
     "react-bootstrap-icons": "^1.0.1-alpha3",
