@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-// bootstrap components
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,33 +8,48 @@ import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
 import {ArrowLeftShort} from 'react-bootstrap-icons';
 
-// this is a class based component that has a state
-/* export default class Header extends React.Component {
+export default class Header extends React.Component {
+  constructor() {
+    super();
 
-} */
+    this.state = {
+      todoInput: '',
+      user: null,
+      todos: [
+        {
+          id: 1,
+          title: 'my title 1',
+          done: false
+        }, {
+          id: 2,
+          title: 'my title 2',
+          done: false
+        }
+      ]
+    }
+  }
 
-// this is a stateless header, component props is an object of the properties
-// passed in from App.js
-const Header = (props) => {
-  let headerClass = props.interior
+  render() {
+    let headerClass = this.props.interior
     ? 'app-header-main app-header-main--interior'
     : 'app-header-main';
-  return (
-    <div className={headerClass}>
-      <View>
+    // ios, web, android place objects inside the return <view> in brackets {}
+    return (
+      <div className={headerClass}>
+      <View style={this.props.style}>
         <div className="pv-sm">
           <Container>
             <Row>
-              {(!props.interior)
+              {(!this.props.interior)
                 ? <Col></Col>
                 : <Col><ArrowLeftShort
-                  onClick={() => props.navigation.goBack()}
+                  onClick={() => this.props.navigation.goBack()}
                   size={32}
                   className="mr-2"/></Col>
 }
               <Col className="text-center" xs={6}>
                 <Text>
-                  <div className="app-heading">{props.title}</div>
+                  <div className="app-heading">{this.props.title}</div>
                 </Text>
               </Col>
               <Col></Col>
@@ -44,7 +58,13 @@ const Header = (props) => {
         </div>
       </View>
     </div>
-  )
-}
+    );
+    // <Text>{this.state.todoInput}</Text> inside <View>
+  }
 
-export default Header;
+  componentDidMount() {
+    //let user = JSON.parse(localStorage.getItem("user"));
+    //this.setState({ user: user });
+  }
+
+}

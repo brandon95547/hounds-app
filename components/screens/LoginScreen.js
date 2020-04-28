@@ -36,7 +36,7 @@ export default class LoginScreen extends React.Component {
           title="Login"
           styles={styles}/>
 
-          <SignupForm />
+          <SignupForm navigation={this.props.navigation} />
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>

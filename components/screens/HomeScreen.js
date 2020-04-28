@@ -1,18 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
+import {StyleSheet, Text, View, Platform} from 'react-native';
 
-// bootstrap components
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
-
+import ReactDOM from "react-dom";
 // core components for layout
 import Header from '../Header';
-import InputBar from '../InputBar';
-import TodoItem from '../TodoItem';
 import NavBar from '../NavBar';
 
 // this is a class based component that has a state
@@ -26,6 +23,11 @@ export default class HomeScreen extends React.Component {
 
     this.state = {
       todoInput: '',
+      dimensions: null,
+      styles: {
+        marginTop: 8
+      },
+      user: null,
       todos: [
         {
           id: 1,
@@ -46,11 +48,22 @@ export default class HomeScreen extends React.Component {
       ? <View style={styles.statusBar}></View>
       : <View></View>;
 
+    const userButtons = this.state.user === null ? <Container>
+    <Row>
+      <Col className="text-center pb-3">
+        <strong className="ml-4" onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
+      </Col>
+      <Col className="text-center pb-3">
+        <strong className="mr-4">Join</strong>
+      </Col>
+    </Row>
+  </Container> : '';
+
     return (
       <View style={styles.container}>
-        <NavBar class="app-header-main" navigation={this.props.navigation}/>
+        <NavBar navigation={this.props.navigation} ref="appNavBar" />
 
-        <Header interior={false} navigation={this.props.navigation} title="Kings Mountain"/>
+        <Header style={this.state.styles} interior={false} navigation={this.props.navigation} title="Kings Mountain"/>
 
         <div className="flex-grow-1 bg-primary-light">
           <Image src={require('../../assets/img/popcorn.gif')}/>
@@ -60,29 +73,28 @@ export default class HomeScreen extends React.Component {
           <Row>
             <Col>
               <Button
-                className="w-medium"
+                className="w-medium mb-2"
                 onClick={() => this.props.navigation.navigate('Start')}
                 variant="white"
                 size="lg"
                 block>START NEW ORDER</Button>
             </Col>
           </Row>
-          <Container>
-            <Row>
-              <Col className="text-center pv-1">
-                <strong className="ml-4" onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
-              </Col>
-              <Col className="text-center pv-1">
-                <strong className="mr-4">Join</strong>
-              </Col>
-            </Row>
-          </Container>
+          {userButtons}
         </Container>
 
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>
   }
+
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    this.setState({ user: user });
+    var node = ReactDOM.findDOMNode(this.refs["appNavBar"]);
+    // this.setState({ styles: { marginTop: node.offsetHeight }});
+  }
+
 }
 
 const styles = StyleSheet.create({

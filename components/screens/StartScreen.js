@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
 import Header from '../Header';
-import InputBar from '../InputBar';
-import TodoItem from '../TodoItem';
 import NavBar from '../NavBar';
-
-// this is a class based component that has a state
-/* export default class Header extends React.Component {
-
-} */
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+import {FaPhone} from 'react-icons/fa';
+import Button from 'react-bootstrap/Button';
+import ReactDOM from "react-dom";
 
 export default class StartScreen extends React.Component {
   constructor() {
@@ -16,6 +16,9 @@ export default class StartScreen extends React.Component {
 
     this.state = {
       todoInput: '',
+      styles: {
+        marginTop: 8
+      },
       todos: [
         {
           id: 1,
@@ -28,41 +31,66 @@ export default class StartScreen extends React.Component {
         }
       ]
     }
+
+  }
+
+  componentDidMount() {
+    // setState({ contentHeight: measureElement(this.content).height });
+    // this.adjustGap();
+    var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
+    this.setState({
+      styles: {
+        marginTop: node.offsetHeight
+      }
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <NavBar navigation={this.props.navigation} />
+        <Header
+          interior={true}
+          navigation={this.props.navigation}
+          title="Start Pickup Order"
+          ref="appHeader"/>
 
-        <Header title="Page 2"/>
+        <Image style={this.state.styles} src={require('../../assets/img/map.png')}/>
 
-        <InputBar
-          textChange={todoInput => this.setState({todoInput})}
-          addNewTodo={() => this.addNewTodo()}/>
+        <Container>
+          <Row>
+            <Col>
+              <div className="mt-3">
+                114 Raven Cir,
+                <br/>
+                Kings Mountain, NC 28086
+              </div>
 
-        <FlatList
-          data={this.state.todos}
-          extraData={this.state}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => {
-          return (<TodoItem TodoItem={item}/>)
-        }}/>
+              <div className="mt-1">
+                <div className="c-primary">
+                  <FaPhone size={16} className="mr-2"/>
+                  (704) 739-4424
+                </div>
+                <Button
+                  className="mt-5 t-bold"
+                  onClick={() => this.props.navigation.navigate('StartPickup')}
+                  variant="primary"
+                  size="lg"
+                  block>START PICKUP ORDER</Button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </View>
     );
-    // <Text>{this.state.todoInput}</Text> inside <View>
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    /*     alignItems: 'center',
-      justifyContent: 'center', */
+    backgroundColor: '#fff'
   },
-  statusBar: {
-    backgroundColor: '#FFCE00',
-    height: 20
+  adjustGap: {
+    marginTop: 0
   }
 });

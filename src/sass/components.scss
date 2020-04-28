@@ -1,6 +1,4 @@
-.ins-app-navbar {
-    width: 100%;
-}
+
 .btn-primary {
     background-color: $primary;
     border-color: $primary;
@@ -23,4 +21,7 @@
 }
 .btn-link {
     color: $primary;
+}
+.table-std th, .table-std td {
+    padding-left: 12px;
 }

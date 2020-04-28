@@ -3,6 +3,9 @@ img {
 }
 .app-header-main {
     background-color: $primaryLight;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 }
 .app-header-main .app-heading {
     font-size: $fontSize5;
@@ -12,4 +15,12 @@ img {
 .app-header-main--interior {
     background-color: $primary;
     color: white;
+    margin-top: 0;
+}
+.app-main-container {
+    overflow-y: auto;
+}
+.ins-app-navbar {
+    width: 100%;
+    z-index: 3;
 }

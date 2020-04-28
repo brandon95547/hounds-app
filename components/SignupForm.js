@@ -45,13 +45,13 @@ export default class SignupForm extends React.Component {
       }
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
       _this.setState({
         formErrorsStatus: {
           show: false
         }
       });
-    }, 3000);
+    }, 2500);
   }
   handleSubmit(event) {
     let _this = this;
@@ -59,20 +59,26 @@ export default class SignupForm extends React.Component {
     // console.log("Email submitted: " + this.state.email); console.log("Password
     // submitted: " + this.state.password);
 
-    
     if (this.state.email != "" && this.state.password != "") {
-      
+
       var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
       xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText);
           let response = JSON.parse(this.responseText);
           let alertStatus = {
-            variant: response.success ? "success" : "danger",
+            variant: response.success
+              ? "success"
+              : "danger",
             message: response.message
           }
           _this.showAlert(alertStatus);
           localStorage.setItem('user', response.user);
+          // match the timeout from show alert before switching pages because the component will not be available to setState, if not
+          if(response.success) {
+            setTimeout(() => {
+              _this.props.navigation.navigate('Home');
+            }, 2500);
+          }
         }
       };
 

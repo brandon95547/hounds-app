@@ -63,12 +63,20 @@
     color: white;
 }
 .bg-light {
-    background: #F3F3F3 !important;
+    background: #F3F3F3!important;
 }
-
+.bg-primary {
+    background-color: $primary!important;
+}
+.bg-primaryLight {
+    background-color: $primaryLight;
+}
 .bg-dark {
-    background-color: #2E2E2E !important;
+    background-color: #2E2E2E!important;
 }
 .bgg-primary {
     background-color: $primary!important;
+}
+.t-bold {
+    font-weight: bold;
 }
