@@ -19,7 +19,8 @@ export default class StartPickupScreen extends React.Component {
     this.state = {
       styles: {
         marginTop: 8
-      }
+      },
+      pizzaSlices: 0
     }
   }
 
@@ -43,7 +44,8 @@ export default class StartPickupScreen extends React.Component {
     var elems = document.querySelectorAll('[name="foodItems[]'),
     res = Array.from(elems).map(v => v);
     res.forEach((element) => {
-      if(element.checked) {
+      
+      if(element.checked || (element.type == "text" && element.value != 0)) {
         let itemTitle = element.parentElement.previousSibling.previousSibling.innerHTML;
         total += parseFloat(element.value);
         cartItems.push(
@@ -55,7 +57,8 @@ export default class StartPickupScreen extends React.Component {
       }
     });
     localStorage.setItem("total", total);
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("cartItems", cartItems.length != 0 ? JSON.stringify(cartItems) : null);
+    console.log(cartItems);
 
     // console.log("Email submitted: " + this.state.email); console.log("Password
     // submitted: " + this.state.password);
@@ -153,7 +156,7 @@ export default class StartPickupScreen extends React.Component {
                     <tr>
                       <td>Pizza</td>
                       <td>$2.00/slice</td>
-                      <td className="w-15"><Form.Control  name="foodItems[]" onChange={this.updateCart} value="0" type="text"/></td>
+                      <td className="w-15"><Form.Control  name="foodItems[]" onChange={(e) => {this.setState({pizzaSlices: e.target.value})}} value={this.state.pizzaSlices} type="text"/></td>
                     </tr>
                     <tr>
                       <td>Cheese Sticks</td>
