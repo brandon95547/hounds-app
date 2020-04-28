@@ -2,14 +2,11 @@ import React from 'react';
 import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
 // custom components
 import Header from '../Header';
-import Button from 'react-bootstrap/Button';
-import InputBar from '../InputBar';
-import TodoItem from '../TodoItem';
 import NavBar from '../NavBar';
-import SignupForm from '../SignupForm';
 import ReactDOM from "react-dom";
+import SignupForm from '../SignupForm';
 
-export default class LoginScreen extends React.Component {
+export default class NewAccount extends React.Component {
   constructor() {
     super();
 
@@ -47,24 +44,11 @@ export default class LoginScreen extends React.Component {
         <Header
           interior={true}
           navigation={this.props.navigation}
-          title="Login"
+          title="New Account"
           ref="appHeader"
           styles={styles}/>
 
-          <SignupForm newAccount={false} style={this.state.styles} navigation={this.props.navigation} />
-          <div className="ph-3">
-            <div className="text-center">
-            {/* <Button variant="link" className="mt-2">
-              Forgot Password
-            </Button> */}
-            <div className="mt-3">
-              <Text>or</Text>
-            </div>
-            </div>
-            <Button onClick={() => this.props.navigation.navigate('NewAccount')} variant="outline-primary" size="lg" className="mt-2 w-medium btn-block">
-              CREATE NEW ACCOUNT
-            </Button>
-          </div>
+          <SignupForm newAccount={true} style={this.state.styles} navigation={this.props.navigation} />
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>

@@ -59,10 +59,12 @@ export default class HomeScreen extends React.Component {
         <strong className="ml-4" onClick={() => this.props.navigation.navigate('Login')}>Login</strong>
       </Col>
       <Col className="text-center pb-3">
-        <strong className="mr-4">Join</strong>
+        <strong className="mr-4" onClick={() => this.props.navigation.navigate('NewAccount')}>Join</strong>
       </Col>
     </Row>
   </Container> : '';
+
+    let navigationPage = this.isLoggedIn() ? "Start" : "Login";
 
     return (
       <View style={styles.container}>
@@ -79,7 +81,7 @@ export default class HomeScreen extends React.Component {
             <Col>
               <Button
                 className="w-medium mb-2"
-                onClick={() => this.props.navigation.navigate('Start')}
+                onClick={() => this.props.navigation.navigate(navigationPage)}
                 variant="white"
                 size="lg"
                 block>START NEW ORDER</Button>
@@ -98,7 +100,6 @@ export default class HomeScreen extends React.Component {
     this.setState({ user: user });
     var node = ReactDOM.findDOMNode(this.refs["appNavBar"]);
     // this.setState({ styles: { marginTop: node.offsetHeight }});
-    console.log(this.isLoggedIn());
   }
 
 }

@@ -22,17 +22,37 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $email = isset($data['email']) && !empty($data['email']) ? $conn->escape_string($data['email']) : '';
 $password = isset($data['password']) && !empty($data['password']) ? $conn->escape_string($data['password']) : '';
+$createAccount = isset($data['createAccount']) && !empty($data['createAccount']) ? intval($data['createAccount']) : '';
 
 $sql = "select * from user where user_name = '$email' and password = md5('$password') and active = 1";
 
 $result = $conn->query("select * from user where user_name = '$email' and password = md5('$password') and active = 1");
-if($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  unset($row['password']);
+
+if($createAccount == 0) {
+  if($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    unset($row['password']);
+  }
+  else {
+    $row = array();
+  }
 }
 else {
-  $row = array();
+  if($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    unset($row['password']);
+  }
+  else {
+    $conn->query("insert into user (user_name, password, active, creation_date) values ('$email', md5('$password'), 1, NOw())");
+    $insertId = $conn->insert_id;
+    $userResult = $conn->query("select * from user where user_id = $insertId and active = 1");
+    if($userResult->num_rows > 0) {
+      $row = $userResult->fetch_assoc();
+      unset($row['password']);
+    }
+  }
 }
+
 $return = array(
   'success' => isset($row['user_name']) ? true : false,
   'user' => json_encode($row),

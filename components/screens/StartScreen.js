@@ -80,7 +80,7 @@ export default class StartScreen extends React.Component {
                 </div>
                 <Button
                   className="mt-5 t-bold"
-                  onClick={() => this.props.navigation.navigate(continueButtonPage)}
+                  onClick={() => this.props.navigation.navigate("StartPickup")}
                   variant="primary"
                   size="lg"
                   block>START PICKUP ORDER</Button>

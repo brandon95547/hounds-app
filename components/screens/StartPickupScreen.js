@@ -76,7 +76,7 @@ export default class StartPickupScreen extends React.Component {
           // match the timeout from show alert before switching pages because the component will not be available to setState, if not
           if(response.success) {
             setTimeout(() => {
-              _this.props.navigation.navigate('Home');
+              () => this.props.navigation.navigate('Home')
             }, 2500);
           }
         }

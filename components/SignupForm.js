@@ -12,6 +12,7 @@ export default class SignupForm extends React.Component {
     this.state = {
       email: "",
       password: "",
+      createAccount: 0,
       formErrorsStatus: {
         show: false,
         message: "",
@@ -86,17 +87,18 @@ export default class SignupForm extends React.Component {
       var theUrl = "http://bluechipadvertising.com/signup.php";
       xmlhttp.open("POST", theUrl);
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password}));
+      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: this.state.createAccount}));
 
     }
   }
 
   render() {
     const TodoItem = this.props.TodoItem;
+    this.state.createAccount = this.props.newAccount ? 1 : 0;
 
     return (
       <React.Fragment>
-        <Form onSubmit={this.handleSubmit} className="ph-3 mt-3">
+        <Form style={this.props.style} onSubmit={this.handleSubmit} className="ph-3 pt-3">
           <FormErrors
             message={this.state.formErrorsStatus.message}
             status={this.state.formErrorsStatus}/>
@@ -107,7 +109,7 @@ export default class SignupForm extends React.Component {
               placeholder="Enter email"
               name="email"
               value={this.state.email}
-              onChange={this.handleChange}/>
+              onChange={this.handleChange} required/>
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
@@ -117,27 +119,16 @@ export default class SignupForm extends React.Component {
               value={this.state.password}
               onChange={this.handleChange}
               type="password"
-              placeholder="Password"/>
+              placeholder="Password" required/>
           </Form.Group>
-
+          
           <Button
             className="w-medium mt-5"
             variant="primary"
             size="lg"
             type="submit"
             block>
-            LOGIN
-          </Button>
-          <div className="text-center">
-            <Button variant="link" className="mt-2">
-              Forgot Password
-            </Button>
-            <div className="mt-3">
-              <Text>or</Text>
-            </div>
-          </div>
-          <Button variant="outline-primary" size="lg" className="mt-2 w-medium btn-block">
-            CREATE NEW ACCOUNT
+            {this.props.newAccount ? "CREATE ACCOUNT" : "LOGIN"}
           </Button>
         </Form>
       </React.Fragment>
