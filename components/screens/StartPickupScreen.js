@@ -20,8 +20,11 @@ export default class StartPickupScreen extends React.Component {
       styles: {
         marginTop: 8
       },
-      pizzaSlices: 0
+      pizzaSlices: 0,
+      navigation: null
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +32,8 @@ export default class StartPickupScreen extends React.Component {
     this.setState({
       styles: {
         marginTop: node.offsetHeight
-      }
+      },
+      navigation: this.props.navigation
     });
   }
 
@@ -58,37 +62,13 @@ export default class StartPickupScreen extends React.Component {
     });
     localStorage.setItem("total", total);
     localStorage.setItem("cartItems", cartItems.length != 0 ? JSON.stringify(cartItems) : null);
-    console.log(cartItems);
-
-    // console.log("Email submitted: " + this.state.email); console.log("Password
-    // submitted: " + this.state.password);
-
-
-      /* var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
-      xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          let response = JSON.parse(this.responseText);
-          let alertStatus = {
-            variant: response.success
-              ? "success"
-              : "danger",
-            message: response.message
-          }
-          _this.showAlert(alertStatus);
-          localStorage.setItem('user', response.user);
-          // match the timeout from show alert before switching pages because the component will not be available to setState, if not
-          if(response.success) {
-            setTimeout(() => {
-              () => this.props.navigation.navigate('Home')
-            }, 2500);
-          }
-        }
-      };
-
-      var theUrl = "http://bluechipadvertising.com/signup.php";
-      xmlhttp.open("POST", theUrl);
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password})); */
+    
+    if(cartItems !== null) {
+      _this.state.navigation.navigate("Cart")
+    }
+    else {
+      alert("Please add something to your cart");
+    }
 
   }
 
