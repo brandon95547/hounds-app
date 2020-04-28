@@ -62,9 +62,10 @@ export default class StartPickupScreen extends React.Component {
     });
     localStorage.setItem("total", total);
     localStorage.setItem("cartItems", cartItems.length != 0 ? JSON.stringify(cartItems) : null);
-    
-    if(cartItems !== null) {
+
+    if(cartItems.length != 0) {
       _this.state.navigation.navigate("Cart")
+      console.log(cartItems);
     }
     else {
       alert("Please add something to your cart");
