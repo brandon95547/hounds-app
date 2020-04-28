@@ -48,14 +48,14 @@ export default class StartPickupScreen extends React.Component {
         total += parseFloat(element.value);
         cartItems.push(
           {
-            title: itemTitle,
+            title: itemTitle.replace("<br>", " "),
             val: parseFloat(element.value)
           }
         );
       }
     });
-    console.log("total: " + total);
-    console.log(cartItems);
+    localStorage.setItem("total", total);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
     // console.log("Email submitted: " + this.state.email); console.log("Password
     // submitted: " + this.state.password);
@@ -423,7 +423,7 @@ export default class StartPickupScreen extends React.Component {
                     </tr>
                   </tbody>
                 </Table>
-                <Button type="submit" variant="outline-primary" size="lg" className="mt-2 w-medium btn-block">
+                <Button type="submit" variant="secondary" size="lg" className="mt-2 mb-3 w-medium btn-block">
                   UPDATE CART
                 </Button>
               </Form>
