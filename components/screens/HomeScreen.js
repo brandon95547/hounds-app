@@ -42,6 +42,11 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  isLoggedIn() {
+    let user = localStorage.getItem("user");
+    return user ? true : false
+  }
+
   render() {
     // ios, web, android place objects inside the return <view> in brackets {}
     const statusBar = (Platform.OS == 'web')
@@ -93,6 +98,7 @@ export default class HomeScreen extends React.Component {
     this.setState({ user: user });
     var node = ReactDOM.findDOMNode(this.refs["appNavBar"]);
     // this.setState({ styles: { marginTop: node.offsetHeight }});
+    console.log(this.isLoggedIn());
   }
 
 }

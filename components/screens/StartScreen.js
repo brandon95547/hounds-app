@@ -34,6 +34,11 @@ export default class StartScreen extends React.Component {
 
   }
 
+  isLoggedIn() {
+    let user = localStorage.getItem("user");
+    return user ? true : false
+  }
+
   componentDidMount() {
     // setState({ contentHeight: measureElement(this.content).height });
     // this.adjustGap();
@@ -46,6 +51,9 @@ export default class StartScreen extends React.Component {
   }
 
   render() {
+
+    let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
+
     return (
       <View style={styles.container}>
         <Header
@@ -72,7 +80,7 @@ export default class StartScreen extends React.Component {
                 </div>
                 <Button
                   className="mt-5 t-bold"
-                  onClick={() => this.props.navigation.navigate('StartPickup')}
+                  onClick={() => this.props.navigation.navigate(continueButtonPage)}
                   variant="primary"
                   size="lg"
                   block>START PICKUP ORDER</Button>
