@@ -38,13 +38,24 @@ export default class StartPickupScreen extends React.Component {
     // const data = new FormData(event.target);
     // console.log(event.target.querySelector('[name="foodItems[]"').value);
 
+    let cartItems = [];
+    let total = 0;
     var elems = document.querySelectorAll('[name="foodItems[]'),
     res = Array.from(elems).map(v => v);
     res.forEach((element) => {
       if(element.checked) {
-        console.log(element.parentElement.previousSibling.previousSibling.innerHTML);
+        let itemTitle = element.parentElement.previousSibling.previousSibling.innerHTML;
+        total += parseFloat(element.value);
+        cartItems.push(
+          {
+            title: itemTitle,
+            val: parseFloat(element.value)
+          }
+        );
       }
     });
+    console.log("total: " + total);
+    console.log(cartItems);
 
     // console.log("Email submitted: " + this.state.email); console.log("Password
     // submitted: " + this.state.password);
