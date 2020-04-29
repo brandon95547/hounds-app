@@ -1,8 +1,5 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 import FormErrors from "./FormErrors";
 
 export default class SignupForm extends React.Component {
@@ -12,6 +9,7 @@ export default class SignupForm extends React.Component {
     this.state = {
       email: "",
       password: "",
+      phone: "",
       createAccount: 0,
       formErrorsStatus: {
         show: false,
@@ -87,7 +85,7 @@ export default class SignupForm extends React.Component {
       var theUrl = "http://bluechipadvertising.com/signup.php";
       xmlhttp.open("POST", theUrl);
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: this.state.createAccount}));
+      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: this.state.createAccount, phone: this.state.phone}));
 
     }
   }
@@ -97,12 +95,15 @@ export default class SignupForm extends React.Component {
     this.state.createAccount = this.props.newAccount ? 1 : 0;
 
     return (
-      <React.Fragment>
+      <View>
+        <Text>Signup Form</Text>
+      </View>
+      /* <React.Fragment>
         <Form style={this.props.style} onSubmit={this.handleSubmit} className="ph-3 pt-3">
           <FormErrors
             message={this.state.formErrorsStatus.message}
             status={this.state.formErrorsStatus}/>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="">
             <Form.Label className="sr-only">Email address</Form.Label>
             <Form.Control
               type="email"
@@ -111,6 +112,16 @@ export default class SignupForm extends React.Component {
               value={this.state.email}
               onChange={this.handleChange} required/>
           </Form.Group>
+          {this.state.createAccount ? 
+          <Form.Group controlId="">
+            <Form.Label className="sr-only">Phone</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter phone"
+              name="phone"
+              value={this.state.phone}
+              onChange={this.handleChange} required/>
+          </Form.Group> : ''}
 
           <Form.Group controlId="formBasicPassword">
             <Form.Label className="sr-only">Password</Form.Label>
@@ -131,7 +142,7 @@ export default class SignupForm extends React.Component {
             {this.props.newAccount ? "CREATE ACCOUNT" : "LOGIN"}
           </Button>
         </Form>
-      </React.Fragment>
+      </React.Fragment> */
     );
   }
 }

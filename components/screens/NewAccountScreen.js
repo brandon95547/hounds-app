@@ -30,12 +30,12 @@ export default class NewAccount extends React.Component {
   }
 
   componentDidMount() {
-    var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
+    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
     this.setState({
       styles: {
         marginTop: node.offsetHeight
       }
-    });
+    }); */
   }
 
   render() {
@@ -48,7 +48,7 @@ export default class NewAccount extends React.Component {
           ref="appHeader"
           styles={styles}/>
 
-          <SignupForm newAccount={true} style={this.state.styles} navigation={this.props.navigation} />
+          {/* <SignupForm newAccount={true} style={this.state.styles} navigation={this.props.navigation} /> */}
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>

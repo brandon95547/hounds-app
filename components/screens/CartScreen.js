@@ -2,12 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
 import Header from '../Header';
 import NavBar from '../NavBar';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import CartItem from '../CartItem';
 import {FaPhone} from 'react-icons/fa';
-import Button from 'react-bootstrap/Button';
 import ReactDOM from "react-dom";
 
 export default class CartScreen extends React.Component {
@@ -18,22 +14,24 @@ export default class CartScreen extends React.Component {
       styles: {
         marginTop: 8
       },
+      cartItems: null
     }
 
   }
 
   isLoggedIn() {
-    let user = localStorage.getItem("user");
-    return user ? true : false
+    /* let user = localStorage.getItem("user");
+    return user ? true : false */
   }
 
   componentDidMount() {
-    var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
+    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
     this.setState({
       styles: {
         marginTop: node.offsetHeight
-      }
-    });
+      },
+      cartItems: localStorage.getItem("cartItems")
+    }); */
   }
 
   render() {
@@ -46,11 +44,14 @@ export default class CartScreen extends React.Component {
           title="Cart"
           ref="appHeader"/>
 
+          
 
       </View>
     );
   }
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

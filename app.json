@@ -1,28 +1,38 @@
 {
+  "name": "MyApp",
+  "displayName": "MyApp",
   "expo": {
-    "name": "AwesomeProject",
-    "slug": "AwesomeProject",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
+    "name": "MyApp",
+    "description": "No description",
+    "slug": "MyApp",
+    "privacy": "public",
+    "sdkVersion": "37.0.0",
+    "version": "1.0",
     "orientation": "portrait",
+    "primaryColor": "#cccccc",
     "icon": "./assets/img/icon.png",
+    "scheme": "myapp",
     "splash": {
       "image": "./assets/img/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
+    "packagerOpts": {
+      "assetExts": [
+        "ttf"
+      ]
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.mycompany.myapp",
+      "buildNumber": "1.0.22",
+      "associatedDomains": [
+        "applinks:myapp.herokuapp.com"
+      ]
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
+    }
     }
   }
-}

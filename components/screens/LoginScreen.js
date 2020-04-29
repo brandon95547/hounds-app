@@ -2,9 +2,6 @@ import React from 'react';
 import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
 // custom components
 import Header from '../Header';
-import Button from 'react-bootstrap/Button';
-import InputBar from '../InputBar';
-import TodoItem from '../TodoItem';
 import NavBar from '../NavBar';
 import SignupForm from '../SignupForm';
 import ReactDOM from "react-dom";
@@ -33,18 +30,19 @@ export default class LoginScreen extends React.Component {
   }
 
   componentDidMount() {
-    var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
+   /*  var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
     this.setState({
       styles: {
         marginTop: node.offsetHeight
       }
-    });
+    }); */
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Header
+        <Text>login screen</Text>
+        {/* <Header
           interior={true}
           navigation={this.props.navigation}
           title="Login"
@@ -54,9 +52,6 @@ export default class LoginScreen extends React.Component {
           <SignupForm newAccount={false} style={this.state.styles} navigation={this.props.navigation} />
           <div className="ph-3">
             <div className="text-center">
-            {/* <Button variant="link" className="mt-2">
-              Forgot Password
-            </Button> */}
             <div className="mt-3">
               <Text>or</Text>
             </div>
@@ -64,7 +59,7 @@ export default class LoginScreen extends React.Component {
             <Button onClick={() => this.props.navigation.navigate('NewAccount')} variant="outline-primary" size="lg" className="mt-2 w-medium btn-block">
               CREATE NEW ACCOUNT
             </Button>
-          </div>
+          </div> */}
       </View>
     );
     // <Text>{this.state.todoInput}</Text> inside <View>

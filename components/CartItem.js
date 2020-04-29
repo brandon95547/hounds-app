@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 
-export default class FormErrors extends React.Component {
+export default class CartItem extends React.Component {
   constructor(props) {
     super(props);
 
@@ -10,7 +10,10 @@ export default class FormErrors extends React.Component {
   render() {
     return (
       <View>
-        <Text>Form Errors</Text>
+        <div>
+            <p>{this.props.item.title}</p>
+            <p>${this.props.item.val}</p>
+        </div>
       </View>
     )
   }

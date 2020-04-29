@@ -1,12 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Nav from 'react-bootstrap/Nav';
-import Image from 'react-bootstrap/Image';
-import {ArrowLeftShort} from 'react-bootstrap-icons';
 
 export default class Header extends React.Component {
   constructor() {
@@ -35,7 +28,19 @@ export default class Header extends React.Component {
     : 'app-header-main';
     // ios, web, android place objects inside the return <view> in brackets {}
     return (
-      <div className={headerClass}>
+     <React.Fragment>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+       <Text>hello</Text>
+     </React.Fragment>
+      /* <div className={headerClass}>
       <View style={this.props.style}>
         <div className="pv-sm">
           <Container>
@@ -57,7 +62,7 @@ export default class Header extends React.Component {
           </Container>
         </div>
       </View>
-    </div>
+    </div> */
     );
     // <Text>{this.state.todoInput}</Text> inside <View>
   }

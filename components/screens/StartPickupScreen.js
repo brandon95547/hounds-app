@@ -3,14 +3,8 @@ import {StyleSheet, Text, View, Platform, ScrollView} from 'react-native';
 // custom components
 import Header from '../Header';
 import NavBar from '../NavBar';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
 import {FaHotjar} from 'react-icons/fa';
 import ReactDOM from "react-dom";
-import Button from "react-bootstrap/Button";
 
 export default class StartPickupScreen extends React.Component {
   constructor() {
@@ -28,17 +22,17 @@ export default class StartPickupScreen extends React.Component {
   }
 
   componentDidMount() {
-    var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
+    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
     this.setState({
       styles: {
         marginTop: node.offsetHeight
       },
       navigation: this.props.navigation
-    });
+    }); */
   }
 
   handleSubmit(event) {
-    let _this = this;
+    /* let _this = this;
     event.preventDefault();
     // const data = new FormData(event.target);
     // console.log(event.target.querySelector('[name="foodItems[]"').value);
@@ -70,7 +64,7 @@ export default class StartPickupScreen extends React.Component {
     else {
       alert("Please add something to your cart");
     }
-
+ */
   }
 
   updateCart() {
@@ -79,7 +73,10 @@ export default class StartPickupScreen extends React.Component {
 
   render() {
     return (
-      <div className="app-main-container">
+      <View>
+        <Text>start pickup screen</Text>
+      </View>
+      /* <div className="app-main-container">
         <Header
           interior={true}
           navigation={this.props.navigation}
@@ -414,7 +411,7 @@ export default class StartPickupScreen extends React.Component {
             </Col>
           </Row>
           </Container>
-        </div>
+        </div> */
     );
   }
 }
