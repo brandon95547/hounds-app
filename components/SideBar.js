@@ -1,5 +1,7 @@
 import React from "react";
-import { Container, Content, Text, Left, Right, Icon, List, ListItem } from "native-base";
+import { Text } from "react-native";
+// note when pulling in Text component from native-base, it gives a uppercase prop error
+import { Container, Content, Left, Right, Icon, List, ListItem } from "native-base";
 
 export default class SideBar extends React.Component {
   render() {
@@ -9,26 +11,26 @@ export default class SideBar extends React.Component {
           <List>
             <ListItem selected>
               <Left>
-                <div>testing</div>
+                <Text>Home</Text>
               </Left>
               <Right>
-                <Icon name="arrow-forward" />
+                <Icon type="FontAwesome" name="home" />
               </Right>
             </ListItem>
             <ListItem>
              <Left>
-                <div>testing</div>
+              <Text>My Account</Text>
               </Left>
               <Right>
-                <Icon name="arrow-forward" />
+                <Icon type="FontAwesome" name="user" />
               </Right>
             </ListItem>
             <ListItem>
               <Left>
-                <div>testing</div>
+                <Text>Logout</Text>
               </Left>
               <Right>
-                <Icon name="arrow-forward" />
+                <Icon type="FontAwesome" name="lock" />
               </Right>
             </ListItem>
           </List>
