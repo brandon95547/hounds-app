@@ -8,7 +8,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "scss-compile": "node-sass src/sass/app.scss -o ./assets/css",
-    "optimize-media": "imagemin --out-dir=./assets/img src/img/**/*.{png,jpg,gif}"
+    "optimize-media": "imagemin --out-dir=./assets/img src/img/**/*.{png,jpg,gif}",
+    "getGoogleFonts": "goofoffline outDir=./assets/fonts \"http://fonts.googleapis.com/css?family=Poppins|Roboto:300,400\""
   },
   "dependencies": {
     "@expo/vector-icons": "^10.1.0",

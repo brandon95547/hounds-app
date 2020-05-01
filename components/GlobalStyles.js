@@ -19,7 +19,100 @@ const globals = {
   }
 }
 
-const headerStyles = StyleSheet.create({
+const spacingStyles = {
+  // margins
+  mtSm: {
+    marginTop: 6
+  },
+  mt1: {
+    marginTop: 12
+  },
+  mt2: {
+    marginTop: 24
+  },
+  mt3: {
+    marginTop: 32
+  },
+  mt5: {
+    marginTop: 40
+  },
+  mt6: {
+    marginTop: 48
+  },
+  mt7: {
+    marginTop: 60
+  },
+  mbSm: {
+    marginBottom: 6
+  },
+  mb1: {
+    marginBottom: 12
+  },
+  mb2: {
+    marginBottom: 24
+  },
+  mb3: {
+    marginBottom: 32
+  },
+  mb5: {
+    marginBottom: 40
+  },
+  mb6: {
+    marginBottom: 48
+  },
+  mb7: {
+    marginBottom: 60
+  },
+  // paddings
+  ptSm: {
+    paddingTop: 6
+  },
+  pt1: {
+    paddingTop: 12
+  },
+  pt2: {
+    paddingTop: 24
+  },
+  pt3: {
+    paddingTop: 32
+  },
+  pt5: {
+    paddingTop: 40
+  },
+  pt6: {
+    paddingTop: 48
+  },
+  pt7: {
+    paddingTop: 60
+  },
+  pbSm: {
+    paddingBottom: 6
+  },
+  pb1: {
+    paddingBottom: 12
+  },
+  pb2: {
+    paddingBottom: 24
+  },
+  pb3: {
+    paddingBottom: 32
+  },
+  pb5: {
+    paddingBottom: 40
+  },
+  pb6: {
+    paddingBottom: 48
+  },
+  pb7: {
+    paddingBottom: 60
+  }
+}
+
+const headerStyles = {
+  buttonText: {
+    fontWeight: "bold",
+    color: colors.primary
+  },
   viewContainer: {
     flexDirection: 'row',
     paddingBottom: 10,
@@ -46,23 +139,41 @@ const headerStyles = StyleSheet.create({
     paddingTop: 12,
     paddingRight: 16
   }
-});
+}
 
-const componentStyles = StyleSheet.create({
+const componentStyles = {
+  textNode: {
+    fontFamily: 'poppins-normal',
+    fontSize: 17
+  },
+  paddingBox: {
+    padding: 18
+  },
+  mainContentArea: {
+    marginTop: 0
+  }, 
+  colorPrimary: {
+    color: colors.primary
+  },
   container: {
     backgroundColor: colors.primary,
     marginTop: 30,
     zIndex: 0
   },
   frontPageBody: {
-    backgroundColor: colors.secondary
+    backgroundColor: colors.secondary,
+    height: "100%"
+  },
+  interiorBody: {
+    backgroundColor: "white",
+    height: "100%"
   },
   standardImg: {
     width: '100%'
   },
   animatedBox: {
     flex: 1,
-    backgroundColor: "#38C8EC",
+    backgroundColor: "white",
     padding: 10
   },
   body: {
@@ -84,7 +195,13 @@ const componentStyles = StyleSheet.create({
   },
   appMainHeader: {
     backgroundColor: colors.other
+  },
+  primaryButton: {
+    backgroundColor: colors.primary,
+    marginTop: 75,
+    width: "75%",
+    alignSelf: "center",
   }
-})
+}
 
-export { globals, componentStyles, headerStyles }
+export { globals, componentStyles, headerStyles, colors, spacingStyles }

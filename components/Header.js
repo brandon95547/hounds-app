@@ -15,20 +15,28 @@ export default class Header extends React.Component {
     
     
       render() {
+          let leftButton = <View style={headerStyles.viewRow}>
+            <TouchableOpacity style={headerStyles.logo}>
+                <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='movie-roll' />
+            </TouchableOpacity>
+
+            <Text style={headerStyles.logoText}>Hounds Drive In</Text>
+        </View>;
+        if(this.props.leftButton == "interior") {
+            leftButton = <View style={headerStyles.viewRow}>
+                <TouchableOpacity style={headerStyles.logo} onPress={() => this.props.navigation.goBack()}>
+                    <Icon style={{color: "white"}} type="MaterialIcons" name='arrow-back' />
+                </TouchableOpacity>
+            </View>
+        }
         return (
             <>
                 <View style={headerStyles.viewContainer}>
-                    <View style={headerStyles.viewRow}>
-                        <TouchableOpacity style={headerStyles.logo}>
-                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='movie-roll' />
-                        </TouchableOpacity>
-        
-                        <Text style={headerStyles.logoText}>Hounds Drive In</Text>
-                    </View>
+                    {leftButton}
 
                     <View style={headerStyles.viewHamburger}>
                         <TouchableOpacity style={headerStyles.hamburger} onPress={this.props.toggleOpen}>
-                            <Icon type="MaterialCommunityIcons" name='menu' />
+                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='menu' />
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -1,16 +1,25 @@
-import React from 'react';
-import {StyleSheet, Text, View, Platform, FlatList} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
+import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
-import NavBar from '../NavBar';
-import {FaPhone} from 'react-icons/fa';
+import SideBar from '../SideBar';
+import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
+import * as Font from 'expo-font';
+
+const dimensions = Dimensions.get('window');
+const imageHeight = Math.round(dimensions.width * 9 / 16);
+const imageWidth = dimensions.width;
 
 export default class StartScreen extends React.Component {
   constructor() {
     super();
 
     this.state = {
+      assetsLoaded: false,
       todoInput: '',
+      open: false,
       styles: {
         marginTop: 8
       },
@@ -27,6 +36,8 @@ export default class StartScreen extends React.Component {
       ]
     }
 
+    this.toggleOpen = this.toggleOpen.bind(this);
+
   }
 
   isLoggedIn() {
@@ -34,7 +45,11 @@ export default class StartScreen extends React.Component {
     // return user ? true : false
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await Font.loadAsync({
+        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
+    });
+    this.setState({ assetsLoaded: true });
     // setState({ contentHeight: measureElement(this.content).height });
     // this.adjustGap();
     /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
@@ -45,46 +60,48 @@ export default class StartScreen extends React.Component {
     }); */
   }
 
+  drawerContent = () => {
+    return (
+      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+        <SideBar />
+      </TouchableOpacity>
+    );
+  };
+
+  toggleOpen() {
+    this.setState({ open: !this.state.open });
+  }
+
   render() {
 
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
 
     return (
-      <View style={styles.container}>
-        
-        {/* <Header
-          interior={true}
-          navigation={this.props.navigation}
-          title="Start Pickup Order"
-          ref="appHeader"/>
+      <MenuDrawer 
+        open={this.state.open} 
+        drawerContent={this.drawerContent()}
+        drawerPercentage={65}
+        animationTime={250}
+        overlay={true}
+        opacity={0.4}
+      >   
+          <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
+          
+          <View style={componentStyles.interiorBody}>
+            <Image style={{ height: imageHeight, width: imageWidth }} source={require('../../assets/img/map.png')}/>
+            <View style={{padding: 20}}>
+              <Text style={componentStyles.textNode}>114 Raven Cir,</Text>
+              <Text style={componentStyles.textNode}>Kings Mountain, NC 28086</Text>
+              <Text style={componentStyles.textNode}>
+                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' /> (704) 739-4424
+              </Text>
+            </View>
+            <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}>
+                <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
+            </Button>
+          </View>
 
-        <Image style={this.state.styles} src={require('../../assets/img/map.png')}/>
-
-        <Container>
-          <Row>
-            <Col>
-              <div className="mt-3">
-                114 Raven Cir,
-                <br/>
-                Kings Mountain, NC 28086
-              </div>
-
-              <div className="mt-1">
-                <div className="c-primary">
-                  <FaPhone size={16} className="mr-2"/>
-                  (704) 739-4424
-                </div>
-                <Button
-                  className="mt-5 t-bold"
-                  onClick={() => this.props.navigation.navigate("StartPickup")}
-                  variant="primary"
-                  size="lg"
-                  block>START PICKUP ORDER</Button>
-              </div>
-            </Col>
-          </Row>
-        </Container> */}
-      </View>
+      </MenuDrawer>
     );
   }
 }

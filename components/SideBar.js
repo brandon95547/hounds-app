@@ -17,6 +17,14 @@ export default class SideBar extends React.Component {
         </ListItem>
         <ListItem>
           <Left>
+          <Text>Start Order</Text>
+          </Left>
+          <Right>
+            <Icon type="MaterialCommunityIcons" name="format-list-checkbox" />
+          </Right>
+        </ListItem>
+        <ListItem>
+          <Left>
           <Text>My Account</Text>
           </Left>
           <Right>

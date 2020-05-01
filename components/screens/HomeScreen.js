@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
-import { Left, Right, Icon, Drawer, Container } from 'native-base';
+import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
 import SideBar from '../SideBar';
@@ -23,11 +23,11 @@ export default class HomeScreen extends React.Component {
       toggleOpen() {
         this.setState({ open: !this.state.open });
       }
-    
+
       drawerContent = () => {
         return (
           <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-            <Text>Close</Text>
+            <SideBar />
           </TouchableOpacity>
         );
       };
@@ -37,15 +37,21 @@ export default class HomeScreen extends React.Component {
             <MenuDrawer 
               open={this.state.open} 
               drawerContent={this.drawerContent()}
-              drawerPercentage={45}
+              drawerPercentage={65}
               animationTime={250}
               overlay={true}
               opacity={0.4}
             >   
                 <Header toggleOpen={this.toggleOpen} />
+
+                
                 
                 <View style={componentStyles.frontPageBody}>
                     <Image style={{ height: imageHeight, width: imageWidth, marginTop: 100 }} source={require('../../assets/img/popcorn.gif')} />
+                    
+                    <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
+                        <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
+                    </Button>
                 </View>
 
             </MenuDrawer>
