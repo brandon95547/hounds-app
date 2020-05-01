@@ -1,75 +1,38 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { Left, Right, Icon, Drawer, Container } from 'native-base';
+import { globals, componentStyles, headerStyles } from './GlobalStyles';
+
+const dimensions = Dimensions.get('window');
+const imageHeight = Math.round(dimensions.width * 9 / 16);
+const imageWidth = dimensions.width;
 
 export default class Header extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      todoInput: '',
-      user: null,
-      todos: [
-        {
-          id: 1,
-          title: 'my title 1',
-          done: false
-        }, {
-          id: 2,
-          title: 'my title 2',
-          done: false
-        }
-      ]
+    constructor(props) {
+        super(props);
+        
     }
-  }
+    
+    
+      render() {
+        return (
+            <>
+                <View style={headerStyles.viewContainer}>
+                    <View style={headerStyles.viewRow}>
+                        <TouchableOpacity style={headerStyles.logo}>
+                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='movie-roll' />
+                        </TouchableOpacity>
+        
+                        <Text style={headerStyles.logoText}>Hounds Drive In</Text>
+                    </View>
 
-  render() {
-    let headerClass = this.props.interior
-    ? 'app-header-main app-header-main--interior'
-    : 'app-header-main';
-    // ios, web, android place objects inside the return <view> in brackets {}
-    return (
-     <React.Fragment>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-       <Text>hello</Text>
-     </React.Fragment>
-      /* <div className={headerClass}>
-      <View style={this.props.style}>
-        <div className="pv-sm">
-          <Container>
-            <Row>
-              {(!this.props.interior)
-                ? <Col></Col>
-                : <Col><ArrowLeftShort
-                  onClick={() => this.props.navigation.goBack()}
-                  size={32}
-                  className="mr-2"/></Col>
-}
-              <Col className="text-center" xs={6}>
-                <Text>
-                  <div className="app-heading">{this.props.title}</div>
-                </Text>
-              </Col>
-              <Col></Col>
-            </Row>
-          </Container>
-        </div>
-      </View>
-    </div> */
-    );
-    // <Text>{this.state.todoInput}</Text> inside <View>
-  }
-
-  componentDidMount() {
-    //let user = JSON.parse(localStorage.getItem("user"));
-    //this.setState({ user: user });
-  }
-
+                    <View style={headerStyles.viewHamburger}>
+                        <TouchableOpacity style={headerStyles.hamburger} onPress={this.props.toggleOpen}>
+                            <Icon type="MaterialCommunityIcons" name='menu' />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </>
+        );
+      }
 }

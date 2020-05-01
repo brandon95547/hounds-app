@@ -1,74 +1,54 @@
-import React from 'react';
-import { AppLoading } from 'expo';
-import { Container, Text, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import Drawer from 'react-native-drawer';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { Left, Right, Icon, Drawer, Container } from 'native-base';
+import MenuDrawer from 'react-native-side-drawer'
+import Header from '../Header';
 import SideBar from '../SideBar';
+import { globals, componentStyles } from '../GlobalStyles';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isReady: false,
-      isOpen: false
-    };
-  }
-  toggleControlPanel = () => {
-    if(this.state.isOpen) {
-      this.closeControlPanel()
-    } else {
-      this.openControlPanel()
-    }
-  }
-  closeControlPanel = () => {
-    this._drawer.close()
-    this.setState({ isOpen: false });
-  };
-  openControlPanel = () => {
-    this._drawer.open()
-    this.setState({ isOpen: true });
-  };
+const dimensions = Dimensions.get('window');
+const imageHeight = Math.round(dimensions.width * 9 / 16);
+const imageWidth = dimensions.width;
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
-    });
-    this.setState({ isReady: true });
-  }
-
-  render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
-    }
-
-    return (
-      <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='arrow-back' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Header</Title>
-          </Body>
-          <Right>
-            <Button onPress={this.toggleControlPanel} transparent>
-              <Icon name='menu' />
-            </Button>
-          </Right>
-        </Header>
-        <Drawer
-        open={false} 
-        ref={(ref) => this._drawer = ref} 
-        content={<SideBar />}
-        >
+export default class HomeScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          open: false
+        };
         
-      </Drawer>
-      </Container>
-    );
-  }
+        this.toggleOpen = this.toggleOpen.bind(this);
+      }
+
+      toggleOpen() {
+        this.setState({ open: !this.state.open });
+      }
+    
+      drawerContent = () => {
+        return (
+          <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+            <Text>Close</Text>
+          </TouchableOpacity>
+        );
+      };
+    
+      render() {
+        return (
+            <MenuDrawer 
+              open={this.state.open} 
+              drawerContent={this.drawerContent()}
+              drawerPercentage={45}
+              animationTime={250}
+              overlay={true}
+              opacity={0.4}
+            >   
+                <Header toggleOpen={this.toggleOpen} />
+                
+                <View style={componentStyles.frontPageBody}>
+                    <Image style={{ height: imageHeight, width: imageWidth, marginTop: 100 }} source={require('../../assets/img/popcorn.gif')} />
+                </View>
+
+            </MenuDrawer>
+        );
+      }
 }
