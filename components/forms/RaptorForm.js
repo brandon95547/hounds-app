@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import { Left, Right, Icon, Drawer, Container } from 'native-base';
+import styled from 'styled-components';
 
 export default class RaptorForm extends React.Component {
   constructor(props) {
@@ -16,33 +18,33 @@ export default class RaptorForm extends React.Component {
 
   buildItems() {
     return (
-      <table>
+      <Table>
       {this.state.items.map((item, index) => {
       // const { id, name, age, email } = student //destructuring
       return (
         <React.Fragment key={index}>
             <thead>
-              <tr>
+              <TR>
                 <th colSpan={3}>
-                <Icon style={{color: "white"}} type="MaterialIcons" name='arrow-back' /> {item.category}
+                  <Icon style={{color: "white"}} type="MaterialIcons" name='arrow-back' /> {item.category}
                 </th>
-              </tr>
+              </TR>
             </thead>
             <tbody>
             {item.items.map((subItem, subIndex) => {
               return (
-                <tr key={subIndex}>
+                <TR key={subIndex}>
                   <td>1</td>
                   <td>2</td>
                   <td>3</td>
-                </tr>
+                </TR>
               )
             })}
             </tbody>
         </React.Fragment>
       )
     })}
-    </table>
+    </Table>
     )
   }
 
@@ -68,3 +70,10 @@ export default class RaptorForm extends React.Component {
     )
   }
 }
+
+const Table = styled.table`
+  width: 100%
+`;
+const TR = styled.tr`
+  color: inherit
+`;
