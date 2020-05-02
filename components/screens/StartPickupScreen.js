@@ -44,6 +44,45 @@ export default class StartScreen extends React.Component {
               title:"BBQ Sandwich",
               price: 5
             },
+            {
+              title:"Chicken Tenders",
+              price: 4
+            },
+            {
+              title:"Chicken Wings",
+              price: 6
+            },
+            {
+              title:"Pizza",
+              price: 2,
+              perSlice: true
+            },
+            {
+              title:"Cheese Sticks",
+              price: 4
+            },
+            {
+              title:"Balagna Burger",
+              price: 4
+            },
+            {
+              title:"French Fries",
+              description: "Add chili or cheese for .50 each",
+              price: 4
+            },
+            {
+              title:"Fried Pickles",
+              price: 4
+            },
+            {
+              title:"Hamburger/Cheeseburger",
+              description: "Choice of lettuce, tomato, onions & pickles",
+              price: 4.5
+            },
+            {
+              title:"Onion Rings",
+              price: 3
+            },
           ]
         },
         {
@@ -52,20 +91,197 @@ export default class StartScreen extends React.Component {
           iconGroup: "MaterialCommunityIcons",
           items: [
             {
-              title:"Corn Dog",
-              price: 2
+              title:"Slim Jim",
+              price: .5
             },
             {
-              title:"Hot Dog",
-              price: 2.5
+              title:"Special Character Combo Pack",
+              description: "Popcorn, drink, sucker",
+              price: 6
             },
             {
-              title:"BBQ Sandwich",
+              title:"Blow Pop",
+              price: .5
+            },
+            {
+              title:"Pickled Egg or Sausage",
+              price: 1
+            },
+            {
+              title:"Cookies",
+              description: "Chocolate chip, oatmeal raisin, peanut butter",
+              price: 1
+            },
+            {
+              title:"Airheads",
+              price: .5
+            },
+            {
+              title:"Cotton Candy",
+              price: 3
+            },
+            {
+              title:"Popcorn Large",
               price: 5
+            },
+            {
+              title:"Nachos with Cheese",
+              description: "Add chili or jalapenos for .50/each",
+              price: 3.5
+            },
+            {
+              title:"Pickle",
+              price: 1
+            },
+            {
+              title:"Donuts",
+              description: "6 for $4.00, cinnamon sugar/powdered",
+              price: 4
+            },
+            {
+              title:"Funnel Cake Powdered/Cinnamon Sugar",
+              description: "Add chocolate or stawberry $1.00 each",
+              price: 4
             },
           ]
         },
-        
+        {
+          category: "DRINKS",
+          icon: "cup",
+          iconGroup: "MaterialCommunityIcons",
+          items: [
+            {
+              title:"Fountain Drinks",
+              description: "Sundrop, Coke, Diet Coke, Sprite, Cherry Fanta, Dr. Pepper, Lemonade & Tea",
+              price: .5
+            },
+            {
+              title:"Small Drink",
+              price: 1
+            },
+            {
+              title:"Large Drink",
+              price: 2
+            },
+            {
+              title:"Hot Chocolate",
+              price: 1
+            },
+            {
+              title:"Coffee",
+              price: 1
+            },
+            {
+              title:"Bottled Water",
+              price: 1
+            },
+            {
+              title:"Small Ice",
+              price: .25
+            },
+            {
+              title:"Large Ice",
+              price: .5
+            },
+            {
+              title:"44 oz Souvenir Dip",
+              price: 6,
+              description: "Refills $4.00"
+            },
+            {
+              title:"Small Slushie",
+              price: 2
+            },
+            {
+              title:"Large Slushie",
+              price: 4
+            },
+          ]
+        },
+        {
+          category: "ICE CREAM",
+          icon: "ice-cream",
+          iconGroup: "MaterialCommunityIcons",
+          items: [
+            {
+              title:"Orange Push-ups",
+              price: 2
+            },
+            {
+              title:"Ice Cream Sandwich",
+              price: 2
+            },
+            {
+              title:"Drumsticks/Nutty Buddy",
+              price: 2
+            },
+            {
+              title:"Soft Serve Ice Cream Cone",
+              price: 2,
+              description: "Vanilla, chocolate or swirl"
+            },
+          ]
+        },
+        {
+          category: "MISCELLANEOUS",
+          icon: "puzzle-piece",
+          iconGroup: "FontAwesome",
+          items: [
+            {
+              title:"Rent Radio",
+              description: "Valid drivers license required",
+              price: 5
+            },
+            {
+              title:"Buy Radio",
+              price: 20
+            },
+            {
+              title:"Tylenol",
+              price: 1
+            },
+            {
+              title:"Benadryl",
+              price: 1
+            },
+            {
+              title:"Advil",
+              price: 1
+            },
+            {
+              title:"Pepto Bismol",
+              price: 1
+            },
+            {
+              title:"Glo Stick",
+              price: 1
+            },
+            {
+              title:"LED Bracelet",
+              price: 4
+            },
+            {
+              title:"Flashlight",
+              price: 2
+            },
+            {
+              title:"Bug Repellent",
+              price: 5
+            },
+            {
+              title:"Hound's Shirt",
+              price: 15
+            },
+            {
+              title:"Hound's Hat",
+              price: 15
+            },
+            {
+              title:"Blanket",
+              price: 10
+            },
+          ]
+        },
       ]
     }
 
@@ -108,7 +324,7 @@ export default class StartScreen extends React.Component {
   render() {
 
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
-    let scrollViewStyles = {...componentStyles.paddingBox}
+    let scrollViewStyles = {...componentStyles.paddingBox, ...colors.bgWhite}
 
     return (
       <MenuDrawer 
@@ -122,6 +338,7 @@ export default class StartScreen extends React.Component {
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
           <ScrollView style={scrollViewStyles}>
+
             <Text style={componentStyles.textNode}>
               <div>
                 <strong>PICK UP ORDER</strong><br/>
@@ -131,325 +348,8 @@ export default class StartScreen extends React.Component {
               </div>
             </Text>
 
-            <RaptorForm styles="margin-top: 18px;" type="pricing-form" class="poppins-normal" align="left" items={this.state.foodItems} />
+            <RaptorForm type="pricing-form" class="poppins-normal" align="left" items={this.state.foodItems} />
 
-            <View style={spacingStyles.mt3}>
-              <form>
-                  <div>
-                   <FaHotjar/>
-                    HOT FOODS
-                  </div>
-                  <table>
-                    <thead>
-                      <tr className="">
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Add</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Corn Dog</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Hot Dog</td>
-                        <td>$2.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2.5" /></td>
-                      </tr>
-                      <tr>
-                        <td>BBQ Sandwich</td>
-                        <td>$5.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Chicken Tenders</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Chicken Wings</td>
-                        <td>$6.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="6" /></td>
-                      </tr>
-                      <tr>
-                        <td>Pizza</td>
-                        <td>$2.00/slice</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Cheese Sticks</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Balogna Burger</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>French Fries<br/>Add chili or cheese for .50 each.</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Fried Pickles<br/></td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Hamburger/Cheeseburger<br/>Choice of lettuce, tomatoe, onions &amp; pickles.</td>
-                        <td>$4.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4.5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Onion Rings<br/></td>
-                        <td>$3.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="3" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-                   <FaHotjar/>
-                    SNACKS &amp; CANDY
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Slim Jim</td>
-                        <td>$0.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value=".5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Special Character Combo Pack<br/>Popcorn, Drink, Sucker</td>
-                        <td>$6.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="6" /></td>
-                      </tr>
-                      <tr>
-                        <td>Blow Pop</td>
-                        <td>$0.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value=".5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Pickled Egg or Sausage</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Cookies<br/>Chocolate Chip, Oatmeal Raisin, Peanut Butter</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Airheads</td>
-                        <td>$0.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value=".5" /></td>
-                      </tr>
-                      <tr>
-                        <td>All Candies</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Cotton Candy</td>
-                        <td>$3.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="3" /></td>
-                      </tr>
-                      <tr>
-                        <td>Popcorn Large</td>
-                        <td>$5.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Nachos with cheese<br/>Add chili or jalapenos for .50/each.</td>
-                        <td>$3.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="3.5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Pickle</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Donuts<br/>Cinnamon sugar/powdered</td>
-                        <td>6 for $4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Funnel Cake Powdered/Cinnamon Sugar<br/>Add chocolate or strawberry $1.00 each</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-                   <FaHotjar/>
-                    Drinks
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td colSpan="3">Fountain Drinks:<br/>
-                          Sundrop, Coke, Diet Coke, Sprite, Cherry Fanta, Dr. Pepper, Lemonade &amp; Tea</td>
-                      </tr>
-                      <tr>
-                        <td>Small Drink</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Large Drink</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Hot Chocolate</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Coffee</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Bottled Water</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Small Ice</td>
-                        <td>$0.25</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value=".25" /></td>
-                      </tr>
-                      <tr>
-                        <td>Large Ice</td>
-                        <td>$0.50</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value=".5" /></td>
-                      </tr>
-                      <tr>
-                        <td>44 oz Souvenir Dip<br/>Refills $4.00</td>
-                        <td>$6.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="6" /></td>
-                      </tr>
-                      <tr>
-                        <td>Small Slushie</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Large Slushie</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-                   <FaHotjar/>
-                    ICE CREAM
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Orange Push-Ups</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Ice Cream Sandwich</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Drumsticks/Nutty Buddy</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Soft Serve Ice Cream Cone<br />Vanilla, Chocolate or Swirl</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-                   <FaHotjar/>
-                    MISCELLANEOUS
-                  </div>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Rent Radio<br />Valid driver's license required</td>
-                        <td>$5.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Buy Radio</td>
-                        <td>$20.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="20" /></td>
-                      </tr>
-                      <tr>
-                        <td>Tylenol</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Benadryl</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Advil</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Pepto Bismol</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>Glo Stick</td>
-                        <td>$1.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="1" /></td>
-                      </tr>
-                      <tr>
-                        <td>LED Bracelet</td>
-                        <td>$4.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="4" /></td>
-                      </tr>
-                      <tr>
-                        <td>Flashlight</td>
-                        <td>$2.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="2" /></td>
-                      </tr>
-                      <tr>
-                        <td>Bug Repellent</td>
-                        <td>$5.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="5" /></td>
-                      </tr>
-                      <tr>
-                        <td>Hound's Shirt</td>
-                        <td>$15.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="15" /></td>
-                      </tr>
-                      <tr>
-                        <td>Hound's Hat</td>
-                        <td>$15.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="15" /></td>
-                      </tr>
-                      <tr>
-                        <td>Blanket</td>
-                        <td>$10.00</td>
-                        <td><input type="checkbox" name="foodItems[]" onChange={this.updateCart} value="10" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  
-                </form>
-            </View>
-              
           </ScrollView>
 
       </MenuDrawer>

@@ -17,36 +17,37 @@ export default class RaptorForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  buildItems(Table, TR, TRHEAD, TH, TD) {
+  buildItems(TABLE, TR, TDHEAD, TD, TBODY, CHECKBOX, TD1, TD2, TD3) {
     return (
-      <Table>
-      {this.state.items.map((item, index) => {
+      this.state.items.map((item, index) => {
+        let subItemCount = item.items.length;
       // const { id, name, age, email } = student //destructuring
       return (
         <React.Fragment key={index}>
-            <thead>
-              <TRHEAD>
-                <TH colSpan={3}>
+          <TABLE>
+            <TBODY>
+              <TR>
+                <TDHEAD colSpan={3}>
                   <Icon style={{color: "white", marginRight: 7, fontSize: 16}} type={item.iconGroup} name={item.icon} /> {item.category}
-                </TH>
-              </TRHEAD>
-            </thead>
-            <tbody>
-            {item.items.map((subItem, subIndex) => {
+                </TDHEAD>
+              </TR>
+            {
+            item.items.map((subItem, subIndex) => {
+              let borderClass = (subIndex+1) % 2 == 0 ? { backgroundColor: '#EEEEEE' } : {};
               return (
-                <TR key={subIndex}>
-                  <TD>1</TD>
-                  <TD>2</TD>
-                  <TD>3</TD>
+                <TR key={subIndex} style={borderClass}>
+                  <TD1>{subItem.title}</TD1>
+                  <TD2>{subItem.price}</TD2>
+                  <TD3><CHECKBOX type="checkbox" value={subItem.price} /></TD3>
                 </TR>
               )
             })}
-            </tbody>
+            </TBODY>
+        </TABLE>
         </React.Fragment>
       )
-    })}
-    </Table>
-    )
+    })
+    ) // return
   }
 
   handleChange(event) {
@@ -59,36 +60,59 @@ export default class RaptorForm extends React.Component {
   }
 
   render() {
-    let Table = styled.table`
+    let TABLE = styled.table`
       width: 100%;
       text-align: ${this.props.align};
       font-family: ${this.props.class};
+      border-collapse: collapse;
+      margin-top: 24px;
     `;
     let TR = styled.tr`
-      color: inherit
+      color: inherit;
     `;
-    let TRHEAD = styled.tr`
-      color: white
-    `;
-    let TH = styled.th`
+    let TDHEAD = styled.td`
       padding: 8px 16px;
       vertical-align: bottom;
       background-color: ${colors.primary};
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
+      color: white;
     `;
     let TD = styled.td`
       padding: 8px 16px;
       vertical-align: bottom
     `;
-    let Form = styled.form`
+    let TD1 = styled.td`
+      width: 60%;
+      padding: 12px 16px;
+      vertical-align: bottom
+    `;
+    let TD2 = styled.td`
+      width: 20%;
+      padding: 12px 16px;
+      vertical-align: bottom
+    `;
+    let TD3 = styled.td`
+      width: 20%;
+      padding: 12px 16px;
+      vertical-align: bottom
+    `;
+    let TBODY = styled.tbody`
+      border-right: 1px solid rgba(0,0,0,.3);
+      border-left: 1px solid rgba(0,0,0,.3);
+      border-bottom: 1px solid rgba(0,0,0,.3);
+    `;
+    let FORM = styled.form`
       ${this.props.styles}
     `;
+    let CHECKBOX = styled.input`
+      transform: scale(2.25);
+    `;
     return (
-      <Form onSubmit={this.handleSubmit}>
-        {this.buildItems(Table, TR, TRHEAD, TH, TD)}
+      <FORM onSubmit={this.handleSubmit}>
+        {this.buildItems(TABLE, TR, TDHEAD, TD, TBODY, CHECKBOX, TD1, TD2, TD3)}
         <input type="submit" value="Submit" />
-      </Form>
+      </FORM>
     )
   }
 }

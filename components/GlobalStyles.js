@@ -3,7 +3,10 @@ import { StyleSheet } from 'react-native';
 const colors = {
   primary: 'rgb(247,68,68)',
   secondary: '#FF9999',
-  other: 'purple'
+  other: 'purple',
+  bgWhite: {
+    backgroundColor: "white"
+  }
 }
 
 const globals = {
