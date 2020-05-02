@@ -27,7 +27,7 @@ export default class RaptorForm extends React.Component {
             <thead>
               <TRHEAD>
                 <TH colSpan={3}>
-                  <Icon style={{color: "white", verticalAlign: "middle", marginRight: 7}} type={item.iconGroup} name={item.icon} /> {item.category}
+                  <Icon style={{color: "white", marginRight: 7, fontSize: 16}} type={item.iconGroup} name={item.icon} /> {item.category}
                 </TH>
               </TRHEAD>
             </thead>
@@ -61,16 +61,19 @@ export default class RaptorForm extends React.Component {
   render() {
     let Table = styled.table`
       width: 100%;
-      text-align: ${this.props.align}
+      text-align: ${this.props.align};
+      font-family: ${this.props.class};
     `;
     let TR = styled.tr`
       color: inherit
     `;
     let TRHEAD = styled.tr`
-      background-color: ${colors.primary}
+      background-color: ${colors.primary};
+      color: white
     `;
     let TH = styled.th`
-      padding: 8px 16px
+      padding: 8px 16px;
+      vertical-align: bottom
     `;
     return (
       <form onSubmit={this.handleSubmit}>
