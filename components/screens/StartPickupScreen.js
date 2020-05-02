@@ -29,6 +29,8 @@ export default class StartScreen extends React.Component {
       foodItems: [
         {
           category: "HOT FOODS",
+          icon: "burn",
+          iconGroup: "FontAwesome5",
           items: [
             {
               title:"Corn Dog",
@@ -46,6 +48,8 @@ export default class StartScreen extends React.Component {
         },
         {
           category: "SNACKS & CANDY",
+          icon: "food-fork-drink",
+          iconGroup: "MaterialCommunityIcons",
           items: [
             {
               title:"Corn Dog",
@@ -127,7 +131,7 @@ export default class StartScreen extends React.Component {
               </div>
             </Text>
 
-            <RaptorForm type="pricing-form" items={this.state.foodItems} />
+            <RaptorForm type="pricing-form" align="left" items={this.state.foodItems} />
 
             <View style={spacingStyles.mt3}>
               <form>

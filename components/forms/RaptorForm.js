@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Left, Right, Icon, Drawer, Container } from 'native-base';
 import styled from 'styled-components';
+import { colors } from '../GlobalStyles';
 
 export default class RaptorForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class RaptorForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  buildItems() {
+  buildItems(Table, TR, TRHEAD, TH) {
     return (
       <Table>
       {this.state.items.map((item, index) => {
@@ -24,11 +25,11 @@ export default class RaptorForm extends React.Component {
       return (
         <React.Fragment key={index}>
             <thead>
-              <TR>
-                <th colSpan={3}>
-                  <Icon style={{color: "white"}} type="MaterialIcons" name='arrow-back' /> {item.category}
-                </th>
-              </TR>
+              <TRHEAD>
+                <TH colSpan={3}>
+                  <Icon style={{color: "white", verticalAlign: "middle", marginRight: 7}} type={item.iconGroup} name={item.icon} /> {item.category}
+                </TH>
+              </TRHEAD>
             </thead>
             <tbody>
             {item.items.map((subItem, subIndex) => {
@@ -58,22 +59,28 @@ export default class RaptorForm extends React.Component {
   }
 
   render() {
+    let Table = styled.table`
+      width: 100%;
+      text-align: ${this.props.align}
+    `;
+    let TR = styled.tr`
+      color: inherit
+    `;
+    let TRHEAD = styled.tr`
+      background-color: ${colors.primary}
+    `;
+    let TH = styled.th`
+      padding: 8px 16px
+    `;
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
-        {this.buildItems()}
+        {this.buildItems(Table, TR, TRHEAD, TH)}
         <input type="submit" value="Submit" />
       </form>
     )
   }
 }
-
-const Table = styled.table`
-  width: 100%
-`;
-const TR = styled.tr`
-  color: inherit
-`;
