@@ -131,7 +131,7 @@ export default class StartScreen extends React.Component {
               </div>
             </Text>
 
-            <RaptorForm type="pricing-form" class="poppins-normal" align="left" items={this.state.foodItems} />
+            <RaptorForm styles="margin-top: 18px;" type="pricing-form" class="poppins-normal" align="left" items={this.state.foodItems} />
 
             <View style={spacingStyles.mt3}>
               <form>

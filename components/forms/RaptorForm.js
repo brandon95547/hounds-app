@@ -17,7 +17,7 @@ export default class RaptorForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  buildItems(Table, TR, TRHEAD, TH) {
+  buildItems(Table, TR, TRHEAD, TH, TD) {
     return (
       <Table>
       {this.state.items.map((item, index) => {
@@ -35,9 +35,9 @@ export default class RaptorForm extends React.Component {
             {item.items.map((subItem, subIndex) => {
               return (
                 <TR key={subIndex}>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
+                  <TD>1</TD>
+                  <TD>2</TD>
+                  <TD>3</TD>
                 </TR>
               )
             })}
@@ -68,22 +68,27 @@ export default class RaptorForm extends React.Component {
       color: inherit
     `;
     let TRHEAD = styled.tr`
-      background-color: ${colors.primary};
       color: white
     `;
     let TH = styled.th`
       padding: 8px 16px;
+      vertical-align: bottom;
+      background-color: ${colors.primary};
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    `;
+    let TD = styled.td`
+      padding: 8px 16px;
       vertical-align: bottom
     `;
+    let Form = styled.form`
+      ${this.props.styles}
+    `;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        {this.buildItems(Table, TR, TRHEAD, TH)}
+      <Form onSubmit={this.handleSubmit}>
+        {this.buildItems(Table, TR, TRHEAD, TH, TD)}
         <input type="submit" value="Submit" />
-      </form>
+      </Form>
     )
   }
 }
