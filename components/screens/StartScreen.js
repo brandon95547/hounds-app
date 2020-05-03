@@ -8,9 +8,7 @@ import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
 import * as Font from 'expo-font';
 
-const dimensions = Dimensions.get('window');
-const imageHeight = Math.round(dimensions.width * 9 / 16);
-const imageWidth = dimensions.width;
+import mapImage from '../../assets/img/map.png';
 
 export default class StartScreen extends React.Component {
   constructor() {
@@ -46,10 +44,10 @@ export default class StartScreen extends React.Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync({
+    /* await Font.loadAsync({
         'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
-    this.setState({ assetsLoaded: true });
+    this.setState({ assetsLoaded: true }); */
     // setState({ contentHeight: measureElement(this.content).height });
     // this.adjustGap();
     /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
@@ -76,6 +74,10 @@ export default class StartScreen extends React.Component {
 
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
 
+    const dimensions = Dimensions.get('window');
+    const imageHeight = Math.round(dimensions.width * 9 / 16);
+    const imageWidth = dimensions.width;
+
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -88,7 +90,7 @@ export default class StartScreen extends React.Component {
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
           <View style={componentStyles.interiorBody}>
-            <Image style={{ height: imageHeight, width: imageWidth }} source={require('../../assets/img/map.png')}/>
+            <Image style={{ width: imageWidth, height: imageHeight }} source={mapImage}/>
             <View style={{padding: 20}}>
               <Text style={componentStyles.textNode}>114 Raven Cir,</Text>
               <Text style={componentStyles.textNode}>Kings Mountain, NC 28086</Text>

@@ -6,9 +6,7 @@ import Header from '../Header';
 import SideBar from '../SideBar';
 import { globals, componentStyles } from '../GlobalStyles';
 
-const dimensions = Dimensions.get('window');
-const imageHeight = Math.round(dimensions.width * 9 / 16);
-const imageWidth = dimensions.width;
+import popcorn from '../../assets/img/popcorn.gif';
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -33,6 +31,11 @@ export default class HomeScreen extends React.Component {
       };
     
       render() {
+        
+        const dimensions = Dimensions.get('window');
+        const imageHeight = Math.round(dimensions.width * 9 / 16);
+        const imageWidth = dimensions.width;
+
         return (
             <MenuDrawer 
               open={this.state.open} 
@@ -43,11 +46,9 @@ export default class HomeScreen extends React.Component {
               opacity={0.4}
             >   
                 <Header toggleOpen={this.toggleOpen} />
-
-                
                 
                 <View style={componentStyles.frontPageBody}>
-                    <Image style={{ height: imageHeight, width: imageWidth, marginTop: 100 }} source={require('../../assets/img/popcorn.gif')} />
+                    <Image style={{ height: imageHeight, width: imageWidth, marginTop: 100 }} source={popcorn} />
                     
                     <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
                         <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>

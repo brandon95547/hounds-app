@@ -146,7 +146,6 @@ const headerStyles = {
 
 const componentStyles = {
   textNode: {
-    fontFamily: 'poppins-normal',
     fontSize: 17
   },
   paddingBox: {

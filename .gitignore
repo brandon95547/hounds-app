@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+signup.php
 
 # macOS
 .DS_Store

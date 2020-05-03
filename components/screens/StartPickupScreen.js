@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, Form } from 'react-native';
-import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
 import SideBar from '../SideBar';
 import RaptorForm from '../forms/RaptorForm';
-import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
-import {FaPhone} from 'react-icons/fa';
 import ReactDOM from "react-dom";
-import {FaHotjar} from 'react-icons/fa';
 import * as Font from 'expo-font';
+import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -26,6 +23,25 @@ export default class StartScreen extends React.Component {
       styles: {
         marginTop: 8
       },
+      foodCategories: ["HOT FOODS", "SNACKS & CANDY"],
+      foodTableHead: ["Item", "Price", "Select"],
+      hotFoodItems: [
+        ["Corn Dog", 2, "checkbox"],
+        ["Hot Dog", 2.5, "checkbox"],
+        ["BBQ Sandwich", 5, "checkbox"],
+      ],
+      snackItems: [
+        ["Slim Jim", .5, "checkbox"],
+      ],
+      drinkItems: [
+        ["Slim Jim", .5, "checkbox"],
+      ],
+      icecreamItems: [
+        ["Slim Jim", .5, "checkbox"],
+      ],
+      miscItems: [
+        ["Slim Jim", .5, "checkbox"],
+      ],
       foodItems: [
         {
           category: "HOT FOODS",
@@ -294,19 +310,14 @@ export default class StartScreen extends React.Component {
     // return user ? true : false
   }
 
+  
+
   async componentDidMount() {
     await Font.loadAsync({
         'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
+
     this.setState({ assetsLoaded: true });
-    // setState({ contentHeight: measureElement(this.content).height });
-    // this.adjustGap();
-    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
-    this.setState({
-      styles: {
-        marginTop: node.offsetHeight
-      }
-    }); */
   }
 
   drawerContent = () => {
@@ -325,35 +336,43 @@ export default class StartScreen extends React.Component {
 
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
     let scrollViewStyles = {...componentStyles.paddingBox, ...colors.bgWhite}
+    const {assetsLoaded} = this.state;
 
-    return (
-      <MenuDrawer 
-        open={this.state.open} 
-        drawerContent={this.drawerContent()}
-        drawerPercentage={65}
-        animationTime={250}
-        overlay={true}
-        opacity={0.4}
-      >   
-          <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
-          
-          <ScrollView style={scrollViewStyles}>
+    if( assetsLoaded ) {
+      return (
+        <MenuDrawer 
+          open={this.state.open} 
+          drawerContent={this.drawerContent()}
+          drawerPercentage={65}
+          animationTime={250}
+          overlay={true}
+          opacity={0.4}
+        >   
+            <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
+            
+            <ScrollView style={scrollViewStyles}>
 
-            <Text style={componentStyles.textNode}>
-              <div>
-                <strong>PICK UP ORDER</strong><br/>
-                114 Raven Cir,
-                <br/>
-                Kings Mountain, NC 28086
-              </div>
-            </Text>
+              <Text style={componentStyles.textNode}>
+                {/* <div>
+                  <strong>PICK UP ORDER</strong><br/>
+                  114 Raven Cir,
+                  <br/>
+                  Kings Mountain, NC 28086
+                </div> */}
+              </Text>
 
-            <RaptorForm type="pricing-form" class="poppins-normal" align="left" items={this.state.foodItems} />
+              <RaptorForm type="pricing-form" class="poppins-normal" align="left" tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
 
-          </ScrollView>
+            </ScrollView>
 
-      </MenuDrawer>
-    );
+        </MenuDrawer>
+      )
+    }
+    else {
+      return(
+        <View><Text>Loading</Text></View>
+      )
+    }
   }
 }
 
