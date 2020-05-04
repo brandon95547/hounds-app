@@ -48,12 +48,21 @@ export default class HomeScreen extends React.Component {
                 <Header toggleOpen={this.toggleOpen} />
                 
                 <View style={componentStyles.frontPageBody}>
-                    <Image style={{ height: imageHeight, width: imageWidth, marginTop: 100 }} source={popcorn} />
-                    
-                    <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
-                        <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
+                  <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
+                  
+                  <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
+                      <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
+                  </Button>
+                  <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                    <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={componentStyles.joinButtons} transparent>
+                        <Text style={{color: "white", fontWeight: "bold"}}>Join</Text>
                     </Button>
+                    <Button onPress={() => this.props.navigation.navigate("Login")} style={componentStyles.joinButtons} transparent>
+                        <Text style={{color: "white", fontWeight: "bold"}}>Login</Text>
+                    </Button>
+                  </View>
                 </View>
+
 
             </MenuDrawer>
         );

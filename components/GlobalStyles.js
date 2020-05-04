@@ -200,9 +200,15 @@ const componentStyles = {
   },
   primaryButton: {
     backgroundColor: colors.primary,
-    marginTop: 75,
+    marginTop: 50,
     width: "75%",
     alignSelf: "center",
+  },
+  joinButtons: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    padding: 20,
   }
 }
 
