@@ -89,7 +89,7 @@ export default class LoginScreen extends React.Component {
     var theUrl = "http://bluechipadvertising.com/signup.php";
     xmlhttp.open("POST", theUrl);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: false, phone: this.state.phone}));
+    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 0, phone: this.state.phone}));
 
   }
 

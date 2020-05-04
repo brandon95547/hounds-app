@@ -23,7 +23,7 @@ export default class HomeScreen extends React.Component {
   }
 
   isLoggedIn = async (key) => {
-    let returnValue = {}
+    let returnValue = null
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
@@ -33,8 +33,9 @@ export default class HomeScreen extends React.Component {
     } catch (error) {
       // Error retrieving data
     }
-    //console.log(JSON.parse(returnValue))
-    this.setState({ user: JSON.parse(returnValue)})
+    if(returnValue) {
+      this.setState({ user: JSON.parse(returnValue)})
+    }
   };
 
   toggleOpen() {

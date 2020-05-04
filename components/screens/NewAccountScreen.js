@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage } from 'react-native';
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base';
 // custom components
 import Header from '../Header';
 import NavBar from '../NavBar';
 import SideBar from '../SideBar';
+import RaptorToast from '../RaptorToast';
 import ReactDOM from "react-dom";
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
 
@@ -14,14 +15,10 @@ export default class NewAccount extends React.Component {
     super();
 
     this.state = {
-      todoInput: '',
       open: false,
       email: "",
       password: "",
-      phone: "",
-      styles: {
-        marginTop: 8
-      },
+      phone: ""
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
@@ -29,12 +26,6 @@ export default class NewAccount extends React.Component {
   }
 
   componentDidMount() {
-    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
-    this.setState({
-      styles: {
-        marginTop: node.offsetHeight
-      }
-    }); */
   }
 
   drawerContent = () => {
@@ -61,11 +52,56 @@ export default class NewAccount extends React.Component {
     this.setState({ password: password })
   }
 
+  _storeData = async (key, data) => {
+    try {
+      await AsyncStorage.setItem(key, data);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
   processAccountCreation() {
-    console.log(this.state)
+    let _this = this
+    // if the email isn't valid
+    if(!this.emailIsValid(this.state.email)) {
+      this.refs.childToast.showToast(colors.green, "Invalid email")
+      return
+    }
+
+    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText)
+        let response = JSON.parse(this.responseText);
+        
+        _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        // localStorage.setItem('user', response.user);
+        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
+        if(response.success) {
+          _this._storeData("user", response.user)
+          setTimeout(() => {
+            //_this.props.navigation.navigate('Home');
+            window.location.reload();
+          }, 2500);
+        }
+      }
+    };
+
+    var theUrl = "http://bluechipadvertising.com/signup.php";
+    xmlhttp.open("POST", theUrl);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 1, phone: this.state.phone}));
+
+  }
+
+  emailIsValid (email) {
+    return /\S+@\S+\.\S+/.test(email)
   }
 
   render() {
+
+    const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
+
     return (
       <MenuDrawer 
           open={this.state.open} 
@@ -81,7 +117,7 @@ export default class NewAccount extends React.Component {
 
         <View style={styles.container}>
           <View style={styles.pageTitleWrap}>
-            <Text style={styles.pageTitle}>Create Account</Text>
+            <Text style={styles.pageTitle}>New Account</Text>
           </View>
           <TextInput style = {styles.textInput}
             underlineColorAndroid = "transparent"
@@ -106,8 +142,11 @@ export default class NewAccount extends React.Component {
             onChangeText = {password => this.passwordOnChange(password)}
           />
           <Button onPress={() => this.processAccountCreation()} block style={styles.submitButton}>
-              <Text style={{color: "white", fontWeight: "bold"}}>CREATE ACCOUNT</Text>
+              <Text style={{color: "white", fontWeight: "bold"}}>CREATE NEW ACCOUNT</Text>
           </Button>
+
+          {Toast}
+
         </View>
 
         </MenuDrawer>
@@ -115,7 +154,6 @@ export default class NewAccount extends React.Component {
     // <Text>{this.state.todoInput}</Text> inside <View>
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

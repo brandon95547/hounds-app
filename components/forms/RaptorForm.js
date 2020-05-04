@@ -33,7 +33,7 @@ export default class RaptorForm extends React.Component {
   };
 
   _retrieveCheckout = async (key) => {
-    let returnValue = {}
+    let returnValue = null
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
@@ -43,7 +43,9 @@ export default class RaptorForm extends React.Component {
     } catch (error) {
       // Error retrieving data
     }
-    this.setState({ checked: JSON.parse(returnValue)})
+    if(returnValue) {
+      this.setState({ checked: JSON.parse(returnValue)})
+    }
   };
 
   componentDidMount() {
