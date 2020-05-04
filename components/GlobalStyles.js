@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 const colors = {
   primary: 'rgb(247,68,68)',
   secondary: '#FF9999',
+  green: "rgb(30, 191, 191)",
+  failure: "orange",
   other: 'purple',
   bgWhite: {
     backgroundColor: "white"
@@ -162,10 +164,6 @@ const componentStyles = {
     marginTop: 30,
     zIndex: 0
   },
-  frontPageBody: {
-    backgroundColor: colors.secondary,
-    height: "100%"
-  },
   interiorBody: {
     backgroundColor: "white",
     height: "100%"
@@ -204,12 +202,6 @@ const componentStyles = {
     width: "75%",
     alignSelf: "center",
   },
-  joinButtons: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
-    padding: 20,
-  }
 }
 
 export { globals, componentStyles, headerStyles, colors, spacingStyles }

@@ -106,7 +106,7 @@ export default class NewAccount extends React.Component {
             onChangeText = {password => this.passwordOnChange(password)}
           />
           <Button onPress={() => this.processAccountCreation()} block style={styles.submitButton}>
-              <Text style={{color: "white", fontWeight: "bold"}}>Create Account</Text>
+              <Text style={{color: "white", fontWeight: "bold"}}>CREATE ACCOUNT</Text>
           </Button>
         </View>
 

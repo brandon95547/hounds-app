@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React, { Component } from 'react'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
-import Header from '../Header';
-import SideBar from '../SideBar';
-import RaptorForm from '../forms/RaptorForm';
-import ReactDOM from "react-dom";
-import * as Font from 'expo-font';
-import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
+import Header from '../Header'
+import SideBar from '../SideBar'
+import RaptorForm from '../forms/RaptorForm'
+import ReactDOM from "react-dom"
+import * as Font from 'expo-font'
+import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 
-const dimensions = Dimensions.get('window');
-const imageHeight = Math.round(dimensions.width * 9 / 16);
-const imageWidth = dimensions.width;
+const dimensions = Dimensions.get('window')
+const imageHeight = Math.round(dimensions.width * 9 / 16)
+const imageWidth = dimensions.width
 
 export default class StartScreen extends React.Component {
   constructor() {
-    super();
+    super()
 
     let foodItems = [
       {
@@ -313,12 +313,14 @@ export default class StartScreen extends React.Component {
         }
         foodItemsData[flatLink] = subItem
       })
-    });
+    })
 
     this.state = {
       assetsLoaded: false,
       todoInput: '',
       open: false,
+      user: {},
+      loggedIn: false,
       styles: {
         marginTop: 8
       },
@@ -332,21 +334,34 @@ export default class StartScreen extends React.Component {
       miscItems: miscItems
     }
 
-    this.toggleOpen = this.toggleOpen.bind(this);
+    this.toggleOpen = this.toggleOpen.bind(this)
 
   }
 
-  isLoggedIn() {
-    // let user = localStorage.getItem("user");
-    // return user ? true : false
+  async isLoggedIn() {
+    let isLoggedIn = false
+    try {
+      const value = await AsyncStorage.getItem('user')
+      if (value !== null) {
+        // We have data!!
+        returnValue = value
+        this.setState({ user: value })
+        isLoggedIn = true
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+    return isLoggedIn
   }
 
   async componentDidMount() {
     await Font.loadAsync({
         'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    });
+    })
 
-    this.setState({ assetsLoaded: true });
+    this.setState({ assetsLoaded: true })
+    this.isLoggedIn()
+    console.log(this.state)
   }
 
   drawerContent = () => {
@@ -354,18 +369,18 @@ export default class StartScreen extends React.Component {
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
         <SideBar />
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   toggleOpen() {
-    this.setState({ open: !this.state.open });
+    this.setState({ open: !this.state.open })
   }
 
   render() {
 
-    // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
+    // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login"
     let scrollViewStyles = {...componentStyles.paddingBox, ...colors.bgWhite}
-    const {assetsLoaded} = this.state;
+    const {assetsLoaded} = this.state
 
     if( assetsLoaded ) {
       return (
@@ -413,4 +428,4 @@ const styles = StyleSheet.create({
   adjustGap: {
     marginTop: 0
   }
-});
+})
