@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage } from 'react-native';
 import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
@@ -16,10 +16,26 @@ export default class HomeScreen extends React.Component {
       this.state = {
         open: false,
         assetsLoaded: false,
+        user: null
       };
       
       this.toggleOpen = this.toggleOpen.bind(this);
   }
+
+  isLoggedIn = async (key) => {
+    let returnValue = {}
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // We have data!!
+        returnValue = value
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+    //console.log(JSON.parse(returnValue))
+    this.setState({ user: JSON.parse(returnValue)})
+  };
 
   toggleOpen() {
     this.setState({ open: !this.state.open });
@@ -39,6 +55,7 @@ export default class HomeScreen extends React.Component {
     });
 
     this.setState({ assetsLoaded: true });
+    this.isLoggedIn('user')
   }
 
   render() {
@@ -47,6 +64,15 @@ export default class HomeScreen extends React.Component {
     const imageHeight = Math.round(dimensions.width * 9 / 16);
     const imageWidth = dimensions.width;
     const {assetsLoaded} = this.state;
+
+    const joinButtons = this.state.user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
+<Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
+    <Text style={styles.joinButtonsText}>Join</Text>
+</Button>
+<Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
+    <Text style={styles.joinButtonsText}>Login</Text>
+</Button>
+</View> : <View></View>
 
     if(assetsLoaded) {
       return (
@@ -66,14 +92,8 @@ export default class HomeScreen extends React.Component {
                 <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
-                <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                  <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
-                      <Text style={styles.joinButtonsText}>Join</Text>
-                  </Button>
-                  <Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
-                      <Text style={styles.joinButtonsText}>Login</Text>
-                  </Button>
-                </View>
+                
+                {joinButtons}
               </View>
 
           </MenuDrawer>
@@ -86,7 +106,6 @@ export default class HomeScreen extends React.Component {
     }
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.secondary,
