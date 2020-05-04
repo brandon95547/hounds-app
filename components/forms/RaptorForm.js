@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox, AsyncStorage } from 'react-native';
 import { Left, Right, Icon, Drawer } from 'native-base';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { colors } from '../GlobalStyles';
@@ -12,7 +12,8 @@ export default class RaptorForm extends React.Component {
       value: '',
       checkInputValue: 0,
       type: 'default',
-      checked: []
+      checked: {},
+      cart: []
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -23,16 +24,64 @@ export default class RaptorForm extends React.Component {
     Alert.alert(`This is row ${index + 1}`);
   }
 
+  _storeData = async (key, data) => {
+    try {
+      await AsyncStorage.setItem(key, data);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  _retrieveCheckout = async (key) => {
+    let returnValue = {}
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // We have data!!
+        returnValue = value
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+    this.setState({ checked: JSON.parse(returnValue)})
+  };
+
+  componentDidMount() {
+    this._retrieveCheckout("cart-checked")
+  }
+
   textInputChange(text) {
     this.setState({ text: text })
   }
 
-  checkboxChange(index, key, price) {
+  checkboxChange(index, key, price, title) {
     let currentChecked = this.state.checked
     currentChecked[key] = !this.state.checked[key]
     this.setState({ checked: currentChecked })
-    console.log(key)
-    console.log(price)
+    let cartItems = this.state.cart
+
+    // if the array key has not been added
+    if(cartItems.indexOf(key) === -1) {
+      // if the button is on
+      if(currentChecked[key]) {
+        cartItems.push(key)
+      }
+    }
+    else {
+      // if the button is off
+      if(!currentChecked[key]) {
+        cartItems.splice(cartItems.indexOf(key), 1)
+      }
+      else {
+        cartItems.push(key)
+      }
+    }
+    this.setState({ cart: cartItems })
+    /* cartItems.map((val, index) => (
+      console.log(this.props.foodMap[val])
+    )) */
+    this._storeData("cart-items", JSON.stringify(cartItems))
+    this._storeData("cart-checked", JSON.stringify(this.state.checked))
 	}
 
   getItems(index) {
@@ -53,11 +102,11 @@ export default class RaptorForm extends React.Component {
         />
       </>
     );
-    const checkboxInput = (key, index, price) => (
+    const checkboxInput = (key, index, price, title) => (
       <>
         <CheckBox
           value={this.state.checked[key]}
-          onValueChange={() => this.checkboxChange(index, key, price)}
+          onValueChange={() => this.checkboxChange(index, key, price, title)}
           style={RaptorFormStyles.checkbox}
         />
       </>
@@ -73,7 +122,7 @@ export default class RaptorForm extends React.Component {
               <TableWrapper key={index} style={RaptorFormStyles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellIndex === 2 ? checkboxInput(cellData, index, rowData[1]) : cellData} textStyle={RaptorFormStyles.text}/>
+                    <Cell key={cellIndex} data={cellIndex === 2 ? checkboxInput(cellData, index, rowData[1], rowData[0]) : cellData} textStyle={RaptorFormStyles.text}/>
                   ))
                 }
               </TableWrapper>
@@ -82,15 +131,6 @@ export default class RaptorForm extends React.Component {
         </Table>
       </View>
       ))
-      /* this.props.foodCategories.map((category, index) => (
-      <View key={index} style={RaptorFormStyles.tableWrap}>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>{category}</Text></View>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={this.props.tableHead} style={RaptorFormStyles.head} textStyle={RaptorFormStyles.text}/>
-          <Rows data={this.getItems(index)} textStyle={RaptorFormStyles.text}/>
-        </Table>
-      </View>
-      )) */
     )
   }
 
