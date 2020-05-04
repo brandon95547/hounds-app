@@ -23,24 +23,24 @@ export default class StartScreen extends React.Component {
       styles: {
         marginTop: 8
       },
-      foodCategories: ["HOT FOODS", "SNACKS & CANDY"],
+      foodCategories: ["HOT FOODS", "SNACKS & CANDY", "DRINKS", "ICE CREAM", "MISCELLANEOUS"],
       foodTableHead: ["Item", "Price", "Select"],
       hotFoodItems: [
-        ["Corn Dog", 2, "checkbox"],
-        ["Hot Dog", 2.5, "checkbox"],
-        ["BBQ Sandwich", 5, "checkbox"],
+        ["Corn Dog", 2, "corn-dog"],
+        ["Hot Dog", 2.5, "hot-dog"],
+        ["BBQ Sandwich", 5, "bbq-sandwich"],
       ],
       snackItems: [
-        ["Slim Jim", .5, "checkbox"],
+        ["Slim Jim", .5, "slim-jim"],
       ],
       drinkItems: [
-        ["Slim Jim", .5, "checkbox"],
+        ["Apple", .5, "apple"],
       ],
       icecreamItems: [
-        ["Slim Jim", .5, "checkbox"],
+        ["Pear", .5, "pear"],
       ],
       miscItems: [
-        ["Slim Jim", .5, "checkbox"],
+        ["Orange", .5, "orange"],
       ],
       foodItems: [
         {
@@ -309,8 +309,6 @@ export default class StartScreen extends React.Component {
     // let user = localStorage.getItem("user");
     // return user ? true : false
   }
-
-  
 
   async componentDidMount() {
     await Font.loadAsync({
