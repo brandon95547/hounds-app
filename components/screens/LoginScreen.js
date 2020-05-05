@@ -9,6 +9,7 @@ import SideBar from '../SideBar';
 import RaptorToast from '../RaptorToast';
 import ReactDOM from "react-dom";
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
+import UserContext from '../../UserContext'
 
 export default class LoginScreen extends React.Component {
   constructor() {
@@ -25,13 +26,19 @@ export default class LoginScreen extends React.Component {
     
   }
 
+  static contextType = UserContext
+
   componentDidMount() {
+  }
+
+  toggleOpen() {
+    this.setState({ open: !this.state.open });
   }
 
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-        <SideBar />
+        <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
   };
@@ -62,6 +69,7 @@ export default class LoginScreen extends React.Component {
 
   processAccountCreation() {
     let _this = this
+    const { user, setUser } = this.context
     // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
       this.refs.childToast.showToast(colors.green, "Invalid email")
@@ -78,15 +86,14 @@ export default class LoginScreen extends React.Component {
         // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
           _this._storeData("user", response.user)
+          // set user state from context
+          setUser(JSON.parse(response.user))
           setTimeout(() => {
-            _this.props.navigation.navigate('Home', {
-              user: JSON.parse(response.user),
-              otherParam: 'anything you want here',
-            });
+            _this.props.navigation.navigate('Home');
           }, 1500);
         }
       }
-    };
+    }
 
     var theUrl = "http://bluechipadvertising.com/signup.php";
     xmlhttp.open("POST", theUrl);
@@ -100,7 +107,6 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
-
     const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
 
     return (
@@ -112,6 +118,8 @@ export default class LoginScreen extends React.Component {
           overlay={true}
           opacity={0.4}
         >   
+
+       
 
         <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
         
@@ -138,6 +146,12 @@ export default class LoginScreen extends React.Component {
           <Button onPress={() => this.processAccountCreation()} block style={styles.submitButton}>
               <Text style={{color: "white", fontWeight: "bold"}}>LOGIN</Text>
           </Button>
+
+          <View>
+            <Button onPress={() => {}} block>
+                <Text style={{color: "white", fontWeight: "bold"}}>Forgot Password</Text>
+            </Button>
+          </View>
 
           {Toast}
 

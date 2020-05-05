@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage } from 'react-native';
 import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
@@ -8,6 +8,10 @@ import styled from 'styled-components'
 import * as Font from 'expo-font';
 import { globals, componentStyles, colors } from '../GlobalStyles';
 
+// this is our clobal context module to store global session state across screens
+import UserContext from '../../UserContext'
+
+// we need to import all images for react native
 import popcorn from '../../assets/img/popcorn.gif';
 
 export default class HomeScreen extends React.Component {
@@ -20,16 +24,19 @@ export default class HomeScreen extends React.Component {
       };
 
       this.toggleOpen = this.toggleOpen.bind(this);
-      
   }
 
-  isLoggedIn = async (key) => {
+  
+  isLoggedIn = async () => {
+    const { user, setUser } = this.context
+
     let returnValue = null
     try {
-      const value = await AsyncStorage.getItem(key);
+      const value = await AsyncStorage.getItem('user');
       if (value !== null) {
         // We have data!!
-        returnValue = value
+        setUser(JSON.parse(value))
+        console.log('context user has been set with storage user')
       }
     } catch (error) {
       // Error retrieving data
@@ -38,7 +45,7 @@ export default class HomeScreen extends React.Component {
       this.setState({ user: JSON.parse(returnValue)})
     }
   };
-
+  
   toggleOpen() {
     this.setState({ open: !this.state.open });
   }
@@ -46,39 +53,32 @@ export default class HomeScreen extends React.Component {
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-        <SideBar />
+        <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
   };
-
+  
+  static contextType = UserContext
+  
   async componentDidMount() {
     await Font.loadAsync({
-        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
+      'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
-
+    
     this.setState({ assetsLoaded: true });
-    this.isLoggedIn('user')
-    var params = this.props.route.params || null
-    console.log(params)
+    this.isLoggedIn()
+
   }
 
   render() {
-    
+
+    const { user, setUser } = this.context
+
     const dimensions = Dimensions.get('window');
     const imageHeight = Math.round(dimensions.width * 9 / 16);
     const imageWidth = dimensions.width;
     const {assetsLoaded} = this.state;
     
-    // get parameters from route to change things, like after logging in
-    var params = this.props.route.params || null
-    var user
-    if(params) {
-      user = params.user
-    }
-    else {
-      user = this.state.user
-    }
-
     const joinButtons = user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
 <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
     <Text style={styles.joinButtonsText}>Join</Text>
@@ -91,19 +91,19 @@ export default class HomeScreen extends React.Component {
     if(assetsLoaded) {
       return (
           <MenuDrawer 
-            open={this.state.open} 
-            drawerContent={this.drawerContent()}
-            drawerPercentage={65}
-            animationTime={250}
-            overlay={true}
-            opacity={0.4}
+          open={this.state.open} 
+          drawerContent={this.drawerContent()}
+          drawerPercentage={65}
+          animationTime={250}
+          overlay={true}
+          opacity={0.4}
           >   
               <Header toggleOpen={this.toggleOpen} />
               
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate(user ? "Start" : "Login")} style={componentStyles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 
@@ -120,6 +120,7 @@ export default class HomeScreen extends React.Component {
     }
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.secondary,
