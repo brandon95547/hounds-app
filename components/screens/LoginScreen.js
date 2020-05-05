@@ -79,9 +79,11 @@ export default class LoginScreen extends React.Component {
         if(response.success) {
           _this._storeData("user", response.user)
           setTimeout(() => {
-            //_this.props.navigation.navigate('Home');
-            window.location.reload();
-          }, 2500);
+            _this.props.navigation.navigate('Home', {
+              user: JSON.parse(response.user),
+              otherParam: 'anything you want here',
+            });
+          }, 1500);
         }
       }
     };

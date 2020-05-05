@@ -18,8 +18,9 @@ export default class HomeScreen extends React.Component {
         assetsLoaded: false,
         user: null
       };
-      
+
       this.toggleOpen = this.toggleOpen.bind(this);
+      
   }
 
   isLoggedIn = async (key) => {
@@ -57,6 +58,8 @@ export default class HomeScreen extends React.Component {
 
     this.setState({ assetsLoaded: true });
     this.isLoggedIn('user')
+    var params = this.props.route.params || null
+    console.log(params)
   }
 
   render() {
@@ -65,8 +68,18 @@ export default class HomeScreen extends React.Component {
     const imageHeight = Math.round(dimensions.width * 9 / 16);
     const imageWidth = dimensions.width;
     const {assetsLoaded} = this.state;
+    
+    // get parameters from route to change things, like after logging in
+    var params = this.props.route.params || null
+    var user
+    if(params) {
+      user = params.user
+    }
+    else {
+      user = this.state.user
+    }
 
-    const joinButtons = this.state.user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
+    const joinButtons = user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
 <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
     <Text style={styles.joinButtonsText}>Join</Text>
 </Button>

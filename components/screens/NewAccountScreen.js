@@ -80,9 +80,8 @@ export default class NewAccount extends React.Component {
         if(response.success) {
           _this._storeData("user", response.user)
           setTimeout(() => {
-            //_this.props.navigation.navigate('Home');
-            window.location.reload();
-          }, 2500);
+            _this.props.navigation.navigate('Home');
+          }, 1500);
         }
       }
     };
