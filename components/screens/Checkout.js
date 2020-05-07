@@ -8,6 +8,8 @@ import RaptorToast from '../RaptorToast'
 import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
 import * as Font from 'expo-font';
+// this is our clobal context module to store global session state across screens
+import UserContext from '../../UserContext'
 
 import mapImage from '../../assets/img/map.png';
 

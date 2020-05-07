@@ -5,7 +5,6 @@ import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
 import SideBar from '../SideBar';
 import styled from 'styled-components'
-import * as Font from 'expo-font';
 import { globals, componentStyles, colors } from '../GlobalStyles';
 
 // this is our clobal context module to store global session state across screens
@@ -43,10 +42,6 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     const { user, setUser, isLoggedIn } = this.context
     isLoggedIn()
-
-    await Font.loadAsync({
-      'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    });
     
     this.setState({ assetsLoaded: true });
   }
@@ -61,13 +56,13 @@ export default class HomeScreen extends React.Component {
     const {assetsLoaded} = this.state;
     
     const joinButtons = user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
-<Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
-    <Text style={styles.joinButtonsText}>Join</Text>
-</Button>
-<Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
-    <Text style={styles.joinButtonsText}>Login</Text>
-</Button>
-</View> : <View></View>
+    <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
+        <Text style={styles.joinButtonsText}>Join</Text>
+    </Button>
+    <Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
+        <Text style={styles.joinButtonsText}>Login</Text>
+    </Button>
+    </View> : <View></View>
 
     if(assetsLoaded) {
       return (

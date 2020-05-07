@@ -7,7 +7,8 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import SideBar from '../SideBar';
 import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
-import * as Font from 'expo-font';
+// this is our clobal context module to store global session state across screens
+import UserContext from '../../UserContext'
 
 import mapImage from '../../assets/img/map.png';
 
@@ -19,39 +20,24 @@ export default class CartScreen extends React.Component {
       assetsLoaded: false,
       todoInput: '',
       open: false,
-      styles: {
-        marginTop: 8
-      },
-      cartData: [],
-      cartTotal: 0
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
 
   }
 
-  isLoggedIn() {
-    // let user = localStorage.getItem("user");
-    // return user ? true : false
-  }
+  static contextType = UserContext
 
   async componentDidMount() {
-    /* await Font.loadAsync({
-        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    });
-    this.setState({ assetsLoaded: true }); */
-    // setState({ contentHeight: measureElement(this.content).height });
-    // this.adjustGap();
-    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
-    this.setState({
-      styles: {
-        marginTop: node.offsetHeight
-      }
-    }); */
+    const { user, cartTotal, setUser, isLoggedIn } = this.context
+    isLoggedIn()
+    
+    this.setState({ assetsLoaded: true });
     this.getCartItems()
   }
 
   async getCartItems() {
+    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
     let returnValue = null
     try {
       // empy cart on page load
@@ -69,8 +55,10 @@ export default class CartScreen extends React.Component {
             items.push([subItem.title, '$' + parseFloat(subItem.price).toFixed(2), parseInt(subItem.quantity)])
           }
         })
-
-        this.setState({ cartData: items, cartTotal: total })
+        setCartData(items)
+        console.log('total')
+        console.log(total)
+        setCartTotal(total)
 
       }
     } catch (error) {
@@ -91,15 +79,15 @@ export default class CartScreen extends React.Component {
   }
 
   render() {
-
+    const { user, cartData, cartTotal, setUser, isLoggedIn, setCartData } = this.context
     const dimensions = Dimensions.get('window');
     const imageHeight = Math.round(dimensions.width * 9 / 16);
     const imageWidth = dimensions.width;
-
-    const cartTable = this.state.cartData.length > 0 ? <Table>
+ 
+    const cartTable = cartData.length > 0 ? <Table>
     <Row data={["Item", "Price", "Quantity"]} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
     {
-      this.state.cartData.map((rowData, rowIndex) => (
+      cartData.map((rowData, rowIndex) => (
         <TableWrapper key={rowIndex} style={styles.tableWrapper}>
           {
             rowData.map((cellData, cellIndex) => (
@@ -111,7 +99,7 @@ export default class CartScreen extends React.Component {
     }
   </Table> : <View><Text>Nothing has been added to the cart.</Text></View>
 
-  const proceedButton = this.state.cartData.length > 0 ? <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}>
+  const proceedButton = cartData.length > 0 ? <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}>
   <Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text>
 </Button> : <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}>
   <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
@@ -138,7 +126,7 @@ export default class CartScreen extends React.Component {
               Convenience Fee: .30 cents
             </Text>
             <Text style={styles.totals}>
-              Total: ${parseFloat(this.state.cartTotal + .3).toFixed(2)}
+              Total: ${parseFloat(cartTotal + .3).toFixed(2)}
             </Text>
 
             {proceedButton}

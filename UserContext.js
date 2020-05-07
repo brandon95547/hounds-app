@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
+import * as Font from 'expo-font'
 
 const UserContext = React.createContext()
 
@@ -7,11 +8,26 @@ class UserProvider extends Component {
   // Context state
   state = {
     user: null,
+    cartData: [],
+    cartTotal: 0
   }
 
-  // Method to update state
   setUser = user => {
     this.setState(prevState => ({ user }))
+  }
+
+  setCartTotal = cartTotal => {
+    this.setState(prevState => ({ cartTotal }))
+  }
+
+  setCartData = cartData => {
+    this.setState(prevState => ({ cartData }))
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'poppins-normal': require('./assets/fonts/Poppins_400_normal.ttf')
+    });
   }
 
   isLoggedIn = async key => {
@@ -32,16 +48,24 @@ class UserProvider extends Component {
 
   render() {
     const { children } = this.props
+    const { cartData } = this.state
     const { user } = this.state
+    const { cartTotal } = this.state
     const { setUser } = this
     const { isLoggedIn } = this
+    const { setCartData } = this
+    const { setCartTotal } = this
 
     return (
       <UserContext.Provider
         value={{
           user,
+          cartData,
+          cartTotal,
           setUser,
-          isLoggedIn
+          isLoggedIn,
+          setCartData,
+          setCartTotal
         }}
       >
         {children}

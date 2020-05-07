@@ -7,6 +7,8 @@ import RaptorForm from '../forms/RaptorForm'
 import ReactDOM from "react-dom"
 import * as Font from 'expo-font'
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
+// this is our clobal context module to store global session state across screens
+import UserContext from '../../UserContext'
 
 const dimensions = Dimensions.get('window')
 const imageHeight = Math.round(dimensions.width * 9 / 16)
@@ -328,11 +330,6 @@ export default class StartScreen extends React.Component {
       assetsLoaded: false,
       todoInput: '',
       open: false,
-      user: {},
-      loggedIn: false,
-      styles: {
-        marginTop: 8
-      },
       foodItemMap: foodItemsData,
       foodCategories: ["HOT FOODS", "SNACKS & CANDY", "DRINKS", "ICE CREAM", "MISCELLANEOUS"],
       foodTableHead: ["Item", "Price", "Select"],
@@ -347,29 +344,13 @@ export default class StartScreen extends React.Component {
 
   }
 
-  async isLoggedIn() {
-    let isLoggedIn = false
-    try {
-      const value = await AsyncStorage.getItem('user')
-      if (value !== null) {
-        // We have data!!
-        returnValue = value
-        this.setState({ user: value })
-        isLoggedIn = true
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-    return isLoggedIn
-  }
+  static contextType = UserContext
 
   async componentDidMount() {
-    await Font.loadAsync({
-        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    })
-
-    this.setState({ assetsLoaded: true })
-    this.isLoggedIn()
+    const { user, setUser, isLoggedIn } = this.context
+    isLoggedIn()
+    
+    this.setState({ assetsLoaded: true });
     // clear cart data on page load
     await AsyncStorage.removeItem("cart-items")
   }

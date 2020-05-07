@@ -145,7 +145,7 @@ export default class LoginScreen extends React.Component {
 
           <View style={{alignItems: "center"}}>
             <Button onPress={() => {this.props.navigation.navigate('ForgotPassword');}} transparent>
-                <Text style={{color: "blue", fontWeight: "bold"}}>Forgot Password</Text>
+                <Text style={{color: colors.secondary, fontWeight: "bold"}}>Forgot Password</Text>
             </Button>
           </View>
 
