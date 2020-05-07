@@ -9,6 +9,7 @@ import SideBar from '../SideBar';
 import RaptorToast from '../RaptorToast';
 import ReactDOM from "react-dom";
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
+import UserContext from '../../UserContext'
 
 export default class NewAccount extends React.Component {
   constructor() {
@@ -28,10 +29,12 @@ export default class NewAccount extends React.Component {
   componentDidMount() {
   }
 
+  static contextType = UserContext
+
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-        <SideBar />
+        <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
   };
@@ -62,6 +65,7 @@ export default class NewAccount extends React.Component {
 
   processAccountCreation() {
     let _this = this
+    const { user, setUser } = this.context
     // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
       this.refs.childToast.showToast(colors.green, "Invalid email")
@@ -71,7 +75,6 @@ export default class NewAccount extends React.Component {
     var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText)
         let response = JSON.parse(this.responseText);
         
         _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
@@ -79,6 +82,7 @@ export default class NewAccount extends React.Component {
         // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
           _this._storeData("user", response.user)
+          setUser(JSON.parse(response.user))
           setTimeout(() => {
             _this.props.navigation.navigate('Home');
           }, 1500);

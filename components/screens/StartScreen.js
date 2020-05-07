@@ -61,7 +61,7 @@ export default class StartScreen extends React.Component {
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-        <SideBar />
+        <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
   };

@@ -124,10 +124,13 @@ const headerStyles = {
     backgroundColor: colors.primary
   },
   viewRow: {
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   viewHamburger: {
-    marginLeft: "auto"
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-start"
   },
   logo: {
     paddingTop: 12,
@@ -140,7 +143,6 @@ const headerStyles = {
     color: "white"
   },
   hamburger: {
-    marginLeft: "auto",
     paddingTop: 12,
     paddingRight: 16
   }

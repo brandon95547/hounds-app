@@ -31,10 +31,6 @@ export default class LoginScreen extends React.Component {
   componentDidMount() {
   }
 
-  toggleOpen() {
-    this.setState({ open: !this.state.open });
-  }
-
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
@@ -147,9 +143,9 @@ export default class LoginScreen extends React.Component {
               <Text style={{color: "white", fontWeight: "bold"}}>LOGIN</Text>
           </Button>
 
-          <View>
-            <Button onPress={() => {}} block>
-                <Text style={{color: "white", fontWeight: "bold"}}>Forgot Password</Text>
+          <View style={{alignItems: "center"}}>
+            <Button onPress={() => {this.props.navigation.navigate('ForgotPassword');}} transparent>
+                <Text style={{color: "blue", fontWeight: "bold"}}>Forgot Password</Text>
             </Button>
           </View>
 

@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox, AsyncStorage, Picker } from 'react-native';
 import { Left, Right, Icon, Drawer } from 'native-base';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { colors } from '../GlobalStyles';
@@ -13,7 +13,8 @@ export default class RaptorForm extends React.Component {
       checkInputValue: 0,
       type: 'default',
       checked: {},
-      cart: []
+      cart: [],
+      itemIndex: 0
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -49,41 +50,54 @@ export default class RaptorForm extends React.Component {
   };
 
   componentDidMount() {
-    this._retrieveCheckout("cart-checked")
+    // this._retrieveCheckout("cart-checked")
   }
 
   textInputChange(text) {
     this.setState({ text: text })
   }
 
-  checkboxChange(index, key, price, title) {
+  checkboxChange(index, key, price, title, quantity) {
+
     let currentChecked = this.state.checked
-    currentChecked[key] = !this.state.checked[key]
+    // currentChecked[key] = !this.state.checked[key]
+    currentChecked[key] = quantity
     this.setState({ checked: currentChecked })
     let cartItems = this.state.cart
 
+    let cartData = {
+      key: key,
+      price: price,
+      title: title,
+      quantity: quantity
+    }
+
+    cartItems[index] = cartData
+
     // if the array key has not been added
     if(cartItems.indexOf(key) === -1) {
+      // cartItems.push(cartData)
       // if the button is on
-      if(currentChecked[key]) {
-        cartItems.push(key)
-      }
+      /* if(currentChecked[key]) {
+        // cartItems.push(key)
+      } */
     }
     else {
+      // cartItems.push(cartData)
       // if the button is off
-      if(!currentChecked[key]) {
+      /* if(!currentChecked[key]) {
         cartItems.splice(cartItems.indexOf(key), 1)
       }
       else {
-        cartItems.push(key)
-      }
+        // cartItems.push(key)
+      } */
     }
     this.setState({ cart: cartItems })
     /* cartItems.map((val, index) => (
       console.log(this.props.foodMap[val])
     )) */
     this._storeData("cart-items", JSON.stringify(cartItems))
-    this._storeData("cart-checked", JSON.stringify(this.state.checked))
+    // this._storeData("cart-checked", JSON.stringify(this.state.checked))
 	}
 
   getItems(index) {
@@ -93,15 +107,31 @@ export default class RaptorForm extends React.Component {
 
   buildItems() {
     const state = this.state;
-    const textInput = (data, index) => (
+    const textInput = (key, index, price, title) => (
       <>
         <TextInput style = {RaptorFormStyles.textInput}
           underlineColorAndroid = "transparent"
           placeholder = "0"
           placeholderTextColor = "#9a73ef"
-          autoCapitalize = "none"st
-          onChangeText = {this.checkboxChange}
+          autoCapitalize = "none"
+          onChangeText = {(quantity) => this.checkboxChange(index, key, price, title, quantity)}
         />
+      </>
+    );
+    const textInput2 = (key, index, price, title) => (
+      <>
+        <Picker
+          selectedValue={this.state.checked[key]}
+          style={RaptorFormStyles.picker}
+          onValueChange={(quantity) => this.checkboxChange(index, key, price, title, quantity)}
+        >
+          <Picker.Item label="0" value="0" />
+          <Picker.Item label="1" value="1" />
+          <Picker.Item label="2" value="2" />
+          <Picker.Item label="3" value="3" />
+          <Picker.Item label="4" value="4" />
+          <Picker.Item label="5" value="5" />
+        </Picker>
       </>
     );
     const checkboxInput = (key, index, price, title) => (
@@ -112,7 +142,10 @@ export default class RaptorForm extends React.Component {
           style={RaptorFormStyles.checkbox}
         />
       </>
-    );
+    )
+    const wrapper = (data) => {
+      return <Text style={RaptorFormStyles.cell}>{data}</Text>
+    }
     return (
       this.props.foodCategories.map((category, index) => (
       <View key={index} style={RaptorFormStyles.container}>
@@ -120,11 +153,11 @@ export default class RaptorForm extends React.Component {
         <Table>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
-            this.getItems(index).map((rowData, index) => (
-              <TableWrapper key={index} style={RaptorFormStyles.tableWrapper}>
+            this.getItems(index).map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellIndex === 2 ? checkboxInput(cellData, index, rowData[1], rowData[0]) : cellData} textStyle={RaptorFormStyles.text}/>
+                    <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
                   ))
                 }
               </TableWrapper>
@@ -147,7 +180,7 @@ export default class RaptorForm extends React.Component {
         <View style={RaptorFormStyles.buttonWrap}>
           <TouchableOpacity
             style={RaptorFormStyles.button}
-            onPress={this.submitForm}
+            onPress={() => this.props.navigation.navigate("Cart")}
           >
             <Text style={RaptorFormStyles.buttonText}>CHECKOUT</Text>
           </TouchableOpacity>
@@ -163,6 +196,16 @@ const RaptorFormStyles = StyleSheet.create({
     marginTop: 22,
     borderWidth: 1,
     borderColor: "#CCC"
+  },
+  buttonText: {
+    color: "white"
+  },
+  picker: {
+    width: 60,
+    height: 40
+  },
+  cell: {
+    paddingRight: 24
   },
   checkboxContainer: {
     flexDirection: "row",

@@ -281,33 +281,42 @@ export default class StartScreen extends React.Component {
     miscItems = []
 
     let foodItemsData = []
+    let indexOffset = 0
     foodItems.forEach((foodItem, itemIndex) => {
+      if(itemIndex == 0) {
+        indexOffset = 0
+      }
+      else {
+        indexOffset += foodItem.items.length
+      }
       foodItem.items.forEach((subItem, subIndex) => {
+        let finalIndex = indexOffset+subIndex
         let flatLink = subItem.title.replace(/\s+/g, '-').toLowerCase()
+        let splitVal = flatLink + ':' + finalIndex
         switch(foodItem.category) {
           case 'HOT FOODS' :
             hotFoodItems.push(
-              [subItem.title, subItem.price, flatLink]
+              [subItem.title, subItem.price, finalIndex]
             )
           break
           case 'SNACKS & CANDY' :
             snackItems.push(
-              [subItem.title, subItem.price, flatLink]
+              [subItem.title, subItem.price, finalIndex]
             )
           break
           case 'DRINKS' :
             drinkItems.push(
-              [subItem.title, subItem.price, flatLink]
+              [subItem.title, subItem.price, finalIndex]
             )
           break
           case 'ICE CREAM' :
             icecreamItems.push(
-              [subItem.title, subItem.price, flatLink]
+              [subItem.title, subItem.price, finalIndex]
             )
           break
           case 'MISCELLANEOUS' :
             miscItems.push(
-              [subItem.title, subItem.price, flatLink]
+              [subItem.title, subItem.price, finalIndex]
             )
           break
         }
@@ -361,13 +370,14 @@ export default class StartScreen extends React.Component {
 
     this.setState({ assetsLoaded: true })
     this.isLoggedIn()
-    console.log(this.state)
+    // clear cart data on page load
+    await AsyncStorage.removeItem("cart-items")
   }
 
   drawerContent = () => {
     return (
       <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
-        <SideBar />
+        <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     )
   }
@@ -405,7 +415,7 @@ export default class StartScreen extends React.Component {
                 </div> */}
               </Text>
 
-              <RaptorForm foodMap={this.state.foodItemMap} type="pricing-form" class="poppins-normal" align="left" tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
+              <RaptorForm navigation={this.props.navigation} foodMap={this.state.foodItemMap} type="pricing-form" class="poppins-normal" align="left" tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
 
             </ScrollView>
 

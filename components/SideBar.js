@@ -18,6 +18,7 @@ export default class SideBar extends React.Component {
           await AsyncStorage.multiRemove(keys);
           setUser(null)
           setTimeout(() => {
+            alert("Logout successful")
              _this.props.navigation.navigate('Home');
             _this.props.toggleOpen()
           }, 500);
@@ -33,7 +34,9 @@ export default class SideBar extends React.Component {
       <List>
         <ListItem selected>
           <Left>
-            <Text>Home</Text>
+            <TouchableOpacity onPress={() => {this.props.navigation.navigate("Home")}}>
+              <Text>Home</Text>
+            </TouchableOpacity>
           </Left>
           <Right>
             <Icon type="FontAwesome" name="home" />
@@ -41,10 +44,12 @@ export default class SideBar extends React.Component {
         </ListItem>
         <ListItem>
           <Left>
-          <Text>Start Order</Text>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate("Cart")}}>
+            <Text>Cart</Text>
+          </TouchableOpacity>
           </Left>
           <Right>
-            <Icon type="MaterialCommunityIcons" name="format-list-checkbox" />
+            <Icon type="MaterialCommunityIcons" name="cart" />
           </Right>
         </ListItem>
         <ListItem>

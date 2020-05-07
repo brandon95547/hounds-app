@@ -35,6 +35,9 @@ export default class Header extends React.Component {
                     {leftButton}
 
                     <View style={headerStyles.viewHamburger}>
+                        <TouchableOpacity style={headerStyles.hamburger} onPress={() => {this.props.navigation.navigate("Cart")}}>
+                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='cart' />
+                        </TouchableOpacity>
                         <TouchableOpacity style={headerStyles.hamburger} onPress={this.props.toggleOpen}>
                             <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='menu' />
                         </TouchableOpacity>

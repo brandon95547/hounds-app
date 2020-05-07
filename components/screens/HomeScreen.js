@@ -98,7 +98,7 @@ export default class HomeScreen extends React.Component {
           overlay={true}
           opacity={0.4}
           >   
-              <Header toggleOpen={this.toggleOpen} />
+              <Header navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
               
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
