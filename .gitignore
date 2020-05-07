@@ -7,6 +7,7 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+vendor/
 web-build/
 web-report/
 signup.php

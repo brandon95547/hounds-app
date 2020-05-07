@@ -26,26 +26,6 @@ export default class HomeScreen extends React.Component {
       this.toggleOpen = this.toggleOpen.bind(this);
   }
 
-  
-  isLoggedIn = async () => {
-    const { user, setUser } = this.context
-
-    let returnValue = null
-    try {
-      const value = await AsyncStorage.getItem('user');
-      if (value !== null) {
-        // We have data!!
-        setUser(JSON.parse(value))
-        console.log('context user has been set with storage user')
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-    if(returnValue) {
-      this.setState({ user: JSON.parse(returnValue)})
-    }
-  };
-  
   toggleOpen() {
     this.setState({ open: !this.state.open });
   }
@@ -61,13 +41,14 @@ export default class HomeScreen extends React.Component {
   static contextType = UserContext
   
   async componentDidMount() {
+    const { user, setUser, isLoggedIn } = this.context
+    isLoggedIn()
+
     await Font.loadAsync({
       'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
     
     this.setState({ assetsLoaded: true });
-    this.isLoggedIn()
-
   }
 
   render() {

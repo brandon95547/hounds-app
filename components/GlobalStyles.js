@@ -4,6 +4,7 @@ const colors = {
   primary: 'rgb(247,68,68)',
   secondary: '#FF9999',
   green: "rgb(30, 191, 191)",
+  money: "green",
   failure: "orange",
   other: 'purple',
   bgWhite: {

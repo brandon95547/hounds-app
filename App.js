@@ -14,6 +14,7 @@ import ForgotPassword from './components/screens/ForgotPassword';
 import NewAccountScreen from './components/screens/NewAccountScreen';
 import CartScreen from './components/screens/CartScreen';
 import Checkout from './components/screens/Checkout';
+import OrderSuccess from './components/screens/OrderSuccess';
 
 // stylesheets
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -37,6 +38,7 @@ export default class App extends React.Component {
             <Stack.Screen name="NewAccount" component={NewAccountScreen} options={{ title: 'New Account' }} />
             <Stack.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }} />
             <Stack.Screen name="Checkout" component={Checkout} options={{ title: 'Checkout' }} />
+            <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{ title: 'Order Success' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>

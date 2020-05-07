@@ -116,6 +116,12 @@ export default class Checkout extends React.Component {
     console.log(this.state)
     this.toggleAnimationBox()
     this.toggleTotalsBox()
+    setTimeout(async () => {
+      this.toggleAnimationBox()
+      this.toggleTotalsBox()
+      await AsyncStorage.removeItem("cart-items")
+      this.props.navigation.navigate('OrderSuccess');
+    }, 1500);
   }
 
   toggleTotalsBox() {
@@ -134,8 +140,8 @@ export default class Checkout extends React.Component {
     const imageHeight = Math.round(dimensions.width * 9 / 16);
     const imageWidth = dimensions.width;
 
-    const totalsBox = <Text style={{ textAlign: "right", fontSize: 17, fontWeight: "bold" }}>
-    Cart Total: ${parseFloat(this.state.cartTotal + .3).toFixed(2)}
+    const totalsBox = <Text style={{ textAlign: "right", fontSize: 17 }}>
+    Cart Total: <Text style={{ color: colors.money, fontWeight: "bold" }}>${parseFloat(this.state.cartTotal + .3).toFixed(2)}</Text>
   </Text>
 
   const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
