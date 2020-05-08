@@ -7,7 +7,6 @@ import SideBar from '../SideBar';
 import RaptorToast from '../RaptorToast'
 import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
-import * as Font from 'expo-font';
 // this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
 
@@ -38,24 +37,18 @@ export default class Checkout extends React.Component {
 
   }
 
+  static contextType = UserContext
+
   isLoggedIn() {
     // let user = localStorage.getItem("user");
     // return user ? true : false
   }
 
   async componentDidMount() {
-    /* await Font.loadAsync({
-        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    });
-    this.setState({ assetsLoaded: true }); */
-    // setState({ contentHeight: measureElement(this.content).height });
-    // this.adjustGap();
-    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
-    this.setState({
-      styles: {
-        marginTop: node.offsetHeight
-      }
-    }); */
+    const { user, cartTotal, setUser, isLoggedIn } = this.context
+    isLoggedIn()
+    
+    this.setState({ assetsLoaded: true });
     this.getCartItems()
   }
 
@@ -68,6 +61,7 @@ export default class Checkout extends React.Component {
   };
 
   async getCartItems() {
+    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
     let returnValue = null
     try {
       // empy cart on page load
@@ -86,8 +80,13 @@ export default class Checkout extends React.Component {
           }
         })
 
-        this.setState({ cartData: items, cartTotal: total })
+        setCartData(items)
+        setCartTotal(total)
 
+      }
+      else {
+        setCartData([])
+        setCartTotal(0)
       }
     } catch (error) {
       // Error retrieving data
@@ -115,12 +114,14 @@ export default class Checkout extends React.Component {
   }
 
   processPayment() {
-    console.log(this.state)
+    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
     this.toggleAnimationBox()
     this.toggleTotalsBox()
     setTimeout(async () => {
       this.toggleAnimationBox()
       this.toggleTotalsBox()
+      setCartData([])
+      setCartTotal(0)
       await AsyncStorage.removeItem("cart-items")
       this.props.navigation.navigate('OrderSuccess');
     }, 1500);
@@ -134,7 +135,7 @@ export default class Checkout extends React.Component {
   }
 
   render() {
-
+    const { user, cartData, cartTotal, setUser, isLoggedIn, setCartData } = this.context
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
     const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
 
@@ -143,7 +144,7 @@ export default class Checkout extends React.Component {
     const imageWidth = dimensions.width;
 
     const totalsBox = <Text style={{ textAlign: "right", fontSize: 17 }}>
-    Cart Total: <Text style={{ color: colors.money, fontWeight: "bold" }}>${parseFloat(this.state.cartTotal + .3).toFixed(2)}</Text>
+    Cart Total: <Text style={{ color: colors.money, fontWeight: "bold" }}>${parseFloat(cartTotal + .3).toFixed(2)}</Text>
   </Text>
 
   const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>

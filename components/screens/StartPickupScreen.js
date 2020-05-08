@@ -347,12 +347,14 @@ export default class StartScreen extends React.Component {
   static contextType = UserContext
 
   async componentDidMount() {
-    const { user, setUser, isLoggedIn } = this.context
+    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
     isLoggedIn()
     
     this.setState({ assetsLoaded: true });
     // clear cart data on page load
     await AsyncStorage.removeItem("cart-items")
+    setCartData([])
+    setCartTotal(0)
   }
 
   drawerContent = () => {

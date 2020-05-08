@@ -56,10 +56,12 @@ export default class CartScreen extends React.Component {
           }
         })
         setCartData(items)
-        console.log('total')
-        console.log(total)
         setCartTotal(total)
 
+      }
+      else {
+        setCartData([])
+        setCartTotal(0)
       }
     } catch (error) {
       // Error retrieving data
@@ -99,11 +101,13 @@ export default class CartScreen extends React.Component {
     }
   </Table> : <View><Text>Nothing has been added to the cart.</Text></View>
 
-  const proceedButton = cartData.length > 0 ? <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}>
+  const proceedButton = <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}>
   <Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text>
-</Button> : <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}>
-  <Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text>
 </Button>
+
+const cartTotalHtml = cartData.length > 0 ? <Text style={styles.totals}>
+Total: ${parseFloat(cartTotal + .3).toFixed(2)}
+</Text> : <Text></Text>
 
     return (
       <MenuDrawer 
@@ -125,9 +129,8 @@ export default class CartScreen extends React.Component {
             <Text style={styles.fee}>
               Convenience Fee: .30 cents
             </Text>
-            <Text style={styles.totals}>
-              Total: ${parseFloat(cartTotal + .3).toFixed(2)}
-            </Text>
+            
+            {cartTotalHtml}
 
             {proceedButton}
           </View>
