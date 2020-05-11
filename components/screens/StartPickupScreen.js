@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
+import { Button } from 'native-base'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import RaptorForm from '../forms/RaptorForm'
@@ -15,8 +16,8 @@ const imageHeight = Math.round(dimensions.width * 9 / 16)
 const imageWidth = dimensions.width
 
 export default class StartScreen extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     let foodItems = [
       {
@@ -298,27 +299,27 @@ export default class StartScreen extends React.Component {
         switch(foodItem.category) {
           case 'HOT FOODS' :
             hotFoodItems.push(
-              [subItem.title, subItem.price, finalIndex]
+              [subItem.title, parseFloat(subItem.price).toFixed(2), finalIndex]
             )
           break
           case 'SNACKS & CANDY' :
             snackItems.push(
-              [subItem.title, subItem.price, finalIndex]
+              [subItem.title, parseFloat(subItem.price).toFixed(2), finalIndex]
             )
           break
           case 'DRINKS' :
             drinkItems.push(
-              [subItem.title, subItem.price, finalIndex]
+              [subItem.title, parseFloat(subItem.price).toFixed(2), finalIndex]
             )
           break
           case 'ICE CREAM' :
             icecreamItems.push(
-              [subItem.title, subItem.price, finalIndex]
+              [subItem.title, parseFloat(subItem.price).toFixed(2), finalIndex]
             )
           break
           case 'MISCELLANEOUS' :
             miscItems.push(
-              [subItem.title, subItem.price, finalIndex]
+              [subItem.title, parseFloat(subItem.price).toFixed(2), finalIndex]
             )
           break
         }
@@ -328,7 +329,6 @@ export default class StartScreen extends React.Component {
 
     this.state = {
       assetsLoaded: false,
-      todoInput: '',
       open: false,
       foodItemMap: foodItemsData,
       foodCategories: ["HOT FOODS", "SNACKS & CANDY", "DRINKS", "ICE CREAM", "MISCELLANEOUS"],
@@ -347,19 +347,18 @@ export default class StartScreen extends React.Component {
   static contextType = UserContext
 
   async componentDidMount() {
-    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
+    const { isLoggedIn, setCartData, setCartTotal } = this.context
     isLoggedIn()
     
     this.setState({ assetsLoaded: true });
     // clear cart data on page load
-    await AsyncStorage.removeItem("cart-items")
     setCartData([])
     setCartTotal(0)
   }
 
   drawerContent = () => {
     return (
-      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+      <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     )
@@ -372,7 +371,6 @@ export default class StartScreen extends React.Component {
   render() {
 
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login"
-    let scrollViewStyles = {...componentStyles.paddingBox, ...colors.bgWhite}
     const {assetsLoaded} = this.state
 
     if( assetsLoaded ) {
@@ -387,18 +385,22 @@ export default class StartScreen extends React.Component {
         >   
             <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
             
-            <ScrollView style={scrollViewStyles}>
 
-              <Text style={componentStyles.textNode}>
-                {/* <div>
-                  <strong>PICK UP ORDER</strong><br/>
-                  114 Raven Cir,
-                  <br/>
-                  Kings Mountain, NC 28086
-                </div> */}
-              </Text>
+            <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
+            
+              <View style={styles.pageTitleWrap}>
+                <Text style={styles.pageTitle}>DRIVE IN MENU</Text>
+              </View>
 
-              <RaptorForm navigation={this.props.navigation} foodMap={this.state.foodItemMap} type="pricing-form" class="poppins-normal" align="left" tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
+              <RaptorForm foodMap={this.state.foodItemMap} tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
+
+              <View style={styles.buttonWrap}>
+                <Button onPress={() => this.props.navigation.navigate("Cart")}>
+                  <Text>
+                    CHECKOUT
+                  </Text>
+                </Button>
+              </View>
 
             </ScrollView>
 
@@ -416,7 +418,19 @@ export default class StartScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    padding: 16
+  },
+  buttonWrap: {
+    alignItems: "center",
+    marginTop: 24,
+  },
+  pageTitleWrap: {
+    alignItems: "center"
+  },
+  pageTitle: {
+    fontSize: 17,
+    fontWeight: "bold"
   },
   adjustGap: {
     marginTop: 0

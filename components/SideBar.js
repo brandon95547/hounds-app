@@ -13,10 +13,11 @@ export default class SideBar extends React.Component {
   logOut = async function() {
     let _this = this
     try {
-          const { user, setUser } = this.context
+          const { user, setUser, setCartData } = this.context
           const keys = await AsyncStorage.getAllKeys();
           await AsyncStorage.multiRemove(keys);
           setUser(null)
+          setCartData([])
           setTimeout(() => {
             alert("Logout successful")
              _this.props.navigation.navigate('Home');
@@ -50,14 +51,6 @@ export default class SideBar extends React.Component {
           </Left>
           <Right>
             <Icon type="MaterialCommunityIcons" name="cart" />
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-          <Text>My Account</Text>
-          </Left>
-          <Right>
-            <Icon type="FontAwesome" name="user" />
           </Right>
         </ListItem>
         <ListItem>

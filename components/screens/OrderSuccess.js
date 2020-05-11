@@ -8,7 +8,7 @@ import { globals, componentStyles, colors } from '../GlobalStyles';
 import ReactDOM from "react-dom";
 import * as Font from 'expo-font';
 
-import mapImage from '../../assets/img/map.png';
+import loadingAnimation from '../../assets/img/a3724efc0c85bd69c4366d96547cb667.gif';
 
 export default class OrderSuccess extends React.Component {
   constructor() {
@@ -16,40 +16,52 @@ export default class OrderSuccess extends React.Component {
 
     this.state = {
       assetsLoaded: false,
-      todoInput: '',
       open: false,
-      styles: {
-        marginTop: 8
-      },
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
 
   }
 
-  isLoggedIn() {
-    // let user = localStorage.getItem("user");
-    // return user ? true : false
+  componentDidMount() {
+    // this.sendOrderNumber()
   }
 
-  async componentDidMount() {
-    /* await Font.loadAsync({
-        'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
-    });
-    this.setState({ assetsLoaded: true }); */
-    // setState({ contentHeight: measureElement(this.content).height });
-    // this.adjustGap();
-    /* var node = ReactDOM.findDOMNode(this.refs["appHeader"]);
-    this.setState({
-      styles: {
-        marginTop: node.offsetHeight
+  generateRandomString() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 6);
+  }
+
+  sendOrderNumber() {
+    var _this = this
+    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText);
+        
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        // localStorage.setItem('user', response.user);
+        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
+        if(response.success) {
+          // _this._storeData("user", response.user)
+          // set user state from context
+          // setUser(JSON.parse(response.user))
+          // setTimeout(() => {
+          //   _this.props.navigation.navigate('Home');
+          // }, 1500);
+        }
       }
-    }); */
+    }
+
+    var theUrl = "http://bluechipadvertising.com/generateOrder.php";
+    xmlhttp.open("POST", theUrl);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({orderNumber: _this.generateRandomString() }));
+
   }
 
   drawerContent = () => {
     return (
-      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+      <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
@@ -60,13 +72,6 @@ export default class OrderSuccess extends React.Component {
   }
 
   render() {
-
-    // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
-
-    const dimensions = Dimensions.get('window');
-    const imageHeight = Math.round(dimensions.width * 9 / 16);
-    const imageWidth = dimensions.width;
-
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -78,7 +83,30 @@ export default class OrderSuccess extends React.Component {
       >   
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.pageTitle}>IN-STORE PICKUP INSTRUCTIONS</Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Text style={styles.pageTitle}>Pickup Location</Text>
+              <View style={{ marginLeft: "auto" }}><Text>114 Raven Cir,</Text>
+              <Text>Kings Mountain, NC 28086</Text></View>
+            </View>
+            <View>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
+                <Text>When your order is ready, you will receive an email and a push notification.</Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
+                <Text>Share your name and order number with the employee at the counter.</Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
+                <Text>Enjoy!</Text>
+              </View>
+              </View>
+            </View>
       </MenuDrawer>
     );
   }
@@ -86,10 +114,7 @@ export default class OrderSuccess extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    padding: 16
   },
-  adjustGap: {
-    marginTop: 0
-  }
 });

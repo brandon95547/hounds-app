@@ -1,19 +1,18 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import React from 'react'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
-import { Button } from 'native-base';
+import { Button } from 'native-base'
 // custom components
-import Header from '../Header';
-import NavBar from '../NavBar';
-import SideBar from '../SideBar';
-import RaptorToast from '../RaptorToast';
-import ReactDOM from "react-dom";
-import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
+import Header from '../Header'
+import NavBar from '../NavBar'
+import SideBar from '../SideBar'
+import RaptorToast from '../RaptorToast'
+import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 import UserContext from '../../UserContext'
 
 export default class LoginScreen extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props)
 
     this.state = {
       open: false,
@@ -22,25 +21,26 @@ export default class LoginScreen extends React.Component {
       phone: ""
     }
 
-    this.toggleOpen = this.toggleOpen.bind(this);
+    this.toggleOpen = this.toggleOpen.bind(this)
     
   }
 
   static contextType = UserContext
 
   componentDidMount() {
+
   }
 
   drawerContent = () => {
     return (
-      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+      <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   toggleOpen() {
-    this.setState({ open: !this.state.open });
+    this.setState({ open: !this.state.open })
   }
 
   emailOnChange(email) {
@@ -55,14 +55,6 @@ export default class LoginScreen extends React.Component {
     this.setState({ password: password })
   }
 
-  _storeData = async (key, data) => {
-    try {
-      await AsyncStorage.setItem(key, data);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
   processAccountCreation() {
     let _this = this
     const { user, setUser } = this.context
@@ -72,29 +64,28 @@ export default class LoginScreen extends React.Component {
       return
     }
 
-    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText);
+        let response = JSON.parse(this.responseText)
         
         _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
-        // localStorage.setItem('user', response.user);
+        // localStorage.setItem('user', response.user)
         // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
-          _this._storeData("user", response.user)
           // set user state from context
           setUser(JSON.parse(response.user))
           setTimeout(() => {
-            _this.props.navigation.navigate('Home');
-          }, 1500);
+            _this.props.navigation.navigate('Home')
+          }, 1500)
         }
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/signup.php";
-    xmlhttp.open("POST", theUrl);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 0, phone: this.state.phone}));
+    var theUrl = "http://bluechipadvertising.com/signup.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 0, phone: this.state.phone}))
 
   }
 
@@ -144,7 +135,7 @@ export default class LoginScreen extends React.Component {
           </Button>
 
           <View style={{alignItems: "center"}}>
-            <Button onPress={() => {this.props.navigation.navigate('ForgotPassword');}} transparent>
+            <Button onPress={() => {this.props.navigation.navigate('ForgotPassword')}} transparent>
                 <Text style={{color: colors.secondary, fontWeight: "bold"}}>Forgot Password</Text>
             </Button>
           </View>
@@ -154,7 +145,7 @@ export default class LoginScreen extends React.Component {
         </View>
 
         </MenuDrawer>
-    );
+    )
     // <Text>{this.state.todoInput}</Text> inside <View>
   }
 }
@@ -198,4 +189,4 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     marginTop: 24
   }
-});
+})

@@ -10,7 +10,7 @@ npm-debug.*
 vendor/
 web-build/
 web-report/
-signup.php
+settings.php
 
 # macOS
 .DS_Store

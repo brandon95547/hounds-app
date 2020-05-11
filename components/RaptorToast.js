@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import { Animated, Text, View, StyleSheet, Button } from "react-native";
-import { globals, componentStyles, colors, spacingStyles } from './GlobalStyles';
+import React, { useRef } from "react"
+import { Animated, Text, View, StyleSheet, Button } from "react-native"
+import { globals, componentStyles, colors, spacingStyles } from './GlobalStyles'
 
 export default class RaptorToast extends React.Component {
 
@@ -30,7 +30,7 @@ export default class RaptorToast extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000
-    }).start();
+    }).start()
 
     setTimeout(() => this.hideToast(), 3500)
   }
@@ -40,7 +40,7 @@ export default class RaptorToast extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 1000
-    }).start();
+    }).start()
   }
 
   render() {
@@ -67,7 +67,7 @@ export default class RaptorToast extends React.Component {
         flexDirection: "row",
         marginVertical: 16
       }
-    });
+    })
     // fadeAnim will be used as the value for opacity. Initial Value: 0
     return (
       <View style={{flex: 1, alignItems: "center", justifyContent: "flex-end", flexDirection: "column"}}>
@@ -82,6 +82,6 @@ export default class RaptorToast extends React.Component {
           <Text style={styles.fadingText}>{this.state.message}</Text>
         </Animated.View>
       </View>
-    );
+    )
   }
 }

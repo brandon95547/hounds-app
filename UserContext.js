@@ -5,6 +5,10 @@ import * as Font from 'expo-font'
 const UserContext = React.createContext()
 
 class UserProvider extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   // Context state
   state = {
     user: null,
@@ -16,6 +20,30 @@ class UserProvider extends Component {
     this.setState(prevState => ({ user }))
   }
 
+  _storeData = async (key, data) => {
+    try {
+      await AsyncStorage.setItem(key, data)
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  _retrieveCheckout = async (key) => {
+    let returnValue = null
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // We have data!!
+        returnValue = value
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+    if(returnValue) {
+      this.setState({ cartData: JSON.parse(returnValue)})
+    }
+  };
+
   setCartTotal = cartTotal => {
     this.setState(prevState => ({ cartTotal }))
   }
@@ -25,9 +53,15 @@ class UserProvider extends Component {
   }
 
   async componentDidMount() {
+    this._retrieveCheckout('cart-items')
     await Font.loadAsync({
       'poppins-normal': require('./assets/fonts/Poppins_400_normal.ttf')
     });
+  }
+
+  componentDidUpdate() {
+    this._storeData("user", JSON.stringify(this.state.user))
+    this._storeData("cart-items", JSON.stringify(this.state.cartData))
   }
 
   isLoggedIn = async key => {

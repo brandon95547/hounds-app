@@ -1,60 +1,79 @@
-import React, { Component, useContext } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage } from 'react-native';
-import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
+import React, { Component, useContext } from 'react'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
+import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
-import Header from '../Header';
-import SideBar from '../SideBar';
+import Header from '../Header'
+import SideBar from '../SideBar'
 import styled from 'styled-components'
-import { globals, componentStyles, colors } from '../GlobalStyles';
+import { globals, componentStyles, colors } from '../GlobalStyles'
 
 // this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
 
 // we need to import all images for react native
-import popcorn from '../../assets/img/popcorn.gif';
+import popcorn from '../../assets/img/popcorn.gif'
+
+const dimensions = Dimensions.get('window')
+const imageHeight = Math.round(dimensions.width * 9 / 16)
+const imageWidth = dimensions.width
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        open: false,
-        assetsLoaded: false,
-        user: null
-      };
+    super(props)
+    this.state = {
+      open: false,
+      assetsLoaded: false,
+      user: null
+    }
+      
+    this.toggleOpen = this.toggleOpen.bind(this)
+  }
+  
+  // this somehow enables UserContext state
+  static contextType = UserContext
+  
+  async componentDidMount() {
+    const { isLoggedIn } = this.context
+    isLoggedIn()
+    
+    this.setState({ assetsLoaded: true })
+  }
 
-      this.toggleOpen = this.toggleOpen.bind(this);
+  /* static getDerivedStateFromProps(props, state) {
+    return {favoritecolor: props.favcol }
+  } */
+
+  // In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not.
+  shouldComponentUpdate() {
+    // console.log("should component update")
+    // a return value is required when using this method, true or false
+    return true
+  }
+
+  /* getSnapshotBeforeUpdate(prevProps, prevState) {
+    // console.log("get snapshop before update")
+
+  } */
+
+  componentDidUpdate() {
+    // const { user } = this.context
+    
   }
 
   toggleOpen() {
-    this.setState({ open: !this.state.open });
+    this.setState({ open: !this.state.open })
   }
 
   drawerContent = () => {
     return (
-      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+      <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
-    );
-  };
-  
-  static contextType = UserContext
-  
-  async componentDidMount() {
-    const { user, setUser, isLoggedIn } = this.context
-    isLoggedIn()
-    
-    this.setState({ assetsLoaded: true });
+    )
   }
 
-  render() {
-
+  getJoinButtons = () => {
     const { user, setUser } = this.context
-
-    const dimensions = Dimensions.get('window');
-    const imageHeight = Math.round(dimensions.width * 9 / 16);
-    const imageWidth = dimensions.width;
-    const {assetsLoaded} = this.state;
-    
     const joinButtons = user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
     <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
         <Text style={styles.joinButtonsText}>Join</Text>
@@ -63,6 +82,12 @@ export default class HomeScreen extends React.Component {
         <Text style={styles.joinButtonsText}>Login</Text>
     </Button>
     </View> : <View></View>
+    return (joinButtons)
+  }
+
+  render() {
+    
+    const { assetsLoaded } = this.state
 
     if(assetsLoaded) {
       return (
@@ -79,11 +104,11 @@ export default class HomeScreen extends React.Component {
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate(user ? "Start" : "Login")} style={componentStyles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate("Start")} style={componentStyles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 
-                {joinButtons}
+                {this.getJoinButtons()}
               </View>
 
           </MenuDrawer>

@@ -1,27 +1,51 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
-import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { Component } from 'react'
+import { View, Text, Button } from 'react-native'
+// navigation
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 import { UserProvider } from './UserContext'
-
 // screens
-import HomeScreen from './components/screens/HomeScreen';
-import StartScreen from './components/screens/StartScreen';
-import StartPickupScreen from './components/screens/StartPickupScreen';
-import LoginScreen from './components/screens/LoginScreen';
-import ForgotPassword from './components/screens/ForgotPassword';
-import NewAccountScreen from './components/screens/NewAccountScreen';
-import CartScreen from './components/screens/CartScreen';
-import Checkout from './components/screens/Checkout';
-import OrderSuccess from './components/screens/OrderSuccess';
+import HomeScreen from './components/screens/HomeScreen'
+import StartScreen from './components/screens/StartScreen'
+import StartPickupScreen from './components/screens/StartPickupScreen'
+import LoginScreen from './components/screens/LoginScreen'
+import ForgotPassword from './components/screens/ForgotPassword'
+import NewAccountScreen from './components/screens/NewAccountScreen'
+import CartScreen from './components/screens/CartScreen'
+import Checkout from './components/screens/Checkout'
+import OrderSuccess from './components/screens/OrderSuccess'
 
-// stylesheets
-// import 'bootstrap/dist/css/bootstrap.min.css';
+const Stack = createStackNavigator()
 
 export default class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props)
+  }
+  componentDidMount() {
+    // console.log("component did mount")
+  }
+
+  /*   
+    static getDerivedStateFromProps(props, state) {
+      // set state from props provided to component
+      return {favoritecolor: props.favcol }
+    }
+  */
+
+  // In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not.
+  shouldComponentUpdate() {
+    // console.log("should component update")
+    // a return value is required when using this method, true or false
+    return true
+  }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    /* document.getElementById("div1").innerHTML =
+    "Before the update, the favorite was " + prevState.favoritecolor */
+    // console.log("get snapshop before update")
+
+  }
+  componentDidUpdate() {
+    // console.log("component did update")
 
   }
 
@@ -42,10 +66,6 @@ export default class App extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>
-    );
-
+    )
   }
-  
 }
-
-const Stack = createStackNavigator();

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox, 
 import { Left, Right, Icon, Drawer } from 'native-base';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { colors } from '../GlobalStyles';
+import UserContext from '../../UserContext'
 
 export default class RaptorForm extends React.Component {
   constructor(props) {
@@ -21,9 +22,7 @@ export default class RaptorForm extends React.Component {
     this.checkboxChange = this.checkboxChange.bind(this)
   }
 
-  _alertIndex(index) {
-    Alert.alert(`This is row ${index + 1}`);
-  }
+  static contextType = UserContext
 
   _storeData = async (key, data) => {
     try {
@@ -33,34 +32,13 @@ export default class RaptorForm extends React.Component {
     }
   };
 
-  _retrieveCheckout = async (key) => {
-    let returnValue = null
-    try {
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        // We have data!!
-        returnValue = value
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-    if(returnValue) {
-      this.setState({ checked: JSON.parse(returnValue)})
-    }
-  };
-
-  componentDidMount() {
-    // this._retrieveCheckout("cart-checked")
-  }
-
   textInputChange(text) {
     this.setState({ text: text })
   }
 
   checkboxChange(index, key, price, title, quantity) {
-
+    const { isLoggedIn, setCartData, setCartTotal } = this.context
     let currentChecked = this.state.checked
-    // currentChecked[key] = !this.state.checked[key]
     currentChecked[key] = quantity
     this.setState({ checked: currentChecked })
     let cartItems = this.state.cart
@@ -73,31 +51,7 @@ export default class RaptorForm extends React.Component {
     }
 
     cartItems[index] = cartData
-
-    // if the array key has not been added
-    if(cartItems.indexOf(key) === -1) {
-      // cartItems.push(cartData)
-      // if the button is on
-      /* if(currentChecked[key]) {
-        // cartItems.push(key)
-      } */
-    }
-    else {
-      // cartItems.push(cartData)
-      // if the button is off
-      /* if(!currentChecked[key]) {
-        cartItems.splice(cartItems.indexOf(key), 1)
-      }
-      else {
-        // cartItems.push(key)
-      } */
-    }
-    this.setState({ cart: cartItems })
-    /* cartItems.map((val, index) => (
-      console.log(this.props.foodMap[val])
-    )) */
-    this._storeData("cart-items", JSON.stringify(cartItems))
-    // this._storeData("cart-checked", JSON.stringify(this.state.checked))
+    setCartData(cartItems)
 	}
 
   getItems(index) {
@@ -157,7 +111,7 @@ export default class RaptorForm extends React.Component {
               <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
+                    <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
                   ))
                 }
               </TableWrapper>
@@ -177,14 +131,6 @@ export default class RaptorForm extends React.Component {
     return (
       <>
         {this.buildItems()}
-        <View style={RaptorFormStyles.buttonWrap}>
-          <TouchableOpacity
-            style={RaptorFormStyles.button}
-            onPress={() => this.props.navigation.navigate("Cart")}
-          >
-            <Text style={RaptorFormStyles.buttonText}>CHECKOUT</Text>
-          </TouchableOpacity>
-        </View>
       </>
     )
   }
@@ -198,7 +144,7 @@ const RaptorFormStyles = StyleSheet.create({
     borderColor: "#CCC"
   },
   buttonText: {
-    color: "white"
+    color: "white",
   },
   picker: {
     width: 60,
@@ -245,10 +191,6 @@ const RaptorFormStyles = StyleSheet.create({
   },
   text: {
     fontSize: 17
-  },
-  buttonWrap: {
-    alignItems: "center",
-    marginTop: 24,
   },
   button: {
     alignItems: "center",

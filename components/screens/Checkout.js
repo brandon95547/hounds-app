@@ -12,23 +12,22 @@ import UserContext from '../../UserContext'
 
 import mapImage from '../../assets/img/map.png';
 
+const dimensions = Dimensions.get('window');
+const imageHeight = Math.round(dimensions.width * 9 / 16);
+const imageWidth = dimensions.width;
+
 export default class Checkout extends React.Component {
   constructor() {
     super();
 
     this.state = {
       assetsLoaded: false,
-      todoInput: '',
       open: false,
-      styles: {
-        marginTop: 8
-      },
       name: "",
       card: "",
       expiration: "",
       cvv: "",
       zip: "",
-      cartData: [],
       displayTotals: true,
       displayLoading: false
     }
@@ -39,59 +38,20 @@ export default class Checkout extends React.Component {
 
   static contextType = UserContext
 
-  isLoggedIn() {
-    // let user = localStorage.getItem("user");
-    // return user ? true : false
-  }
-
-  async componentDidMount() {
-    const { user, cartTotal, setUser, isLoggedIn } = this.context
+  componentDidMount() {
+    const { isLoggedIn } = this.context
     isLoggedIn()
     
     this.setState({ assetsLoaded: true });
-    this.getCartItems()
   }
 
   drawerContent = () => {
     return (
-      <TouchableOpacity onPress={this.toggleOpen} style={componentStyles.animatedBox}>
+      <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
     );
   };
-
-  async getCartItems() {
-    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
-    let returnValue = null
-    try {
-      // empy cart on page load
-      const value = await AsyncStorage.getItem('cart-items');
-      if (value !== null) {
-        // We have data!!
-        returnValue = value
-        const items = []
-        const foodItems = JSON.parse(returnValue).filter(person => person !== null)
-        
-        let total = 0
-        foodItems.forEach((subItem, subIndex) => {
-          if(parseInt(subItem.quantity) != 0) {
-            total += (subItem.price * parseInt(subItem.quantity))
-            items.push([subItem.title, '$' + parseFloat(subItem.price).toFixed(2), parseInt(subItem.quantity)])
-          }
-        })
-
-        setCartData(items)
-        setCartTotal(total)
-
-      }
-      else {
-        setCartData([])
-        setCartTotal(0)
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  }
 
   toggleOpen() {
     this.setState({ open: !this.state.open });
@@ -113,18 +73,33 @@ export default class Checkout extends React.Component {
     this.setState({ zip: zip })
   }
 
+  getCartTotals = () => {
+    const { cartData, setCartData } = this.context
+    let total = 0
+
+    const foodItems = cartData.filter(item => item !== null)
+
+    foodItems.forEach((subItem, subIndex) => {
+      if(parseInt(subItem.quantity) != 0) {
+        total += (subItem.price * parseInt(subItem.quantity))
+      }
+    })
+
+    return (<View><Text>{total}</Text></View>)
+  }
+
   processPayment() {
-    const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
-    this.toggleAnimationBox()
-    this.toggleTotalsBox()
-    setTimeout(async () => {
+      // const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
       this.toggleAnimationBox()
       this.toggleTotalsBox()
-      setCartData([])
-      setCartTotal(0)
-      await AsyncStorage.removeItem("cart-items")
-      this.props.navigation.navigate('OrderSuccess');
-    }, 1500);
+      setTimeout(async () => {
+        this.toggleAnimationBox()
+        this.toggleTotalsBox()
+        // setCartData([])
+        // setCartTotal(0)
+        // await AsyncStorage.removeItem("cart-items")
+        this.props.navigation.navigate('OrderSuccess');
+      }, 1500);
   }
 
   toggleTotalsBox() {
@@ -137,17 +112,6 @@ export default class Checkout extends React.Component {
   render() {
     const { user, cartData, cartTotal, setUser, isLoggedIn, setCartData } = this.context
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
-    const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
-
-    const dimensions = Dimensions.get('window');
-    const imageHeight = Math.round(dimensions.width * 9 / 16);
-    const imageWidth = dimensions.width;
-
-    const totalsBox = <Text style={{ textAlign: "right", fontSize: 17 }}>
-    Cart Total: <Text style={{ color: colors.money, fontWeight: "bold" }}>${parseFloat(cartTotal + .3).toFixed(2)}</Text>
-  </Text>
-
-  const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
 
     return (
       <MenuDrawer 
@@ -165,7 +129,7 @@ export default class Checkout extends React.Component {
               <Text style={styles.pageTitle}>Checkout</Text>
             </View>
             <View style={styles.total}>
-              {this.state.displayTotals && totalsBox}
+              {this.state.displayTotals && this.getCartTotals()}
               {this.state.displayLoading && activityIndicator}
             </View>
             <View>
@@ -213,17 +177,14 @@ export default class Checkout extends React.Component {
                 <Text style={{color: "white", fontWeight: "bold"}}>PROCESS PAYMENT</Text>
             </Button>
 
-
-            {Toast}
           </View>
       </MenuDrawer>
     );
   }
 }
 
-const formStyles = {
-  
-}
+const totalsBox = <View><Text>totals</Text></View>
+const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
 const styles = StyleSheet.create({
   container: {
     flex: 1,

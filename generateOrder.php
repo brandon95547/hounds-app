@@ -6,19 +6,16 @@ use PHPMailer\PHPMailer\Exception;
 
 // Load Composer's autoloader
 require "vendor/autoload.php";
+require "settings.php";
 
 // Instantiation and passing `true` enables exceptions
 $mail = new PHPMailer(true);
 $error = '';
 $errors = array();
 
-$name = isset($_POST['name']) ? 'Name: ' . $_POST['name'] : '';
-$email = isset($_POST['email']) ? 'Email: ' . $_POST['email'] : '';
-$message = isset($_POST['subject']) ? 'Subject:' . $_POST['subject'] : '';
-$message = isset($_POST['message']) ? 'Message:' . $_POST['message'] : '';
-$fromForm = isset($_POST['fromForm']) ? 'Message:' . $_POST['fromForm'] : ''; // this proves that the form was submitted from my website
+$orderNumber = 'Thank you for using the Hounds Drive In app. Your order is being prepared and you will received a notification when ready. Please provide the following number for pickup: 200593'; 
 
-$canContinue = !empty($name) && !empty($email) && !empty($message) && !empty($fromForm) && $fromForm == 'Message:0g8gh87g9s987fsd867';
+$canContinue = !empty($orderNumber);
 
 try {
     $mail->IsSMTP(); // enable SMTP
@@ -28,17 +25,17 @@ try {
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 465; // or 587
     $mail->IsHTML(true);
-    $mail->Username = "brandon95547@gmail.com";
-    $mail->Password = "3305im305";
+    $mail->Username = $username;
+    $mail->Password = $password;
     $mail->SetFrom("noreply@gmail.com");
-    $mail->Subject = "Portfolio Contact";
-    $mail->Body = "$name<br>$email<br>$message";
-    $mail->AddAddress("brandon95547@gmail.com");
+    $mail->Subject = "Hounds Drive In Order";
+    $mail->Body = $orderNumber;
+    $mail->AddAddress($username);
 
     $mail->send();
 
 } catch (Exception $e) {
-    $error =  "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    $error =  "$orderNumber";
     $errors[] = $error;
 }
 echo json_encode($errors);
