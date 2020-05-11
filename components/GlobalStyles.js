@@ -150,8 +150,25 @@ const headerStyles = {
 }
 
 const componentStyles = {
+  circle: {
+    width: 30,
+    height: 30,
+    backgroundColor: colors.primary,
+    borderRadius: 30/2,
+    textAlign: "center",
+    fontSize: 20,
+    display: "flex",
+    color: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12
+  },
   textNode: {
     fontSize: 17
+  },
+  money: {
+    color: colors.money,
+    fontWeight: "bold"
   },
   paddingBox: {
     padding: 18

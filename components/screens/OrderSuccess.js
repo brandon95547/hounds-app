@@ -85,25 +85,34 @@ export default class OrderSuccess extends React.Component {
           
           <View style={styles.container}>
             <View>
-              <Text style={styles.pageTitle}>IN-STORE PICKUP INSTRUCTIONS</Text>
+              <Text style={styles.title}>IN-STORE PICKUP INSTRUCTIONS</Text>
             </View>
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <Text style={styles.pageTitle}>Pickup Location</Text>
-              <View style={{ marginLeft: "auto" }}><Text>114 Raven Cir,</Text>
-              <Text>Kings Mountain, NC 28086</Text></View>
+            <View style={styles.subHeading}>
+              <View>
+                <Text style={styles.textSmall}>Pickup</Text>
+                <Text style={styles.textSmall}>Location</Text>
+              </View>
+              <View style={{ marginLeft: "auto" }}><Text style={styles.textSmall}>114 Raven Cir,</Text>
+              <Text style={styles.textSmall}>Kings Mountain, NC 28086</Text></View>
             </View>
-            <View>
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
-                <Text>When your order is ready, you will receive an email and a push notification.</Text>
+            <View style={styles.steps}>
+              <View style={styles.step}>
+                <Text>
+                  <Text style={componentStyles.circle}>1</Text>
+                </Text>
+                <Text style={styles.text}>When your order is ready, you will receive an email and a push notification.</Text>
               </View>
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
-                <Text>Share your name and order number with the employee at the counter.</Text>
+              <View style={styles.step}>
+                <Text>
+                  <Text style={componentStyles.circle}>2</Text>
+                </Text>
+                <Text style={styles.text}>Share your name and order number with the employee at the counter.</Text>
               </View>
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <Icon style={componentStyles.colorPrimary} type="MaterialCommunityIcons" name='phone' />
-                <Text>Enjoy!</Text>
+              <View style={styles.step}>
+                <Text>
+                  <Text style={componentStyles.circle}>3</Text>
+                </Text>
+                <Text style={styles.text}>Enjoy!</Text>
               </View>
               </View>
             </View>
@@ -117,4 +126,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16
   },
+  text: {
+    fontSize: 17
+  },
+  textSmall: {
+    fontSize: 15,
+    fontWeight: "bold"
+  },
+  title: {
+    marginBottom: 10,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18
+  },
+  subHeading: {
+    flex: 1,
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: "#CCC",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  steps: {
+    marginTop: 20
+  },
+  step: {
+    flex: 1,
+    flexDirection: "row",
+    paddingTop: 8,
+    paddingBottom: 8
+  }
 });

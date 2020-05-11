@@ -6,8 +6,6 @@ import Header from '../Header';
 import SideBar from '../SideBar';
 import RaptorToast from '../RaptorToast'
 import { globals, componentStyles, colors } from '../GlobalStyles';
-import ReactDOM from "react-dom";
-// this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
 
 import mapImage from '../../assets/img/map.png';
@@ -75,7 +73,7 @@ export default class Checkout extends React.Component {
 
   getCartTotals = () => {
     const { cartData, setCartData } = this.context
-    let total = 0
+    let total = .30
 
     const foodItems = cartData.filter(item => item !== null)
 
@@ -85,21 +83,27 @@ export default class Checkout extends React.Component {
       }
     })
 
-    return (<View><Text>{total}</Text></View>)
+    return (<View><Text style={styles.totalText}>${total.toFixed(2)}</Text></View>)
   }
 
   processPayment() {
-      // const { user, setUser, isLoggedIn, setCartData, setCartTotal } = this.context
-      this.toggleAnimationBox()
-      this.toggleTotalsBox()
-      setTimeout(async () => {
+      let success = true
+      if(this.state.name == "" || this.state.card == "" || this.state.expiration == "" || this.state.cvv == "" || this.state.zip == "") {
+        success = false
+      }
+      if(success) {
+        this.refs.childToast.showToast(colors.green, "Transaction successful")
         this.toggleAnimationBox()
         this.toggleTotalsBox()
-        // setCartData([])
-        // setCartTotal(0)
-        // await AsyncStorage.removeItem("cart-items")
-        this.props.navigation.navigate('OrderSuccess');
-      }, 1500);
+        setTimeout(() => {
+          this.toggleAnimationBox()
+          this.toggleTotalsBox()
+          this.props.navigation.navigate('OrderSuccess');
+        }, 2500);
+      }
+      else {
+        this.refs.childToast.showToast(colors.failure, "All fields are required")
+      }
   }
 
   toggleTotalsBox() {
@@ -111,6 +115,8 @@ export default class Checkout extends React.Component {
 
   render() {
     const { user, cartData, cartTotal, setUser, isLoggedIn, setCartData } = this.context
+    const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
+
     // let continueButtonPage = this.isLoggedIn() ? "StartPickup" : "Login";
 
     return (
@@ -176,14 +182,13 @@ export default class Checkout extends React.Component {
             <Button onPress={() => this.processPayment()} block style={styles.submitButton}>
                 <Text style={{color: "white", fontWeight: "bold"}}>PROCESS PAYMENT</Text>
             </Button>
-
+            {Toast}
           </View>
       </MenuDrawer>
     );
   }
 }
 
-const totalsBox = <View><Text>totals</Text></View>
 const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
 const styles = StyleSheet.create({
   container: {
@@ -196,9 +201,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end"
   },
   totalText: {
-    textAlign: "right",
     fontSize: 17,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: colors.money
   },
   split: {
     flexDirection: "row"

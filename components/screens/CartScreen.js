@@ -6,6 +6,7 @@ import Header from '../Header'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
+
 import UserContext from '../../UserContext'
 
 import mapImage from '../../assets/img/map.png'
@@ -37,12 +38,17 @@ export default class CartScreen extends React.Component {
     this.getCartItems()
   }
 
+  navigateTo = () => {
+    const { cartData, setCartData } = this.context
+    return cartData.length > 0 ? (<Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}><Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text></Button>) : (<Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}><Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text></Button>)
+  }
+
   getCartItems = () => {
     const { cartData, setCartData } = this.context
 
     const foodItems = cartData.filter(item => item !== null)
     let items = []
-    let total = 0
+    let total = .30
 
     foodItems.forEach((subItem, subIndex) => {
       if(parseInt(subItem.quantity) != 0) {
@@ -65,7 +71,7 @@ export default class CartScreen extends React.Component {
         ))
       }
     </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text>
-    <Text>Total: ${total.toFixed(2)}</Text></View></> : <View><Text>Nothing has been added to the cart.</Text></View>
+    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${total.toFixed(2)}</Text></View></> : <View><Text>Nothing has been added to the cart.</Text></View>
 
     return (cartTable)
   }
@@ -100,10 +106,8 @@ export default class CartScreen extends React.Component {
             </View>
 
             {this.getCartItems()}
+            {this.navigateTo()}
             
-            <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}>
-              <Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text>
-            </Button>
           </View>
           
 
@@ -119,17 +123,9 @@ const styles = StyleSheet.create({
     padding: 16
   },
   fee: {
-    textAlign: "right",
-    paddingRight: 4,
-    fontSize: 15,
     marginTop: 16,
-  },
-  totals: {
-    textAlign: "right",
-    paddingRight: 4,
-    fontSize: 17,
-    marginTop: 16,
-    fontWeight: "bold"
+    marginBottom: 8,
+    fontSize: 17
   },
   rowTextStyle: {
     fontSize: 17
