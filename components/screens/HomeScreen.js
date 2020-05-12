@@ -104,7 +104,7 @@ export default class HomeScreen extends React.Component {
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate("Admin")} style={styles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate("Start")} style={styles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 

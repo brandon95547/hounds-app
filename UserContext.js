@@ -15,11 +15,27 @@ class UserProvider extends Component {
     cartData: [],
     cartTotal: 0,
     checkoutCart: null,
-    itemToEdit: null
+    itemToEdit: null,
+    adminFoodItems: [],
+    publicFoodItems: [
+      [],[],[],[],[]
+    ],
   }
 
   setUser = user => {
     this.setState(prevState => ({ user }))
+  }
+
+  setAdminFoodItems = adminFoodItems => {
+    this.setState(prevState => ({ adminFoodItems }))
+  }
+
+  setPublicFoodItems = publicFoodItems => {
+    this.setState(prevState => ({ publicFoodItems }))
+  }
+
+  setItemToEdit = itemToEdit => {
+    this.setState(prevState => ({ itemToEdit }))
   }
 
   _storeData = async (key, data) => {
@@ -90,7 +106,10 @@ class UserProvider extends Component {
   render() {
     const { children } = this.props
     const { cartData } = this.state
+    const { itemToEdit } = this.state
     const { checkoutCart } = this.state
+    const { adminFoodItems } = this.state
+    const { publicFoodItems } = this.state
     const { user } = this.state
     const { cartTotal } = this.state
     const { setUser } = this
@@ -98,6 +117,9 @@ class UserProvider extends Component {
     const { setCartData } = this
     const { setCartTotal } = this
     const { setCheckoutSummary } = this
+    const { setItemToEdit } = this
+    const { setAdminFoodItems } = this
+    const { setPublicFoodItems } = this
 
     return (
       <UserContext.Provider
@@ -106,11 +128,17 @@ class UserProvider extends Component {
           cartData,
           checkoutCart,
           cartTotal,
+          itemToEdit,
+          adminFoodItems,
+          publicFoodItems,
           setUser,
           isLoggedIn,
           setCartData,
           setCartTotal,
-          setCheckoutSummary
+          setCheckoutSummary,
+          setItemToEdit,
+          setAdminFoodItems,
+          setPublicFoodItems
         }}
       >
         {children}

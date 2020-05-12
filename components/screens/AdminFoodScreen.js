@@ -6,6 +6,7 @@ import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
+import UserContext from '../../UserContext'
 
 const dimensions = Dimensions.get('window')
 const imageHeight = Math.round(dimensions.width * 9 / 16)
@@ -26,17 +27,19 @@ export default class AdminFoodScreen extends React.Component {
 
   }
 
+  static contextType = UserContext
+
   componentDidMount() {
     this.getFoodItems()
   }
 
   getFoodItems() {
-    let _this = this
+    const { setAdminFoodItems } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-        _this.setState({ foodItems: response })
+        setAdminFoodItems(response)
         
       }
     }
@@ -59,8 +62,15 @@ export default class AdminFoodScreen extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
-  render() {
+  editFoodItem(item) {
+    const { setItemToEdit } = this.context
+    setItemToEdit(item)
+    this.props.navigation.navigate("EditFood")
+  }
 
+  render() {
+    const { adminFoodItems } = this.context
+    console.log(adminFoodItems)
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -81,11 +91,11 @@ export default class AdminFoodScreen extends React.Component {
               <Table style={{ marginTop: 20 }}>
                 <Row data={this.state.tableHead} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
                 {
-                  this.state.foodItems.map((rowData, rowIndex) => (
+                  adminFoodItems.map((rowData, rowIndex) => (
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          <Cell key={cellIndex} data={cellIndex == 3 ? <Icon onClick={() => this.props.navigation.navigate("EditFood")} style={{ fontSize: 24 }} type="MaterialCommunityIcons" name='pencil' /> : cellData} textStyle={styles.text}/>
+                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? <Icon onClick={() => this.editFoodItem(rowData)} style={{ fontSize: 24 }} type="MaterialCommunityIcons" name='pencil' /> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>

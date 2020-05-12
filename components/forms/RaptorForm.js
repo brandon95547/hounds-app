@@ -24,6 +24,10 @@ export default class RaptorForm extends React.Component {
 
   static contextType = UserContext
 
+  componentDidMount() {
+    this.getFoodItems()
+  }
+
   _storeData = async (key, data) => {
     try {
       await AsyncStorage.setItem(key, data);
@@ -37,6 +41,7 @@ export default class RaptorForm extends React.Component {
   }
 
   checkboxChange(index, key, price, title, quantity) {
+    console.log("log", index, key, price, title, quantity)
     const { isLoggedIn, setCartData, setCartTotal } = this.context
     let currentChecked = this.state.checked
     currentChecked[key] = quantity
@@ -59,7 +64,25 @@ export default class RaptorForm extends React.Component {
     return this.props.tableItems[index]
   }
 
+  getFoodItems() {
+    const { setPublicFoodItems } = this.context
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        setPublicFoodItems(response)
+        
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/getFoodItemsPublic.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ action: "get-items" }))
+  }
+
   buildItems() {
+    const { publicFoodItems } = this.context
     const state = this.state;
     const textInput = (key, index, price, title) => (
       <>
@@ -101,17 +124,76 @@ export default class RaptorForm extends React.Component {
       return <Text style={RaptorFormStyles.cell}>{data}</Text>
     }
     return (
-      this.props.foodCategories.map((category, index) => (
-      <View key={index} style={RaptorFormStyles.container}>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>{category}</Text></View>
-        <Table>
+      <View style={RaptorFormStyles.container}>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>HOT FOODS</Text></View>
+        <Table style={{ marginBottom: 24 }}>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
-            this.getItems(index).map((rowData, rowIndex) => (
+            publicFoodItems[0].map((rowData, rowIndex) => (
               <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
+                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
+                  ))
+                }
+              </TableWrapper>
+            ))
+          }
+        </Table>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>SNACKS &amp; CANDY</Text></View>
+         <Table style={{ marginBottom: 24 }}>
+          <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
+          {
+            publicFoodItems[1].map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
+                {
+                  rowData.map((cellData, cellIndex) => (
+                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
+                  ))
+                }
+              </TableWrapper>
+            ))
+          }
+        </Table>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>DRINKS</Text></View>
+         <Table style={{ marginBottom: 24 }}>
+          <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
+          {
+            publicFoodItems[2].map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
+                {
+                  rowData.map((cellData, cellIndex) => (
+                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
+                  ))
+                }
+              </TableWrapper>
+            ))
+          }
+        </Table>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>ICE CREAM</Text></View>
+         <Table style={{ marginBottom: 24 }}>
+          <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
+          {
+            publicFoodItems[3].map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
+                {
+                  rowData.map((cellData, cellIndex) => (
+                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
+                  ))
+                }
+              </TableWrapper>
+            ))
+          }
+        </Table>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>MISC</Text></View>
+        <Table>
+          <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
+          {
+            publicFoodItems[4].map((rowData, rowIndex) => (
+              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
+                {
+                  rowData.map((cellData, cellIndex) => (
+                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
                   ))
                 }
               </TableWrapper>
@@ -119,10 +201,21 @@ export default class RaptorForm extends React.Component {
           }
         </Table>
       </View>
-      ))
     )
   }
+  /*
+  title, price
 
+  $items[] = array(
+      0 => $row['food_title'],
+      1 => $row['food_price'],
+      2 => $row['food_category'],
+      3 => $row['food_id'],
+      4 => $row['in_stock'],
+      5 => $row['food_key']
+    );
+  */
+  // <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
   handleChange(event) {
     this.setState({value: event.target.value})
   }

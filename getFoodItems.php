@@ -26,7 +26,8 @@ if($result->num_rows > 0) {
       0 => $row['food_title'],
       1 => $row['food_price'],
       2 => $row['food_category'],
-      3 => $row['food_id']
+      3 => $row['food_id'],
+      4 => $row['in_stock'],
     );
   }
 }

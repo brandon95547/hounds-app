@@ -296,6 +296,7 @@ export default class StartScreen extends React.Component {
         let finalIndex = indexOffset+subIndex
         let flatLink = subItem.title.replace(/\s+/g, '-').toLowerCase()
         let splitVal = flatLink + ':' + finalIndex
+        console.log("offset index: ", finalIndex)
         switch(foodItem.category) {
           case 'HOT FOODS' :
             hotFoodItems.push(
@@ -392,13 +393,11 @@ export default class StartScreen extends React.Component {
                 <Text style={styles.pageTitle}>DRIVE IN MENU</Text>
               </View>
 
-              <RaptorForm foodMap={this.state.foodItemMap} tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
+              <RaptorForm tableHead={this.state.foodTableHead} tableItems={[this.state.hotFoodItems, this.state.snackItems, this.state.drinkItems, this.state.icecreamItems, this.state.miscItems]} foodCategories={this.state.foodCategories} />
 
               <View style={styles.buttonWrap}>
-                <Button onPress={() => this.props.navigation.navigate("Cart")}>
-                  <Text>
-                    CHECKOUT
-                  </Text>
+                <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Cart")}>
+                    <Text style={{color: "white", fontWeight: "bold"}}>CHECKOUT</Text>
                 </Button>
               </View>
 
