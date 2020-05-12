@@ -44,6 +44,11 @@ export default class Checkout extends React.Component {
     this.setState({ assetsLoaded: true });
   }
 
+  componentDidUpdate() {
+    let state = this.state
+    console.log(state.name, state.card, state.expMonth, state.expYear, state.cvv, state.zip)
+  }
+
   drawerContent = () => {
     return (
       <TouchableOpacity style={componentStyles.animatedBox}>
@@ -93,7 +98,7 @@ export default class Checkout extends React.Component {
   processPayment() {
       let success = true
       let message = ""
-      if(this.state.name == "" || this.state.card == "" || this.state.expiration == "" || this.state.cvv == "" || this.state.zip == "") {
+      if(this.state.name == "" || this.state.card == "" || this.state.expMonth == "" || this.state.expYear == "" || this.state.cvv == "" || this.state.zip == "") {
         success = false
         message = "All fields are required"
       }
@@ -153,6 +158,7 @@ export default class Checkout extends React.Component {
                 underlineColorAndroid = "transparent"
                 placeholder = "Name on card"
                 placeholderTextColor = "#888"
+                autoFocus={true}
                 autoCapitalize = "none"
                 onChangeText = {val => this.nameOnChange(val)}
               />
@@ -168,8 +174,9 @@ export default class Checkout extends React.Component {
               <Picker
                 selectedValue={this.state.expMonth}
                 style={ styles.picker }
-                onValueChange={(itemValue, itemIndex) => expMonthOnChange(itemValue)}
+                onValueChange={(itemValue, itemIndex) => this.expMonthOnChange(itemValue)}
               >
+                <Picker.Item label="Month" value="" />
                 <Picker.Item label="Jan" value="01" />
                 <Picker.Item label="Feb" value="02" />
                 <Picker.Item label="Mar" value="03" />
@@ -186,8 +193,9 @@ export default class Checkout extends React.Component {
               <Picker
                 selectedValue={this.state.expYear}
                 style={ styles.picker }
-                onValueChange={(itemValue, itemIndex) => expYearOnChange(itemValue)}
+                onValueChange={(itemValue, itemIndex) => this.expYearOnChange(itemValue)}
               >
+                <Picker.Item label="Year" value="" />
                 <Picker.Item label="2021" value="2021" />
                 <Picker.Item label="2022" value="2022" />
                 <Picker.Item label="2023" value="2023" />
