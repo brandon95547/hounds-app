@@ -13,7 +13,9 @@ class UserProvider extends Component {
   state = {
     user: null,
     cartData: [],
-    cartTotal: 0
+    cartTotal: 0,
+    checkoutCart: null,
+    itemToEdit: null
   }
 
   setUser = user => {
@@ -52,6 +54,10 @@ class UserProvider extends Component {
     this.setState(prevState => ({ cartData }))
   }
 
+  setCheckoutSummary = checkoutCart => {
+    this.setState(prevState => ({ checkoutCart }))
+  }
+
   async componentDidMount() {
     this._retrieveCheckout('cart-items')
     await Font.loadAsync({
@@ -62,6 +68,7 @@ class UserProvider extends Component {
   componentDidUpdate() {
     this._storeData("user", JSON.stringify(this.state.user))
     this._storeData("cart-items", JSON.stringify(this.state.cartData))
+    this._storeData("cart-checkout", JSON.stringify(this.state.checkoutCart))
   }
 
   isLoggedIn = async key => {
@@ -83,23 +90,27 @@ class UserProvider extends Component {
   render() {
     const { children } = this.props
     const { cartData } = this.state
+    const { checkoutCart } = this.state
     const { user } = this.state
     const { cartTotal } = this.state
     const { setUser } = this
     const { isLoggedIn } = this
     const { setCartData } = this
     const { setCartTotal } = this
+    const { setCheckoutSummary } = this
 
     return (
       <UserContext.Provider
         value={{
           user,
           cartData,
+          checkoutCart,
           cartTotal,
           setUser,
           isLoggedIn,
           setCartData,
-          setCartTotal
+          setCartTotal,
+          setCheckoutSummary
         }}
       >
         {children}

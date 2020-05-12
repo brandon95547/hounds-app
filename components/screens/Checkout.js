@@ -28,7 +28,8 @@ export default class Checkout extends React.Component {
       cvv: "",
       zip: "",
       displayTotals: true,
-      displayLoading: false
+      displayLoading: false,
+      cart: null
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
@@ -92,10 +93,13 @@ export default class Checkout extends React.Component {
       }
     })
 
-    return (<View><Text style={styles.totalText}>${total.toFixed(2)}</Text></View>)
+    return (<View>
+      <Text style={styles.totalText}>Total: ${(total + Math.ceil((total * .0475) * 100)/100).toFixed(2)}</Text>
+    </View>)
   }
 
   processPayment() {
+      const { setCheckoutSummary, cartData } = this.context
       let success = true
       let message = ""
       if(this.state.name == "" || this.state.card == "" || this.state.expMonth == "" || this.state.expYear == "" || this.state.cvv == "" || this.state.zip == "") {
@@ -106,6 +110,18 @@ export default class Checkout extends React.Component {
         success = false
         message = "Not a valid credit card number"
       }
+      let creditCardData = {
+        name: this.state.name,
+        card: this.state.card,
+        expiration: this.state.expMonth + '/' + this.state.expYear,
+        cvv: this.state.cvv,
+        zip: this.state.zip
+      }
+      let cartSummary = {
+        orderId: "0229",
+        items: cartData,
+      }
+      // setCheckoutSummary(cart)
       if(success) {
         this.refs.childToast.showToast(colors.green, "Transaction successful")
         this.toggleAnimationBox()

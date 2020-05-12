@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
-import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
+import { Icon, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
 import SideBar from '../SideBar';
 import { globals, componentStyles, colors } from '../GlobalStyles';
-import ReactDOM from "react-dom";
-import * as Font from 'expo-font';
-
-import loadingAnimation from '../../assets/img/a3724efc0c85bd69c4366d96547cb667.gif';
+import UserContext from '../../UserContext'
 
 export default class OrderSuccess extends React.Component {
   constructor() {
@@ -23,8 +20,11 @@ export default class OrderSuccess extends React.Component {
 
   }
 
+  static contextType = UserContext
+
   componentDidMount() {
     // this.sendOrderNumber()
+
   }
 
   generateRandomString() {
@@ -72,6 +72,7 @@ export default class OrderSuccess extends React.Component {
   }
 
   render() {
+    const { checkoutCart } = this.context
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   subHeading: {
-    flex: "auto",
+    flexBasis: "auto",
     flexDirection: "row",
     borderBottomWidth: 1,
     borderTopWidth: 1,
@@ -219,6 +220,5 @@ const styles = StyleSheet.create({
   },
   stepDetailText: {
     marginLeft: "auto",
-    fontSize: 15
   }
 });
