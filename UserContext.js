@@ -20,6 +20,7 @@ class UserProvider extends Component {
     publicFoodItems: [
       [],[],[],[],[]
     ],
+    orderID: ""
   }
 
   setUser = user => {
@@ -70,6 +71,10 @@ class UserProvider extends Component {
     this.setState(prevState => ({ cartData }))
   }
 
+  setOrderId = orderID => {
+    this.setState(prevState => ({ orderID }))
+  }
+
   setCheckoutSummary = checkoutCart => {
     this.setState(prevState => ({ checkoutCart }))
   }
@@ -110,6 +115,7 @@ class UserProvider extends Component {
     const { checkoutCart } = this.state
     const { adminFoodItems } = this.state
     const { publicFoodItems } = this.state
+    const { orderID } = this.state
     const { user } = this.state
     const { cartTotal } = this.state
     const { setUser } = this
@@ -120,6 +126,7 @@ class UserProvider extends Component {
     const { setItemToEdit } = this
     const { setAdminFoodItems } = this
     const { setPublicFoodItems } = this
+    const { setOrderId } = this
 
     return (
       <UserContext.Provider
@@ -128,6 +135,7 @@ class UserProvider extends Component {
           cartData,
           checkoutCart,
           cartTotal,
+          orderID,
           itemToEdit,
           adminFoodItems,
           publicFoodItems,
@@ -138,7 +146,8 @@ class UserProvider extends Component {
           setCheckoutSummary,
           setItemToEdit,
           setAdminFoodItems,
-          setPublicFoodItems
+          setPublicFoodItems,
+          setOrderId
         }}
       >
         {children}

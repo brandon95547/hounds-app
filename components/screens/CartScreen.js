@@ -48,7 +48,7 @@ export default class CartScreen extends React.Component {
 
     const foodItems = cartData.filter(item => item !== null)
     let items = []
-    let total = .30
+    let total = 0
 
     foodItems.forEach((subItem, subIndex) => {
       if(parseInt(subItem.quantity) != 0) {
@@ -70,8 +70,8 @@ export default class CartScreen extends React.Component {
           </TableWrapper>
         ))
       }
-    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {Math.ceil((total * .0475) * 100)/100}</Text>
-    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(total + Math.ceil((total * .0475) * 100)/100).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
+    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {Math.ceil((total * .0657) * 100)/100}</Text>
+    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
 
     return (cartTable)
   }

@@ -15,8 +15,8 @@ const imageHeight = Math.round(dimensions.width * 9 / 16);
 const imageWidth = dimensions.width;
 
 export default class Checkout extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props)
 
     this.state = {
       assetsLoaded: false,
@@ -46,8 +46,8 @@ export default class Checkout extends React.Component {
   }
 
   componentDidUpdate() {
-    let state = this.state
-    console.log(state.name, state.card, state.expMonth, state.expYear, state.cvv, state.zip)
+    // let state = this.state
+    // console.log(state.name, state.card, state.expMonth, state.expYear, state.cvv, state.zip)
   }
 
   drawerContent = () => {
@@ -83,7 +83,7 @@ export default class Checkout extends React.Component {
 
   getCartTotals = () => {
     const { cartData, setCartData } = this.context
-    let total = .30
+    let total = 0
 
     const foodItems = cartData.filter(item => item !== null)
 
@@ -94,8 +94,36 @@ export default class Checkout extends React.Component {
     })
 
     return (<View>
-      <Text style={styles.totalText}>Total: ${(total + Math.ceil((total * .0475) * 100)/100).toFixed(2)}</Text>
+      <Text style={styles.totalText}>Total: ${(.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2)}</Text>
     </View>)
+  }
+
+  trackOrder(orderData) {
+    const { setOrderId } = this.context
+    // console.log("order data", orderData)
+    let _this = this
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        if(response.success) {
+          setOrderId(response.order_id)
+          // set user state from context
+          // setUser(JSON.parse(response.user))
+          setTimeout(() => {
+            _this.props.navigation.navigate('OrderSuccess')
+          }, 1500)
+        }
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/trackOrder.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ orderData: orderData }))
+
   }
 
   processPayment() {
@@ -117,19 +145,31 @@ export default class Checkout extends React.Component {
         cvv: this.state.cvv,
         zip: this.state.zip
       }
-      let cartSummary = {
-        orderId: "0229",
-        items: cartData,
-      }
-      // setCheckoutSummary(cart)
       if(success) {
+        // calculate total from cart items
+        let total = 0
+        const foodItems = cartData.filter(item => item !== null)
+        foodItems.forEach((subItem, subIndex) => {
+          if(parseInt(subItem.quantity) != 0) {
+            total += (subItem.price * parseInt(subItem.quantity))
+          }
+        })
+
+        let cartSummary = {
+          items: cartData,
+          amt: (.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2),
+          method: "VISA",
+        }
+        
+        this.trackOrder(cartSummary)
+
         this.refs.childToast.showToast(colors.green, "Transaction successful")
         this.toggleAnimationBox()
         this.toggleTotalsBox()
         setTimeout(() => {
           this.toggleAnimationBox()
           this.toggleTotalsBox()
-          this.props.navigation.navigate('OrderSuccess');
+          // this.props.navigation.navigate('OrderSuccess');
         }, 2500);
       }
       else {

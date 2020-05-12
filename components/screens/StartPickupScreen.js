@@ -296,7 +296,6 @@ export default class StartScreen extends React.Component {
         let finalIndex = indexOffset+subIndex
         let flatLink = subItem.title.replace(/\s+/g, '-').toLowerCase()
         let splitVal = flatLink + ':' + finalIndex
-        console.log("offset index: ", finalIndex)
         switch(foodItem.category) {
           case 'HOT FOODS' :
             hotFoodItems.push(

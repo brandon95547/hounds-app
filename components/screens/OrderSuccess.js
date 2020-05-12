@@ -14,6 +14,9 @@ export default class OrderSuccess extends React.Component {
     this.state = {
       assetsLoaded: false,
       open: false,
+      items: [],
+      total: 0,
+      tax: 0
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
@@ -24,6 +27,45 @@ export default class OrderSuccess extends React.Component {
 
   componentDidMount() {
     // this.sendOrderNumber()
+    let _this = this
+    const { orderID } = this.context
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+
+        let foodItems = JSON.parse(response.order.food_order_items)
+        foodItems = foodItems.items.filter(item => item !== null && item.quantity != 0)
+        _this.setState({ items: foodItems })
+
+        let total = 0
+        foodItems.forEach((subItem, subIndex) => {
+          total += (subItem.price * parseInt(subItem.quantity))
+        })
+        let tax = Math.ceil((total * .0657) * 100)/100
+        total = (.30 + total + Math.ceil((total * .0657) * 100)/100)
+        _this.setState({ total: total })
+        _this.setState({ tax: tax })
+        
+        // console.log(foodItems.items)
+        
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        // localStorage.setItem('user', response.user)
+        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
+        if(response.success) {
+          // set user state from context
+          // setUser(JSON.parse(response.user))
+          setTimeout(() => {
+            // _this.props.navigation.navigate('Home')
+          }, 1500)
+        }
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/retrieve_order.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ order_id: orderID }))
 
   }
 
@@ -72,7 +114,8 @@ export default class OrderSuccess extends React.Component {
   }
 
   render() {
-    const { checkoutCart } = this.context
+    const { checkoutCart, orderID } = this.context
+    console.log(this.state.items)
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -118,37 +161,38 @@ export default class OrderSuccess extends React.Component {
               </View>
               <View style={styles.subHeading2}>
                 <View>
-                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> Customer Name</Text>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> John Doe</Text>
                   <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> 013</Text>
                 </View>
               </View>
               <View style={{ marginTop: 16 }}>
                 <Text style={styles.heading}>Order Details</Text>
               </View>
-              <View style={styles.stepDetail}>
-                <Text style={{ fontSize: 15 }}>6 Classic Pepperoni (2210 Cal Each)</Text>
-                <Text style={styles.stepDetailText}>$30.00</Text>
-              </View>
+              {
+                this.state.items.map((subItem, subIndex) => {
+                  return (<View key={subIndex} style={styles.stepDetail}><Text style={{ fontSize: 15 }}>{subItem.title} (x{subItem.quantity})</Text><Text style={styles.stepDetailText}>${(subItem.price * subItem.quantity).toFixed(2)}</Text></View>)
+                })
+              }
               <View style={{ marginTop: 8 }}>
                 <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Subtotal</Text>
-                  <Text style={styles.stepDetailText}>$50.00</Text>
+                  <Text style={styles.stepDetailText}>${this.state.total}</Text>
                 </View>
                 <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Taxes</Text>
-                  <Text style={styles.stepDetailText}>$3.38</Text>
+                  <Text style={styles.stepDetailText}>${this.state.tax}</Text>
                 </View>
               </View>
               <View style={styles.stepDetail}>
                 <Text style={{ fontSize: 15, fontWeight: "bold" }}>Amount Paid</Text>
-                <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: "auto" }}>$53.38</Text>
+                <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: "auto" }}>${this.state.total}</Text>
               </View>
               <View style={styles.stepDetail}>
                 <Text style={{ fontSize: 15 }}>Payment Method</Text>
-                <Text style={styles.stepDetailText}>May 9, 2020, 5:43 PM</Text>
+                <Text style={styles.stepDetailText}>VISA</Text>
               </View>
               <View style={styles.stepDetail}>
-                <Text style={{ color: colors.money, fontWeight: "bold" }}>Order/Reference ID: #1002</Text>
+                <Text style={{ color: colors.money, fontWeight: "bold" }}>Order/Reference ID: {orderID}</Text>
               </View>
               <View style={{ marginTop: 30 }}>
                 <Button onPress={() => this.navigation.navigate("Home")} block style={componentStyles.primaryButton}>

@@ -41,7 +41,6 @@ export default class RaptorForm extends React.Component {
   }
 
   checkboxChange(index, key, price, title, quantity) {
-    console.log("log", index, key, price, title, quantity)
     const { isLoggedIn, setCartData, setCartTotal } = this.context
     let currentChecked = this.state.checked
     currentChecked[key] = quantity
