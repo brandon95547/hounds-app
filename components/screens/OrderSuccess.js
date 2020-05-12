@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
@@ -83,7 +83,7 @@ export default class OrderSuccess extends React.Component {
       >   
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <View style={styles.container}>
+          <ScrollView style={styles.container}>
             <View>
               <Text style={styles.title}>IN-STORE PICKUP INSTRUCTIONS</Text>
             </View>
@@ -92,7 +92,7 @@ export default class OrderSuccess extends React.Component {
                 <Text style={styles.textSmall}>Pickup</Text>
                 <Text style={styles.textSmall}>Location</Text>
               </View>
-              <View style={{ marginLeft: "auto" }}><Text style={styles.textSmall}>114 Raven Cir,</Text>
+              <View style={styles.stepDetailText}><Text style={styles.textSmall}>114 Raven Cir,</Text>
               <Text style={styles.textSmall}>Kings Mountain, NC 28086</Text></View>
             </View>
             <View style={styles.steps}>
@@ -115,7 +115,46 @@ export default class OrderSuccess extends React.Component {
                 <Text style={styles.text}>Enjoy!</Text>
               </View>
               </View>
-            </View>
+              <View style={styles.subHeading2}>
+                <View>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> Customer Name</Text>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> 013</Text>
+                </View>
+              </View>
+              <View style={{ marginTop: 16 }}>
+                <Text style={styles.heading}>Order Details</Text>
+              </View>
+              <View style={styles.stepDetail}>
+                <Text style={{ fontSize: 15 }}>6 Classic Pepperoni (2210 Cal Each)</Text>
+                <Text style={styles.stepDetailText}>$30.00</Text>
+              </View>
+              <View style={{ marginTop: 8 }}>
+                <View style={styles.stepDetail}>
+                  <Text style={{ fontSize: 15 }}>Subtotal</Text>
+                  <Text style={styles.stepDetailText}>$50.00</Text>
+                </View>
+                <View style={styles.stepDetail}>
+                  <Text style={{ fontSize: 15 }}>Taxes</Text>
+                  <Text style={styles.stepDetailText}>$3.38</Text>
+                </View>
+              </View>
+              <View style={styles.stepDetail}>
+                <Text style={{ fontSize: 15, fontWeight: "bold" }}>Amount Paid</Text>
+                <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: "auto" }}>$53.38</Text>
+              </View>
+              <View style={styles.stepDetail}>
+                <Text style={{ fontSize: 15 }}>Payment Method</Text>
+                <Text style={styles.stepDetailText}>May 9, 2020, 5:43 PM</Text>
+              </View>
+              <View style={styles.stepDetail}>
+                <Text style={{ color: colors.money, fontWeight: "bold" }}>Order/Reference ID: #1002</Text>
+              </View>
+              <View style={{ marginTop: 30 }}>
+                <Button onPress={() => this.navigation.navigate("Home")} block style={componentStyles.primaryButton}>
+                    <Text style={{color: "white", fontWeight: "bold"}}>DONE</Text>
+                </Button>
+              </View>
+            </ScrollView>
       </MenuDrawer>
     );
   }
@@ -126,8 +165,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16
   },
+  bold: {
+    fontWeight: "bold"
+  },
+  heading: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
   text: {
-    fontSize: 17
+    fontSize: 16
   },
   textSmall: {
     fontSize: 15,
@@ -140,8 +186,16 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   subHeading: {
-    flex: 1,
+    flex: "auto",
     flexDirection: "row",
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: "#CCC",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  subHeading2: {
+    alignItems: "center",
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: "#CCC",
@@ -156,5 +210,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 8,
     paddingBottom: 8
+  },
+  stepDetail: {
+    flex: 1,
+    flexDirection: "row",
+    paddingTop: 3,
+    paddingBottom: 3
+  },
+  stepDetailText: {
+    marginLeft: "auto",
+    fontSize: 15
   }
 });

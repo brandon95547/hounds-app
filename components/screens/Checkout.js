@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, AsyncStorage, ActivityIndicator } from 'react-native';
+import { Picker, View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Left, Right, Icon, Drawer, Container, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
@@ -23,7 +23,8 @@ export default class Checkout extends React.Component {
       open: false,
       name: "",
       card: "",
-      expiration: "",
+      expMonth: "",
+      expYear: "",
       cvv: "",
       zip: "",
       displayTotals: true,
@@ -61,8 +62,11 @@ export default class Checkout extends React.Component {
   cardOnChange(card) {
     this.setState({ card: card })
   }
-  expirationOnChange(exp) {
-    this.setState({ expiration: exp })
+  expMonthOnChange(month) {
+    this.setState({ expMonth: month })
+  }
+  expYearOnChange(year) {
+    this.setState({ expYear: year })
   }
   cvvOnChange(cvv) {
     this.setState({ cvv: cvv })
@@ -88,8 +92,14 @@ export default class Checkout extends React.Component {
 
   processPayment() {
       let success = true
+      let message = ""
       if(this.state.name == "" || this.state.card == "" || this.state.expiration == "" || this.state.cvv == "" || this.state.zip == "") {
         success = false
+        message = "All fields are required"
+      }
+      else if(this.state.card.length < 15) {
+        success = false
+        message = "Not a valid credit card number"
       }
       if(success) {
         this.refs.childToast.showToast(colors.green, "Transaction successful")
@@ -102,7 +112,7 @@ export default class Checkout extends React.Component {
         }, 2500);
       }
       else {
-        this.refs.childToast.showToast(colors.failure, "All fields are required")
+        this.refs.childToast.showToast(colors.failure, message)
       }
   }
 
@@ -155,14 +165,51 @@ export default class Checkout extends React.Component {
               />
             </View>
             <View style={styles.split}>
-              <TextInput style = {styles.textInputHalf}
-                underlineColorAndroid = "transparent"
-                placeholder = "Exp date: 01/2030"
-                placeholderTextColor = "#888"
-                autoCapitalize = "none"
-                onChangeText = {val => this.expirationOnChange(val)}
-              />
-              <TextInput style = {styles.textInputHalf}
+              <Picker
+                selectedValue={this.state.expMonth}
+                style={ styles.picker }
+                onValueChange={(itemValue, itemIndex) => expMonthOnChange(itemValue)}
+              >
+                <Picker.Item label="Jan" value="01" />
+                <Picker.Item label="Feb" value="02" />
+                <Picker.Item label="Mar" value="03" />
+                <Picker.Item label="Apr" value="04" />
+                <Picker.Item label="May" value="05" />
+                <Picker.Item label="Jun" value="06" />
+                <Picker.Item label="Jul" value="07" />
+                <Picker.Item label="Aug" value="08" />
+                <Picker.Item label="Sep" value="09" />
+                <Picker.Item label="Oct" value="10" />
+                <Picker.Item label="Nov" value="11" />
+                <Picker.Item label="Dec" value="12" />
+              </Picker>
+              <Picker
+                selectedValue={this.state.expYear}
+                style={ styles.picker }
+                onValueChange={(itemValue, itemIndex) => expYearOnChange(itemValue)}
+              >
+                <Picker.Item label="2021" value="2021" />
+                <Picker.Item label="2022" value="2022" />
+                <Picker.Item label="2023" value="2023" />
+                <Picker.Item label="2024" value="2024" />
+                <Picker.Item label="2025" value="2025" />
+                <Picker.Item label="2026" value="2026" />
+                <Picker.Item label="2027" value="2027" />
+                <Picker.Item label="2028" value="2028" />
+                <Picker.Item label="2029" value="2029" />
+                <Picker.Item label="2030" value="2030" />
+                <Picker.Item label="2031" value="2031" />
+                <Picker.Item label="2032" value="2032" />
+                <Picker.Item label="2033" value="2033" />
+                <Picker.Item label="2034" value="2034" />
+                <Picker.Item label="2035" value="2035" />
+                <Picker.Item label="2036" value="2036" />
+                <Picker.Item label="2037" value="2037" />
+                <Picker.Item label="2038" value="2038" />
+                <Picker.Item label="2039" value="2039" />
+                <Picker.Item label="2040" value="2040" />
+              </Picker>
+              <TextInput style = {styles.picker}
                 underlineColorAndroid = "transparent"
                 placeholder = "Security code"
                 placeholderTextColor = "#888"
@@ -189,19 +236,27 @@ export default class Checkout extends React.Component {
   }
 }
 
-const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 17 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
+const activityIndicator = <Text style={{ marginBottom: 8, fontSize: 16 }}><ActivityIndicator size="small" color="#0000ff" /> processing</Text>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 16
   },
+  picker: {
+    color: "#333",
+    borderWidth: 1,
+    borderColor: "#DDD",
+    padding: 8,
+    marginTop: 16,
+    width: "33.3%"
+  },
   total: {
     flexDirection: "row",
     justifyContent: "flex-end"
   },
   totalText: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "bold",
     color: colors.money
   },

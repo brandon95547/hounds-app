@@ -140,7 +140,7 @@ const headerStyles = {
   logoText: {
     paddingTop: 15,
     paddingLeft: 8,
-    fontSize: 17,
+    fontSize: 16,
     color: "white"
   },
   hamburger: {
@@ -164,7 +164,7 @@ const componentStyles = {
     marginRight: 12
   },
   textNode: {
-    fontSize: 17
+    fontSize: 16
   },
   money: {
     color: colors.money,
@@ -218,7 +218,6 @@ const componentStyles = {
   },
   primaryButton: {
     backgroundColor: colors.primary,
-    marginTop: 50,
     width: "75%",
     alignSelf: "center",
   },

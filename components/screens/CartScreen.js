@@ -40,7 +40,7 @@ export default class CartScreen extends React.Component {
 
   navigateTo = () => {
     const { cartData, setCartData } = this.context
-    return cartData.length > 0 ? (<Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}><Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text></Button>) : (<Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}><Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text></Button>)
+    return cartData.length > 0 ? (<Button style={styles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}><Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text></Button>) : (<Button style={styles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}><Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text></Button>)
   }
 
   getCartItems = () => {
@@ -71,7 +71,7 @@ export default class CartScreen extends React.Component {
         ))
       }
     </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text>
-    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${total.toFixed(2)}</Text></View></> : <View><Text>Nothing has been added to the cart.</Text></View>
+    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${total.toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
 
     return (cartTable)
   }
@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
   fee: {
     marginTop: 16,
     marginBottom: 8,
-    fontSize: 17
+    fontSize: 16
   },
   rowTextStyle: {
-    fontSize: 17
+    fontSize: 16
   },
   tableWrapper: {
     flexDirection: 'row',
@@ -152,5 +152,11 @@ const styles = StyleSheet.create({
   },
   adjustGap: {
     marginTop: 0
-  }
+  },
+  primaryButton: {
+    backgroundColor: colors.primary,
+    width: "75%",
+    alignSelf: "center",
+    marginTop: 50
+  },
 })

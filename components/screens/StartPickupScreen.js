@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   pageTitle: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "bold"
   },
   adjustGap: {

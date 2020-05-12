@@ -104,7 +104,7 @@ export default class HomeScreen extends React.Component {
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate("OrderSuccess")} style={componentStyles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate("Start")} style={styles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 
@@ -139,4 +139,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: 'poppins-normal'
   },
+  primaryButton: {
+    backgroundColor: colors.primary,
+    width: "75%",
+    alignSelf: "center",
+    marginTop: 50
+  }
 })
