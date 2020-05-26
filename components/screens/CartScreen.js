@@ -100,6 +100,7 @@ export default class CartScreen extends React.Component {
         quantity: 1
       }
     )
+
     paypalItems.push(
       {
         name: "NC Taxes",
@@ -109,6 +110,8 @@ export default class CartScreen extends React.Component {
         quantity: 1
       }
     )
+
+    total += .30 + (Math.ceil((total * .0675) * 100)/100);
     
     this.state.create_payment_json.transactions = [
         {
