@@ -97,6 +97,7 @@ export default class RaptorForm extends React.Component {
     const textInput2 = (key, index, price, title) => (
       <>
         <Picker
+          style={RaptorFormStyles.onePicker} itemStyle={RaptorFormStyles.onePickerItem}
           selectedValue={this.state.checked[key]}
           style={RaptorFormStyles.picker}
           onValueChange={(quantity) => this.checkboxChange(index, key, price, title, quantity)}
@@ -238,9 +239,16 @@ const RaptorFormStyles = StyleSheet.create({
   buttonText: {
     color: "white",
   },
-  picker: {
-    width: 60,
-    height: 40
+  onePicker: {
+    width: 100,
+    height: 44,
+    backgroundColor: '#FFF0E0',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  onePickerItem: {
+    height: 44,
+    color: 'red'
   },
   cell: {
     paddingRight: 24

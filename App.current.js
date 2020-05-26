@@ -11,7 +11,7 @@ import LoginScreen from './components/screens/LoginScreen'
 import ForgotPassword from './components/screens/ForgotPassword'
 import NewAccountScreen from './components/screens/NewAccountScreen'
 import CartScreen from './components/screens/CartScreen'
-import CheckoutPaypal from './components/screens/CheckoutPaypal'
+import Checkout from './components/screens/Checkout'
 import OrderSuccess from './components/screens/OrderSuccess'
 import AdminScreen from './components/screens/AdminScreen'
 import AdminFoodScreen from './components/screens/AdminFoodScreen'
@@ -63,7 +63,7 @@ export default class App extends React.Component {
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: 'Login' }} />
             <Stack.Screen name="NewAccount" component={NewAccountScreen} options={{ title: 'New Account' }} />
             <Stack.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }} />
-            <Stack.Screen name="CheckoutPaypal" component={CheckoutPaypal} options={{ title: 'Checkout' }} />
+            <Stack.Screen name="Checkout" component={Checkout} options={{ title: 'Checkout' }} />
             <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{ title: 'Order Success' }} />
             <Stack.Screen name="Admin" component={AdminScreen} options={{ title: 'Admin' }} />
             <Stack.Screen name="AdminFood" component={AdminFoodScreen} options={{ title: 'Food Items' }} />

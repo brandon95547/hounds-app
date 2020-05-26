@@ -42,8 +42,8 @@ export default class OrderSuccess extends React.Component {
         foodItems.forEach((subItem, subIndex) => {
           total += (subItem.price * parseInt(subItem.quantity))
         })
-        let tax = Math.ceil((total * .0657) * 100)/100
-        total = (.30 + total + Math.ceil((total * .0657) * 100)/100)
+        let tax = Math.ceil((total * .0675) * 100)/100
+        total = (.30 + total + Math.ceil((total * .0675) * 100)/100)
         _this.setState({ total: total })
         _this.setState({ tax: tax })
         

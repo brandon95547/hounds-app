@@ -79,11 +79,8 @@ class UserProvider extends Component {
     this.setState(prevState => ({ checkoutCart }))
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this._retrieveCheckout('cart-items')
-    await Font.loadAsync({
-      'poppins-normal': require('./assets/fonts/Poppins_400_normal.ttf')
-    });
   }
 
   componentDidUpdate() {

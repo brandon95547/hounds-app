@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage, Modal } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import SideBar from '../SideBar'
+import { WebView } from 'react-native-webview';
 import { globals, componentStyles, colors } from '../GlobalStyles'
 
 import UserContext from '../../UserContext'
@@ -22,14 +23,25 @@ export default class CartScreen extends React.Component {
     this.state = {
       assetsLoaded: false,
       open: false,
+      showModal: false,
+      create_payment_json: {
+        intent: "sale",
+        payer: {
+            payment_method: "paypal"
+        },
+        redirect_urls: {
+            return_url: "http://192.168.1.82:3000/success",
+            cancel_url: "http://192.168.1.82:3000/cancel"
+        }
+      }
     }
-
+    
     this.toggleOpen = this.toggleOpen.bind(this)
-
+    
   }
-
+  
   static contextType = UserContext
-
+  
   async componentDidMount() {
     const { user, cartTotal, setUser, isLoggedIn } = this.context
     isLoggedIn()
@@ -37,25 +49,79 @@ export default class CartScreen extends React.Component {
     this.setState({ assetsLoaded: true })
     this.getCartItems()
   }
-
+  
   navigateTo = () => {
     const { cartData, setCartData } = this.context
-    return cartData.length > 0 ? (<Button style={styles.primaryButton} block onPress={() => this.props.navigation.navigate("Checkout")}><Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text></Button>) : (<Button style={styles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}><Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text></Button>)
+    return cartData.length > 0 ? (<Button style={styles.primaryButton} block onPress={() => this.setState({ showModal: true })}><Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO CHECKOUT</Text></Button>) : (<Button style={styles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}><Text style={{color: "white", fontWeight: "bold"}}>START PICKUP ORDER</Text></Button>)
   }
-
+  
+  handleResponse = data => {
+    if(data.title == 'success') {
+      this.setState({ showModal: false, status: "Complete" });
+    }
+    else if(data.title === 'cancel') {
+      this.setState({ showModal: false })
+    }
+    else {
+      return;
+    }
+  }
+  
   getCartItems = () => {
     const { cartData, setCartData } = this.context
 
     const foodItems = cartData.filter(item => item !== null)
     let items = []
     let total = 0
-
+    const paypalItems = [];
+            
     foodItems.forEach((subItem, subIndex) => {
       if(parseInt(subItem.quantity) != 0) {
+        paypalItems.push(
+          {
+            name: subItem.title,
+            sku: subItem.title.replace(/\s+/g, '-').toLowerCase(),
+            price: parseFloat(subItem.price).toFixed(2),
+            currency: "USD",
+            quantity: parseInt(subItem.quantity)
+          }
+        )
         total += (subItem.price * parseInt(subItem.quantity))
         items.push([subItem.title, '$' + parseFloat(subItem.price).toFixed(2), parseInt(subItem.quantity)])
       }
-    })
+    });
+
+    paypalItems.push(
+      {
+        name: "Convenience Fee",
+        sku: "convenience-fee",
+        price: 0.30,
+        currency: "USD",
+        quantity: 1
+      }
+    )
+    paypalItems.push(
+      {
+        name: "NC Taxes",
+        sku: "nc-taxes",
+        price: Math.ceil((total * .0675) * 100)/100,
+        currency: "USD",
+        quantity: 1
+      }
+    )
+    
+    this.state.create_payment_json.transactions = [
+        {
+            item_list: {
+                items: paypalItems
+            },
+            amount: {
+                currency: "USD",
+                total: total
+            },
+            description: "Hounds Drive-In purchase."
+        }
+    ]
 
     const cartTable = items.length > 0 ? <><Table>
     <Row data={["Item", "Price", "Quantity"]} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
@@ -70,8 +136,8 @@ export default class CartScreen extends React.Component {
           </TableWrapper>
         ))
       }
-    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {Math.ceil((total * .0657) * 100)/100}</Text>
-    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
+    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {Math.ceil((total * .0675) * 100)/100}</Text>
+    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
 
     return (cartTable)
   }
@@ -98,6 +164,10 @@ export default class CartScreen extends React.Component {
         overlay={true}
         opacity={0.4}
       >   
+        <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
+          <WebView source={{ uri: "http://192.168.1.82:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; document.f1.submit()"} javaScriptEnabled={true} />
+        </Modal>
+
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
           <View style={styles.container}>

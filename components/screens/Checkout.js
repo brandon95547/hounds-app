@@ -94,7 +94,7 @@ export default class Checkout extends React.Component {
     })
 
     return (<View>
-      <Text style={styles.totalText}>Total: ${(.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2)}</Text>
+      <Text style={styles.totalText}>Total: ${(.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2)}</Text>
     </View>)
   }
 
@@ -157,7 +157,7 @@ export default class Checkout extends React.Component {
 
         let cartSummary = {
           items: cartData,
-          amt: (.30 + total + Math.ceil((total * .0657) * 100)/100).toFixed(2),
+          amt: (.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2),
           method: "VISA",
         }
         

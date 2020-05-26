@@ -1,4 +1,5 @@
 import React, { Component, useContext } from 'react'
+import * as Font from 'expo-font'
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
@@ -35,7 +36,9 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     const { isLoggedIn } = this.context
     isLoggedIn()
-    
+    await Font.loadAsync({
+      'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
+    });
     this.setState({ assetsLoaded: true })
   }
 
@@ -104,7 +107,7 @@ export default class HomeScreen extends React.Component {
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate("Admin")} style={styles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate("Start")} style={styles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 

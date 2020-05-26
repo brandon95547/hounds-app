@@ -122,6 +122,7 @@ const headerStyles = {
   viewContainer: {
     flexDirection: 'row',
     paddingBottom: 10,
+    marginTop: 20,
     backgroundColor: colors.primary
   },
   viewRow: {
