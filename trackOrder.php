@@ -28,12 +28,14 @@ if ($conn->connect_error) {
 $data = json_decode(file_get_contents('php://input'), true);
 $success = true;
 $message = "";
-$order_id = "";
 
-$orderData = isset($data['orderData']) ? $conn->escape_string(json_encode($data['orderData'])) : '';
+$token = isset($data['token']) ? $conn->escape_string($data['token']) : '';
+$paymentId = isset($data['paymentId']) ? $conn->escape_string($data['paymentId']) : '';
+$PayerID = isset($data['PayerID']) ? $conn->escape_string($data['PayerID']) : '';
+$cartSummary = isset($data['cartSummary']) ? $conn->escape_string($data['cartSummary']) : '';
 
-if(!empty($orderData)) {
-  $sql = "insert into food_order (food_order_items, food_order_dtm, active) values ('$orderData', NOW(), 1)";
+if(!empty($token)) {
+  $sql = "insert into food_order (token, paymentId, PayerID, food_order_items, food_order_dtm, active) values ('$token', '$paymentId', '$PayerID', '$cartSummary', NOW(), 1)";
   $result = $conn->query($sql);
   if($conn->affected_rows == 0) {
     // when the form data is the same, there are no affected rows, but it is still a success
@@ -41,7 +43,7 @@ if(!empty($orderData)) {
     $message = "Order could not be tracked";
   }
   else {
-    $order_id = "20" . $conn->insert_id;
+    $order_id = $conn->insert_id;
   }
 }
 else {

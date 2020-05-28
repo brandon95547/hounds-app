@@ -18,6 +18,7 @@ export default class NewAccount extends React.Component {
     this.state = {
       open: false,
       email: "",
+      name: "",
       password: "",
       phone: ""
     }
@@ -47,6 +48,10 @@ export default class NewAccount extends React.Component {
     this.setState({ email: email })
   }
 
+  nameOnChange(name) {
+    this.setState({ name: name })
+  }
+
   phoneOnChange(phone) {
     this.setState({ phone: phone })
   }
@@ -72,6 +77,11 @@ export default class NewAccount extends React.Component {
       return
     }
 
+    if(this.state.name === "") {
+      this.refs.childToast.showToast(colors.green, "Invalid name")
+      return
+    }
+
     var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -93,7 +103,7 @@ export default class NewAccount extends React.Component {
     var theUrl = "http://bluechipadvertising.com/signup.php";
     xmlhttp.open("POST", theUrl);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 1, phone: this.state.phone}));
+    xmlhttp.send(JSON.stringify({name: this.state.name, email: this.state.email, password: this.state.password, createAccount: 1, phone: this.state.phone}));
 
   }
 
@@ -128,6 +138,13 @@ export default class NewAccount extends React.Component {
             placeholderTextColor = "#888"
             autoCapitalize = "none"
             onChangeText = {email => this.emailOnChange(email)}
+          />
+          <TextInput style = {styles.textInput}
+            underlineColorAndroid = "transparent"
+            placeholder = "Enter Name"
+            placeholderTextColor = "#888"
+            autoCapitalize = "none"
+            onChangeText = {name => this.nameOnChange(name)}
           />
           <TextInput style = {styles.textInput}
             underlineColorAndroid = "transparent"

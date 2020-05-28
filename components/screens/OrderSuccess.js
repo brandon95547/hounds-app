@@ -34,6 +34,8 @@ export default class OrderSuccess extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
 
+        // console.log(response);
+        
         let foodItems = JSON.parse(response.order.food_order_items)
         foodItems = foodItems.items.filter(item => item !== null && item.quantity != 0)
         _this.setState({ items: foodItems })
@@ -114,8 +116,8 @@ export default class OrderSuccess extends React.Component {
   }
 
   render() {
-    const { checkoutCart, orderID } = this.context
-    console.log(this.state.items)
+    const { checkoutCart, orderID, user } = this.context
+    // console.log(this.state.items)
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -142,26 +144,26 @@ export default class OrderSuccess extends React.Component {
             <View style={styles.steps}>
               <View style={styles.step}>
                 <Text>
-                  <Text style={componentStyles.circle}>1</Text>
+                  <Text style={componentStyles.circle}> 1 </Text>
                 </Text>
-                <Text style={styles.text}>When your order is ready, you will receive an email and a push notification.</Text>
+                <Text style={styles.text}> When your order is ready, you will receive an email and a push notification.</Text>
               </View>
               <View style={styles.step}>
                 <Text>
-                  <Text style={componentStyles.circle}>2</Text>
+                  <Text style={componentStyles.circle}> 2 </Text>
                 </Text>
-                <Text style={styles.text}>Share your name and order number with the employee at the counter.</Text>
+                <Text style={styles.text}> Share your name and order number with the employee at the counter.</Text>
               </View>
               <View style={styles.step}>
                 <Text>
-                  <Text style={componentStyles.circle}>3</Text>
+                  <Text style={componentStyles.circle}> 3 </Text>
                 </Text>
-                <Text style={styles.text}>Enjoy!</Text>
+                <Text style={styles.text}> Enjoy!</Text>
               </View>
               </View>
               <View style={styles.subHeading2}>
                 <View>
-                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> John Doe</Text>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> {user.name}</Text>
                   <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> 013</Text>
                 </View>
               </View>

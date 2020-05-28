@@ -23,8 +23,9 @@ $success = true;
 $row = array();
 $message = "";
 
-$order_id = isset($data['order_id']) && !empty($data['order_id']) ? substr($data['order_id'], 2) : '';
-$result = $conn->query("select * from food_order where food_order_id = '$order_id' and active = 1");
+$order_id = isset($data['order_id']) && !empty($data['order_id']) ? $data['order_id'] : '';
+$sql = "select * from food_order where food_order_id = '$order_id' and active = 1";
+$result = $conn->query($sql);
 if($result->num_rows > 0) {
   $row = $result->fetch_assoc();
 }
@@ -36,7 +37,8 @@ else {
 $return = array(
   'success' => $success,
   'message' => $message,
-  'order' => $row
+  'order' => $row,
+  'sql' => $sql
 );
 
 echo json_encode($return);

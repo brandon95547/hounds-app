@@ -22,6 +22,7 @@ export default class CartScreen extends React.Component {
 
     this.state = {
       assetsLoaded: false,
+      didRender: false,
       open: false,
       showModal: false,
       create_payment_json: {
@@ -57,14 +58,83 @@ export default class CartScreen extends React.Component {
   
   handleResponse = data => {
     if(data.title == 'success') {
+
+      var query = data.url.split("?")[1];
+      var params = query.split("&");
+
+      let paymentId = '';
+      let token = '';
+      let PayerID = '';
+
+      for (var i=0; i < params.length; i++) {
+          switch(params[i].split("=")[0]) {
+            case 'paymentId' :
+            paymentId = params[i].split("=")[1];
+            break;
+            
+            case 'token' :
+            token = params[i].split("=")[1];
+            break;
+            
+            case 'PayerID' :
+            PayerID = params[i].split("=")[1];
+            break;
+            
+          }
+      }
+
+      this.trackOrder(token, paymentId, PayerID);
+
       this.setState({ showModal: false, status: "Complete" });
     }
     else if(data.title === 'cancel') {
-      this.setState({ showModal: false })
+      this.setState({ showModal: false });
+      console.log('order cancelled');
     }
     else {
+      console.log(data.title);
       return;
     }
+  }
+
+  trackOrder(token, paymentId, PayerID) {
+    const { setOrderId, cartData } = this.context
+    let total = 0
+    const foodItems = cartData.filter(item => item !== null)
+    foodItems.forEach((subItem, subIndex) => {
+      if(parseInt(subItem.quantity) != 0) {
+        total += (subItem.price * parseInt(subItem.quantity))
+      }
+    })
+    let cartSummary = {
+      items: cartData,
+      amt: (.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2),
+      method: "VISA",
+    }
+    cartSummary = JSON.stringify(cartSummary);
+    // console.log("order data", orderData)
+    let _this = this
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        if(response.success) {
+          setOrderId(response.order_id)
+          setTimeout(() => {
+            _this.props.navigation.navigate('OrderSuccess')
+            // console.log(cartData);
+          }, 1500)
+        }
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/trackOrder.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ token: token, paymentId: paymentId, PayerID: PayerID, cartSummary: cartSummary }))
+
   }
   
   getCartItems = () => {
@@ -111,7 +181,9 @@ export default class CartScreen extends React.Component {
       }
     )
 
-    total += .30 + (Math.ceil((total * .0675) * 100)/100);
+    let taxRate = .0675;
+    let tax = total * taxRate;
+    tax = Math.ceil(tax * 100) / 100;
     
     this.state.create_payment_json.transactions = [
         {
@@ -120,11 +192,13 @@ export default class CartScreen extends React.Component {
             },
             amount: {
                 currency: "USD",
-                total: total
+                total: total + tax + .30
             },
             description: "Hounds Drive-In purchase."
         }
     ]
+
+    // console.log(this.state.create_payment_json);
 
     const cartTable = items.length > 0 ? <><Table>
     <Row data={["Item", "Price", "Quantity"]} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
@@ -139,8 +213,8 @@ export default class CartScreen extends React.Component {
           </TableWrapper>
         ))
       }
-    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {Math.ceil((total * .0675) * 100)/100}</Text>
-    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
+    </Table><View style={{alignItems: "flex-end"}}><Text style={styles.fee}>Convenience Fee: .30 cents</Text><Text style={{ fontSize: 16, marginBottom: 4 }}>NC Tax: {tax}</Text>
+    <Text style={{...componentStyles.money, ...componentStyles.textNode}}>Total: ${(total + tax + .30).toFixed(2)}</Text></View></> : <View><Text style={{ fontSize: 16 }}>Nothing has been added to the cart.</Text></View>
 
     return (cartTable)
   }
@@ -168,7 +242,7 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: "http://192.168.1.82:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; document.f1.submit()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: "http://192.168.1.82:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />

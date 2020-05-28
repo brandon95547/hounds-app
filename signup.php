@@ -31,6 +31,7 @@ $message = "";
 $row = array();
 
 $email = isset($data['email']) && !empty($data['email']) ? $conn->escape_string($data['email']) : '';
+$name = isset($data['name']) && !empty($data['name']) ? $conn->escape_string($data['name']) : '';
 $password = isset($data['password']) && !empty($data['password']) ? $conn->escape_string($data['password']) : '';
 $createAccount = isset($data['createAccount']) && !empty($data['createAccount']) ? intval($data['createAccount']) : '';
 
@@ -84,7 +85,7 @@ else {
       $message = "Email address is already taken";
     }
     else {
-      $conn->query("insert into user (user_name, password, active, creation_date) values ('$email', md5('$password'), 1, NOw())");
+      $conn->query("insert into user (name, user_name, password, active, creation_date) values ('$name', '$email', md5('$password'), 1, NOw())");
       $insertId = $conn->insert_id;
       $userResult = $conn->query("select * from user where user_id = $insertId and active = 1");
       if($userResult->num_rows > 0) {

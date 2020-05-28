@@ -35,11 +35,6 @@ export default class App extends React.Component {
   */
 
   // In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not.
-  shouldComponentUpdate() {
-    // console.log("should component update")
-    // a return value is required when using this method, true or false
-    return true
-  }
   getSnapshotBeforeUpdate(prevProps, prevState) {
     /* document.getElementById("div1").innerHTML =
     "Before the update, the favorite was " + prevState.favoritecolor */

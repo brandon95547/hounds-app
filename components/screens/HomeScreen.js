@@ -30,37 +30,19 @@ export default class HomeScreen extends React.Component {
     this.toggleOpen = this.toggleOpen.bind(this)
   }
   
-  // this somehow enables UserContext state
   static contextType = UserContext
   
   async componentDidMount() {
-    const { isLoggedIn } = this.context
-    isLoggedIn()
+    // const { isLoggedIn } = this.context
     await Font.loadAsync({
       'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
     this.setState({ assetsLoaded: true })
   }
 
-  /* static getDerivedStateFromProps(props, state) {
-    return {favoritecolor: props.favcol }
-  } */
-
-  // In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not.
-  shouldComponentUpdate() {
-    // console.log("should component update")
-    // a return value is required when using this method, true or false
-    return true
-  }
-
-  /* getSnapshotBeforeUpdate(prevProps, prevState) {
-    // console.log("get snapshop before update")
-
-  } */
-
   componentDidUpdate() {
-    // const { user } = this.context
-    
+    const { user } = this.context
+    console.log(user)
   }
 
   toggleOpen() {
@@ -75,22 +57,12 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  getJoinButtons = () => {
-    const { user, setUser } = this.context
-    const joinButtons = user === null ? <View style={{ flexDirection: "row", justifyContent: "center" }}>
-    <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
-        <Text style={styles.joinButtonsText}>Join</Text>
-    </Button>
-    <Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
-        <Text style={styles.joinButtonsText}>Login</Text>
-    </Button>
-    </View> : <View></View>
-    return (joinButtons)
-  }
-
   render() {
     
     const { assetsLoaded } = this.state
+    const { user } = this.context
+
+    let continueButton = user ? "Start" : "Login";
 
     if(assetsLoaded) {
       return (
@@ -107,11 +79,18 @@ export default class HomeScreen extends React.Component {
               <View style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
-                <Button onPress={() => this.props.navigation.navigate("Start")} style={styles.primaryButton} block>
+                <Button onPress={() => this.props.navigation.navigate(continueButton)} style={styles.primaryButton} block>
                     <Text style={styles.joinButtonsText}>START PICKUP ORDER</Text>
                 </Button>
                 
-                {this.getJoinButtons()}
+                <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                  <Button onPress={() => this.props.navigation.navigate("NewAccount")} style={styles.joinButtons} transparent>
+                      <Text style={styles.joinButtonsText}>Join</Text>
+                  </Button>
+                  <Button onPress={() => this.props.navigation.navigate("Login")} style={styles.joinButtons} transparent>
+                      <Text style={styles.joinButtonsText}>Login</Text>
+                  </Button>
+                </View>
               </View>
 
           </MenuDrawer>
