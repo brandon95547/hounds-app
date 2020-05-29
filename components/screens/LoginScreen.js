@@ -1,12 +1,11 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage, Alert } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 // custom components
 import Header from '../Header'
 import NavBar from '../NavBar'
 import SideBar from '../SideBar'
-import RaptorToast from '../RaptorToast'
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 import UserContext from '../../UserContext'
 
@@ -60,7 +59,21 @@ export default class LoginScreen extends React.Component {
     const { user, setUser } = this.context
     // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
-      this.refs.childToast.showToast(colors.green, "Invalid email")
+      // this.refs.childToast.showToast(colors.green, "Invalid email")
+      Alert.alert(
+        'Alert',
+        'Email invalid',
+        [
+          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
       return
     }
 
@@ -69,7 +82,21 @@ export default class LoginScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         
-        _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        Alert.alert(
+          'Alert',
+          response.message,
+          [
+            /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        );
         // localStorage.setItem('user', response.user)
         // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
@@ -94,7 +121,6 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
-    const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
 
     return (
       <MenuDrawer 
@@ -113,6 +139,7 @@ export default class LoginScreen extends React.Component {
 
         <View style={styles.container}>
           <View style={styles.pageTitleWrap}>
+            
             <Text style={styles.pageTitle}>Login</Text>
           </View>
           <TextInput style = {styles.textInput}
@@ -139,8 +166,6 @@ export default class LoginScreen extends React.Component {
                 <Text style={{color: colors.secondary, fontWeight: "bold"}}>Forgot Password</Text>
             </Button>
           </View>
-
-          {Toast}
 
         </View>
 

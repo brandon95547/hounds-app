@@ -6,7 +6,6 @@ import { Button } from 'native-base';
 import Header from '../Header';
 import NavBar from '../NavBar';
 import SideBar from '../SideBar';
-import RaptorToast from '../RaptorToast';
 import ReactDOM from "react-dom";
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
 import UserContext from '../../UserContext'
@@ -87,7 +86,21 @@ export default class NewAccount extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText);
         
-        _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
+        Alert.alert(
+          'Alert',
+          response.message,
+          [
+            /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        );
         // localStorage.setItem('user', response.user);
         // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
@@ -127,7 +140,6 @@ export default class NewAccount extends React.Component {
 
         <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
         
-
         <View style={styles.container}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>New Account</Text>
@@ -164,8 +176,6 @@ export default class NewAccount extends React.Component {
           <Button onPress={() => this.processAccountCreation()} block style={styles.submitButton}>
               <Text style={{color: "white", fontWeight: "bold"}}>CREATE NEW ACCOUNT</Text>
           </Button>
-
-          {Toast}
 
         </View>
 

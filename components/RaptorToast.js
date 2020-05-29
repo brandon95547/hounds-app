@@ -56,7 +56,6 @@ export default class RaptorToast extends React.Component {
         backgroundColor: this.state.color,
         width: "60%",
         borderRadius: 16,
-        marginBottom: 80
       },
       fadingText: {
         fontSize: 18,

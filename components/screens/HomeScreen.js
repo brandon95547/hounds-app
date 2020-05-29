@@ -33,16 +33,13 @@ export default class HomeScreen extends React.Component {
   static contextType = UserContext
   
   async componentDidMount() {
-    // const { isLoggedIn } = this.context
+    const { isLoggedIn, user } = this.context
+    isLoggedIn()
     await Font.loadAsync({
       'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
     this.setState({ assetsLoaded: true })
-  }
-
-  componentDidUpdate() {
-    const { user } = this.context
-    console.log(user)
+    // console.log(user)
   }
 
   toggleOpen() {

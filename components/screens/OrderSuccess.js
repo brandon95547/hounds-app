@@ -164,7 +164,7 @@ export default class OrderSuccess extends React.Component {
               <View style={styles.subHeading2}>
                 <View>
                   <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> {user.name}</Text>
-                  <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> 013</Text>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> {orderID}</Text>
                 </View>
               </View>
               <View style={{ marginTop: 16 }}>
@@ -178,7 +178,7 @@ export default class OrderSuccess extends React.Component {
               <View style={{ marginTop: 8 }}>
                 <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Subtotal</Text>
-                  <Text style={styles.stepDetailText}>${this.state.total}</Text>
+                  <Text style={styles.stepDetailText}>${this.state.total.toFixed(2)}</Text>
                 </View>
                 <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Taxes</Text>
@@ -187,17 +187,17 @@ export default class OrderSuccess extends React.Component {
               </View>
               <View style={styles.stepDetail}>
                 <Text style={{ fontSize: 15, fontWeight: "bold" }}>Amount Paid</Text>
-                <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: "auto" }}>${this.state.total}</Text>
+                <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: "auto" }}>${this.state.total.toFixed(2)}</Text>
               </View>
               <View style={styles.stepDetail}>
                 <Text style={{ fontSize: 15 }}>Payment Method</Text>
-                <Text style={styles.stepDetailText}>VISA</Text>
+                <Text style={styles.stepDetailText}>PayPal</Text>
               </View>
               <View style={styles.stepDetail}>
                 <Text style={{ color: colors.money, fontWeight: "bold" }}>Order/Reference ID: {orderID}</Text>
               </View>
-              <View style={{ marginTop: 30 }}>
-                <Button onPress={() => this.navigation.navigate("Home")} block style={componentStyles.primaryButton}>
+              <View style={{ marginTop: 30, marginBottom: 50 }}>
+                <Button onPress={() => this.props.navigation.navigate("Home")} block style={componentStyles.primaryButton}>
                     <Text style={{color: "white", fontWeight: "bold"}}>DONE</Text>
                 </Button>
               </View>

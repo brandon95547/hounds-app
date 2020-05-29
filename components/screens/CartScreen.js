@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage, Modal } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage, Modal, Alert } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -31,8 +31,8 @@ export default class CartScreen extends React.Component {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: "http://192.168.1.82:3000/success",
-            cancel_url: "http://192.168.1.82:3000/cancel"
+            return_url: "http://192.168.0.5:3000/success",
+            cancel_url: "http://192.168.0.5:3000/cancel"
         }
       }
     }
@@ -86,6 +86,20 @@ export default class CartScreen extends React.Component {
       this.trackOrder(token, paymentId, PayerID);
 
       this.setState({ showModal: false, status: "Complete" });
+      Alert.alert(
+        'Alert',
+        "Order successful, please wait...",
+        [
+          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
     }
     else if(data.title === 'cancel') {
       this.setState({ showModal: false });
@@ -192,7 +206,7 @@ export default class CartScreen extends React.Component {
             },
             amount: {
                 currency: "USD",
-                total: total + tax + .30
+                total: (total + tax + .30).toFixed(2)
             },
             description: "Hounds Drive-In purchase."
         }
@@ -242,7 +256,7 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: "http://192.168.1.82:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: "http://192.168.0.5:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />

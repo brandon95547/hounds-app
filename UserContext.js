@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
-import * as Font from 'expo-font'
 
 const UserContext = React.createContext()
 
@@ -93,15 +92,13 @@ class UserProvider extends Component {
     let returnValue = null
     try {
       const value = await AsyncStorage.getItem('user');
+      console.log("my value", value);
       if (value !== null) {
         // We have data!!
         this.setUser(JSON.parse(value))
       }
     } catch (error) {
       // Error retrieving data
-    }
-    if(returnValue) {
-      this.setUser(JSON.parse(returnValue))
     }
   }
 
