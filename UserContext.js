@@ -15,7 +15,9 @@ class UserProvider extends Component {
     cartTotal: 0,
     checkoutCart: null,
     itemToEdit: null,
+    orderToEdit: null,
     adminFoodItems: [],
+    orderItems: [],
     publicFoodItems: [
       [],[],[],[],[]
     ],
@@ -30,12 +32,20 @@ class UserProvider extends Component {
     this.setState(prevState => ({ adminFoodItems }))
   }
 
+  setOrderItems = orderItems => {
+    this.setState(prevState => ({ orderItems }))
+  }
+
   setPublicFoodItems = publicFoodItems => {
     this.setState(prevState => ({ publicFoodItems }))
   }
 
   setItemToEdit = itemToEdit => {
     this.setState(prevState => ({ itemToEdit }))
+  }
+
+  setOrderToEdit = orderToEdit => {
+    this.setState(prevState => ({ orderToEdit }))
   }
 
   _storeData = async (key, data) => {
@@ -92,7 +102,7 @@ class UserProvider extends Component {
     let returnValue = null
     try {
       const value = await AsyncStorage.getItem('user');
-      console.log("my value", value);
+      // console.log("my value", value);
       if (value !== null) {
         // We have data!!
         this.setUser(JSON.parse(value))
@@ -106,8 +116,10 @@ class UserProvider extends Component {
     const { children } = this.props
     const { cartData } = this.state
     const { itemToEdit } = this.state
+    const { orderToEdit } = this.state
     const { checkoutCart } = this.state
     const { adminFoodItems } = this.state
+    const { orderItems } = this.state
     const { publicFoodItems } = this.state
     const { orderID } = this.state
     const { user } = this.state
@@ -116,8 +128,10 @@ class UserProvider extends Component {
     const { isLoggedIn } = this
     const { setCartData } = this
     const { setCartTotal } = this
+    const { setOrderItems } = this
     const { setCheckoutSummary } = this
     const { setItemToEdit } = this
+    const { setOrderToEdit } = this
     const { setAdminFoodItems } = this
     const { setPublicFoodItems } = this
     const { setOrderId } = this
@@ -131,7 +145,9 @@ class UserProvider extends Component {
           cartTotal,
           orderID,
           itemToEdit,
+          orderToEdit,
           adminFoodItems,
+          orderItems,
           publicFoodItems,
           setUser,
           isLoggedIn,
@@ -139,6 +155,8 @@ class UserProvider extends Component {
           setCartTotal,
           setCheckoutSummary,
           setItemToEdit,
+          setOrderToEdit,
+          setOrderItems,
           setAdminFoodItems,
           setPublicFoodItems,
           setOrderId

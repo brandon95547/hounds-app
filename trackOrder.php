@@ -32,10 +32,11 @@ $message = "";
 $token = isset($data['token']) ? $conn->escape_string($data['token']) : '';
 $paymentId = isset($data['paymentId']) ? $conn->escape_string($data['paymentId']) : '';
 $PayerID = isset($data['PayerID']) ? $conn->escape_string($data['PayerID']) : '';
+$user_id = isset($data['user_id']) ? intval($data['user_id']) : '';
 $cartSummary = isset($data['cartSummary']) ? $conn->escape_string($data['cartSummary']) : '';
 
 if(!empty($token)) {
-  $sql = "insert into food_order (token, paymentId, PayerID, food_order_items, food_order_dtm, active) values ('$token', '$paymentId', '$PayerID', '$cartSummary', NOW(), 1)";
+  $sql = "insert into food_order (user_id, token, paymentId, PayerID, food_order_items, food_order_dtm, active) values ('$user_id', '$token', '$paymentId', '$PayerID', '$cartSummary', NOW(), 1)";
   $result = $conn->query($sql);
   if($conn->affected_rows == 0) {
     // when the form data is the same, there are no affected rows, but it is still a success

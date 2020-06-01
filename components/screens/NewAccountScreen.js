@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage, Alert } from 'react-native';
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base';
 // custom components
@@ -72,12 +72,38 @@ export default class NewAccount extends React.Component {
     const { user, setUser } = this.context
     // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
-      this.refs.childToast.showToast(colors.green, "Invalid email")
+      Alert.alert(
+        'Alert',
+        "Invalid email",
+        [
+          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
       return
     }
 
     if(this.state.name === "") {
-      this.refs.childToast.showToast(colors.green, "Invalid name")
+      Alert.alert(
+        'Alert',
+        "Invalid name",
+        [
+          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
       return
     }
 
@@ -86,7 +112,6 @@ export default class NewAccount extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText);
         
-        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
         Alert.alert(
           'Alert',
           response.message,
@@ -126,7 +151,6 @@ export default class NewAccount extends React.Component {
 
   render() {
 
-    const Toast = <RaptorToast ref="childToast" showToast={true} message="my message" speed={1000} direction="top" />
 
     return (
       <MenuDrawer 

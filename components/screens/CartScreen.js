@@ -31,8 +31,8 @@ export default class CartScreen extends React.Component {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: "http://192.168.0.5:3000/success",
-            cancel_url: "http://192.168.0.5:3000/cancel"
+            return_url: "http://18.191.104.234:3001/success",
+            cancel_url: "http://18.191.104.234:3001/cancel"
         }
       }
     }
@@ -112,7 +112,7 @@ export default class CartScreen extends React.Component {
   }
 
   trackOrder(token, paymentId, PayerID) {
-    const { setOrderId, cartData } = this.context
+    const { setOrderId, cartData, user } = this.context
     let total = 0
     const foodItems = cartData.filter(item => item !== null)
     foodItems.forEach((subItem, subIndex) => {
@@ -131,6 +131,7 @@ export default class CartScreen extends React.Component {
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
+        console.log("response", this.responseText);
         let response = JSON.parse(this.responseText)
         
         // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
@@ -147,7 +148,7 @@ export default class CartScreen extends React.Component {
     var theUrl = "http://bluechipadvertising.com/trackOrder.php"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
-    xmlhttp.send(JSON.stringify({ token: token, paymentId: paymentId, PayerID: PayerID, cartSummary: cartSummary }))
+    xmlhttp.send(JSON.stringify({ user_id: user.user_id, token: token, paymentId: paymentId, PayerID: PayerID, cartSummary: cartSummary }))
 
   }
   
@@ -256,7 +257,7 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: "http://192.168.0.5:3000" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: "http://18.191.104.234:3001" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />

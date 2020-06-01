@@ -20,7 +20,7 @@ export default class AdminFoodScreen extends React.Component {
       assetsLoaded: false,
       open: false,
       foodItems: [],
-      tableHead: ["Title", "Price", "Category", "Edit"]
+      tableHead: ["Name", "Date", "Edit"]
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -30,24 +30,24 @@ export default class AdminFoodScreen extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
-    this.getFoodItems()
+    this.getOrders()
     setTimeout(() => {
       this.setState({ assetsLoaded: true })
     }, 2000);
   }
 
-  getFoodItems() {
-    const { setAdminFoodItems } = this.context
+  getOrders() {
+    const { setOrderItems } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-        setAdminFoodItems(response)
+        setOrderItems(response)
         
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/getFoodItems.php"
+    var theUrl = "http://bluechipadvertising.com/getOrderItems.php"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
@@ -65,14 +65,14 @@ export default class AdminFoodScreen extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
-  editFoodItem(item) {
-    const { setItemToEdit } = this.context
-    setItemToEdit(item)
-    this.props.navigation.navigate("EditFood")
+  editOrder(item) {
+    const { setOrderToEdit } = this.context
+    setOrderToEdit(item)
+    this.props.navigation.navigate("EditOrder")
   }
 
   render() {
-    const { adminFoodItems } = this.context
+    const { orderItems } = this.context
     const { assetsLoaded } = this.state;
 
     if(assetsLoaded) {
@@ -90,17 +90,17 @@ export default class AdminFoodScreen extends React.Component {
           <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
             
               <View style={styles.pageTitleWrap}>
-                <Text style={styles.pageTitle}>FOOD MANAGEMENT</Text>
+                <Text style={styles.pageTitle}>ORDER MANAGEMENT</Text>
               </View>
 
               <Table style={{ marginTop: 20 }}>
                 <Row data={this.state.tableHead} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
                 {
-                  adminFoodItems.map((rowData, rowIndex) => (
+                  orderItems.map((rowData, rowIndex) => (
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? <Button full success onPress={() => this.editFoodItem(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
+                          cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex == 2 ? <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>

@@ -15,7 +15,9 @@ import CheckoutPaypal from './components/screens/CheckoutPaypal'
 import OrderSuccess from './components/screens/OrderSuccess'
 import AdminScreen from './components/screens/AdminScreen'
 import AdminFoodScreen from './components/screens/AdminFoodScreen'
+import AdminOrdersScreen from './components/screens/AdminOrdersScreen'
 import EditFoodScreen from './components/screens/EditFoodScreen'
+import EditOrderScreen from './components/screens/EditOrderScreen'
 
 const Stack = createStackNavigator()
 
@@ -62,7 +64,9 @@ export default class App extends React.Component {
             <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{ title: 'Order Success' }} />
             <Stack.Screen name="Admin" component={AdminScreen} options={{ title: 'Admin' }} />
             <Stack.Screen name="AdminFood" component={AdminFoodScreen} options={{ title: 'Food Items' }} />
+            <Stack.Screen name="AdminOrders" component={AdminOrdersScreen} options={{ title: 'Orders' }} />
             <Stack.Screen name="EditFood" component={EditFoodScreen} options={{ title: 'Edit Item' }} />
+            <Stack.Screen name="EditOrder" component={EditOrderScreen} options={{ title: 'Edit Order' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>

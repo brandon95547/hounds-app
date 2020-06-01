@@ -19,6 +19,7 @@ export default class Header extends React.Component {
     
       render() {
         const { user } = this.context
+        // console.log(user);
 
         let continueButton = user ? "Cart" : "Login";
 

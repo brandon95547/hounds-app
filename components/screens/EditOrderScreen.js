@@ -11,7 +11,7 @@ const dimensions = Dimensions.get('window')
 const imageHeight = Math.round(dimensions.width * 9 / 16)
 const imageWidth = dimensions.width
 
-export default class EditFoodScreen extends React.Component {
+export default class EditOrderScreen extends React.Component {
   constructor(props) {
     super(props)
 
@@ -19,10 +19,9 @@ export default class EditFoodScreen extends React.Component {
       assetsLoaded: false,
       open: false,
       itemID: 0,
-      title: "",
-      price: "",
-      category: "",
-      isAvailable: 1
+      name: "",
+      date: "",
+      ready: 0,
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -32,12 +31,13 @@ export default class EditFoodScreen extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
-    const { itemToEdit } = this.context
-    this.setState({ title: itemToEdit[0] })
-    this.setState({ price: itemToEdit[1] })
-    this.setState({ category: itemToEdit[2] })
-    this.setState({ itemID: itemToEdit[3] })
-    this.setState({ isAvailable: itemToEdit[4] })
+    const { orderToEdit } = this.context
+    console.log(orderToEdit);
+    this.setState({ name: orderToEdit[0] })
+    this.setState({ date: orderToEdit[1] })
+    // this.setState({ category: orderToEdit[2] })
+    this.setState({ itemID: orderToEdit[3] })
+    // this.setState({ isAvailable: orderToEdit[4] })
   }
 
   drawerContent = () => {
@@ -52,11 +52,11 @@ export default class EditFoodScreen extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
-  titleOnChange(title) {
-    this.setState({ title: title })
+  nameOnChange(name) {
+    this.setState({ name: name })
   }
 
-  priceOnChange(price) {
+  dateOnChange(price) {
     this.setState({ price: price })
   }
 
@@ -64,25 +64,8 @@ export default class EditFoodScreen extends React.Component {
     this.setState({ category: category })
   }
 
-  availableOnChange(value) {
-    this.setState({ isAvailable: value })
-  }
-
-  getFoodItems() {
-    const { setAdminFoodItems } = this.context
-    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText)
-        setAdminFoodItems(response)
-        
-      }
-    }
-
-    var theUrl = "http://bluechipadvertising.com/getFoodItems.php"
-    xmlhttp.open("POST", theUrl)
-    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
-    xmlhttp.send(JSON.stringify({ action: "get-items" }))
+  readyOnChange(value) {
+    this.setState({ ready: value })
   }
 
   updateItem() {
@@ -93,9 +76,10 @@ export default class EditFoodScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
 
-        
+        console.log(response);
+
         if(response.success) {
-          _this.getFoodItems()
+          // _this.getFoodItems()
           Alert.alert(
             'Alert',
             "Update successful",
@@ -135,17 +119,15 @@ export default class EditFoodScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/updateItem.php"
+    var theUrl = "http://bluechipadvertising.com/updateOrder.php"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
-    xmlhttp.send(JSON.stringify({ id: state.itemID, title: state.title, price: state.price, category: state.category, isAvailable: state.isAvailable }))
+    xmlhttp.send(JSON.stringify({ id: state.itemID, ready: state.ready }))
   }
 
   render() {
 
-    // console.log('available:', this.state.isAvailable);
-
-    const { itemToEdit } = this.context
+    const { orderToEdit } = this.context
 
     return (
       <MenuDrawer 
@@ -160,36 +142,28 @@ export default class EditFoodScreen extends React.Component {
           
           <View style={styles.container}>
           <View style={styles.pageTitleWrap}>
-            <Text style={styles.pageTitle}>EDIT ITEM: </Text>
+            <Text style={styles.pageTitle}>EDIT ORDER: </Text>
           </View>
           <TextInput style = {styles.textInput}
             underlineColorAndroid = "transparent"
-            placeholder = "Title"
+            placeholder = "Name"
             placeholderTextColor = "#888"
             autoCapitalize = "none"
-            value = {this.state.title}
-            onChangeText = {title => this.titleOnChange(title)}
+            value = {this.state.name}
+            onChangeText = {name => this.nameOnChange(name)}
           />
           <TextInput style = {styles.textInput}
             underlineColorAndroid = "transparent"
-            placeholder = "Price"
+            placeholder = "Date"
             placeholderTextColor = "#888"
             autoCapitalize = "none"
-            value = {this.state.price}
-            onChangeText = {price => this.priceOnChange(price)}
-          />
-          <TextInput style = {styles.textInput}
-            underlineColorAndroid = "transparent"
-            placeholder = "Category"
-            placeholderTextColor = "#888"
-            autoCapitalize = "none"
-            value = {this.state.category}
-            onChangeText = {category => this.categoryOnChange(category)}
+            value = {this.state.date}
+            onChangeText = {date => this.dateOnChange(date)}
           />
           <Picker
-              selectedValue={parseInt(this.state.isAvailable)}
+              selectedValue={parseInt(this.state.ready)}
               style={ styles.picker }
-              onValueChange={(itemValue, itemIndex) => this.availableOnChange(itemValue)}
+              onValueChange={(itemValue, itemIndex) => this.readyOnChange(itemValue)}
             >
               <Picker.Item label="Yes" value={1} />
               <Picker.Item label="No" value={0} />

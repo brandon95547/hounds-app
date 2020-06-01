@@ -81,6 +81,7 @@ export default class OrderSuccess extends React.Component {
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText);
+        // console.log(response)
         
         // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
         // localStorage.setItem('user', response.user);
@@ -146,7 +147,7 @@ export default class OrderSuccess extends React.Component {
                 <Text>
                   <Text style={componentStyles.circle}> 1 </Text>
                 </Text>
-                <Text style={styles.text}> When your order is ready, you will receive an email and a push notification.</Text>
+                <Text style={styles.text}> When your order is ready, you will receive an email. You can also see the order status from the menu.</Text>
               </View>
               <View style={styles.step}>
                 <Text>

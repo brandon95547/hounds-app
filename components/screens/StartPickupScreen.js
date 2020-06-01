@@ -350,10 +350,12 @@ export default class StartScreen extends React.Component {
     const { isLoggedIn, setCartData, setCartTotal } = this.context
     isLoggedIn()
     
-    this.setState({ assetsLoaded: true });
     // clear cart data on page load
     setCartData([])
     setCartTotal(0)
+    setTimeout(() => {
+      this.setState({ assetsLoaded: true });
+    }, 2000);
   }
 
   drawerContent = () => {
@@ -407,7 +409,10 @@ export default class StartScreen extends React.Component {
     }
     else {
       return(
-        <View><Text>Loading</Text></View>
+        <>
+        <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
+        <View><Text style={{fontSize: 24, marginTop: 10}}>Loading...</Text></View>
+        </>
       )
     }
   }
@@ -422,6 +427,7 @@ const styles = StyleSheet.create({
   buttonWrap: {
     alignItems: "center",
     marginTop: 24,
+    marginBottom: 50
   },
   pageTitleWrap: {
     alignItems: "center"

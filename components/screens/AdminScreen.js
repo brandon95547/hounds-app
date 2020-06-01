@@ -64,7 +64,7 @@ export default class AdminScreen extends React.Component {
                 </Button>
               </View>
               <View style={styles.buttonWrap}>
-                <Button style={styles.primaryButton} iconLeft block large>
+                <Button onPress={() => this.props.navigation.navigate("AdminOrders")} style={styles.primaryButton} iconLeft block large>
                   <Icon style={{ fontSize: 38 }} type="MaterialCommunityIcons" name='format-list-bulleted' />
                   <Text style={styles.primaryButtonText}> ORDERS</Text>
                 </Button>

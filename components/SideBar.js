@@ -31,6 +31,19 @@ export default class SideBar extends React.Component {
   static contextType = UserContext
 
   render() {
+    const { user } = this.context
+
+    const adminLink = user !== null && (user.user_name == 'houndsdriveintheater@gmail.com' || user.user_name == 'brandon95547@gmail.com') ? <ListItem>
+    <Left>
+      <TouchableOpacity onPress={() => {this.props.navigation.navigate("Admin")}}>
+        <Text>Admin</Text>
+      </TouchableOpacity>
+    </Left>
+    <Right>
+      <Icon type="FontAwesome" name="lock" />
+    </Right>
+  </ListItem> : <Text></Text>;
+
     return (
       <List>
         <ListItem selected>
@@ -53,6 +66,7 @@ export default class SideBar extends React.Component {
             <Icon type="MaterialCommunityIcons" name="cart" />
           </Right>
         </ListItem>
+        {adminLink}
         <ListItem>
           <Left>
             <TouchableOpacity onPress={() => {this.logOut()}}>
