@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
@@ -7,10 +7,6 @@ import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
-
-const dimensions = Dimensions.get('window')
-const imageHeight = Math.round(dimensions.width * 9 / 16)
-const imageWidth = dimensions.width
 
 export default class AdminFoodScreen extends React.Component {
   constructor(props) {
@@ -20,7 +16,7 @@ export default class AdminFoodScreen extends React.Component {
       assetsLoaded: false,
       open: false,
       foodItems: [],
-      tableHead: ["Name", "Date", "Edit"]
+      tableHead: ["Name", "ID", "Ready", "Edit"]
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -100,7 +96,7 @@ export default class AdminFoodScreen extends React.Component {
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex == 2 ? <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
+                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>

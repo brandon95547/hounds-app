@@ -21,6 +21,7 @@
     "eslint": "^3.14.1",
     "expo": "~37.0.3",
     "expo-font": "~8.1.0",
+    "expo-optimize": "^0.1.32",
     "native-base": "2.13.8",
     "navbar-native": "^1.6.1",
     "paypal-rest-sdk": "^1.8.1",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
-import { Table, TableWrapper, Row, Rows, Cell } from 'react-native-table-component';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -8,7 +8,7 @@ import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
 
-export default class AdminFoodScreen extends React.Component {
+export default class MyOrdersScreen extends React.Component {
   constructor(props) {
     super(props)
 
@@ -16,7 +16,7 @@ export default class AdminFoodScreen extends React.Component {
       assetsLoaded: false,
       open: false,
       foodItems: [],
-      tableHead: ["Title", "Price", "Category", "Edit"]
+      tableHead: ["Name", "ID", "Ready"]
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -26,27 +26,29 @@ export default class AdminFoodScreen extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
-    this.getFoodItems()
+    this.getOrders()
     setTimeout(() => {
       this.setState({ assetsLoaded: true })
     }, 2000);
   }
 
-  getFoodItems() {
-    const { setAdminFoodItems } = this.context
-    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText)
-        setAdminFoodItems(response)
-        
+  getOrders() {
+    const { setOrderItems, user } = this.context
+    if(user !== null) {
+      var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let response = JSON.parse(this.responseText)
+          setOrderItems(response)
+          
+        }
       }
-    }
 
-    var theUrl = "http://bluechipadvertising.com/getFoodItems.php"
-    xmlhttp.open("POST", theUrl)
-    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
-    xmlhttp.send(JSON.stringify({ action: "get-items" }))
+      var theUrl = "http://bluechipadvertising.com/getOrderItemsUser.php?user_id=" + user.user_id
+      xmlhttp.open("POST", theUrl)
+      xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+      xmlhttp.send(JSON.stringify({ action: "get-items" }))
+    }
   }
 
   drawerContent = () => {
@@ -61,16 +63,18 @@ export default class AdminFoodScreen extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
-  editFoodItem(item) {
-    const { setItemToEdit } = this.context
-    setItemToEdit(item)
-    this.props.navigation.navigate("EditFood")
+  editOrder(item) {
+    const { setOrderToEdit } = this.context
+    setOrderToEdit(item)
+    this.props.navigation.navigate("EditOrder")
   }
 
   render() {
-    const { adminFoodItems } = this.context
+    const { orderItems, user } = this.context
     const { assetsLoaded } = this.state;
 
+    const loginMessage = user === null ? <Text style={{ fontSize: 18, marginTop: 8 }}>You must<Text onPress={() => this.props.navigation.navigate("Login")} style={{ color: "blue" }}> Login</Text> to view your orders.</Text> : <></>
+    
     if(assetsLoaded) {
       return (
       <MenuDrawer 
@@ -86,23 +90,25 @@ export default class AdminFoodScreen extends React.Component {
           <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
             
               <View style={styles.pageTitleWrap}>
-                <Text style={styles.pageTitle}>FOOD MANAGEMENT</Text>
+                <Text style={styles.pageTitle}>ORDER MANAGEMENT</Text>
               </View>
 
               <Table style={{ marginTop: 20 }}>
                 <Row data={this.state.tableHead} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
                 {
-                  adminFoodItems.map((rowData, rowIndex) => (
+                  orderItems.map((rowData, rowIndex) => (
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? <Button full success onPress={() => this.editFoodItem(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
+                          cellIndex != 4 ? <Cell key={cellIndex} data={cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>
                   ))
                 }
               </Table>
+
+              {loginMessage}
 
             </ScrollView>
 

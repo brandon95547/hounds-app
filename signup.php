@@ -140,4 +140,111 @@ function processEmail($name, $email, $subject, $message) {
       $error =  "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
+
+$array = array(
+  (
+    'title' => 'Sun Drop Small',
+    'key' => 'sun-drop-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Coke Small',
+    'key' => 'coke-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Diet Coke Small',
+    'key' => 'diet-coke-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Sprite Small',
+    'key' => 'sprite-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Cherry Fanta Small',
+    'key' => 'cherry-fanta-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Dr Pepper Small',
+    'key' => 'dr-pepper-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Lemonade Small',
+    'key' => 'lemonade-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Tea Small',
+    'key' => 'tea-sm',
+    'price' => 1,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Sun Drop Large',
+    'key' => 'sun-drop-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Coke Large',
+    'key' => 'coke-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Diet Coke Large',
+    'key' => 'diet-coke-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Sprite Large',
+    'key' => 'sprite-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Cherry Fanta Large',
+    'key' => 'cherry-fanta-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Dr Pepper Large',
+    'key' => 'dr-pepper-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Lemonade Large',
+    'key' => 'lemonade-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+  (
+    'title' => 'Tea Large',
+    'key' => 'tea-lg',
+    'price' => 2,
+    'cat' => 'DRINKS'
+  ),
+);
+
+foreach($array as $val) {
+  $title = $val['title'];
+  $key = $val['key'];
+  $price = $val['price'];
+  $cat = $val['cat'];
+  $conn->query("insert into food (food_title, food_key, food_price, food_category, in_stock, active) values ('$title', '$key', '$price', '$cat', 1, 1)");
+}
 ?>

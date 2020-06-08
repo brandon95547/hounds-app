@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, Picker, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Picker, Alert, ScrollView } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
-
-const dimensions = Dimensions.get('window')
-const imageHeight = Math.round(dimensions.width * 9 / 16)
-const imageWidth = dimensions.width
 
 export default class EditOrderScreen extends React.Component {
   constructor(props) {
@@ -20,7 +16,6 @@ export default class EditOrderScreen extends React.Component {
       open: false,
       itemID: 0,
       name: "",
-      date: "",
       ready: 0,
     }
 
@@ -32,11 +27,10 @@ export default class EditOrderScreen extends React.Component {
 
   componentDidMount() {
     const { orderToEdit } = this.context
-    console.log(orderToEdit);
     this.setState({ name: orderToEdit[0] })
-    this.setState({ date: orderToEdit[1] })
+    // this.setState({ date: orderToEdit[1] })
     // this.setState({ category: orderToEdit[2] })
-    this.setState({ itemID: orderToEdit[3] })
+    this.setState({ itemID: orderToEdit[1] })
     // this.setState({ isAvailable: orderToEdit[4] })
   }
 
@@ -76,8 +70,6 @@ export default class EditOrderScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
 
-        console.log(response);
-
         if(response.success) {
           // _this.getFoodItems()
           Alert.alert(
@@ -87,10 +79,10 @@ export default class EditOrderScreen extends React.Component {
               /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
+              { text: 'OK', onPress: () => {} },
             ],
             { cancelable: false }
           );
@@ -108,10 +100,10 @@ export default class EditOrderScreen extends React.Component {
               /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
+              { text: 'OK', onPress: () => {} },
             ],
             { cancelable: false }
           );
@@ -140,7 +132,7 @@ export default class EditOrderScreen extends React.Component {
       >   
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <View style={styles.container}>
+          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>EDIT ORDER: </Text>
           </View>
@@ -151,14 +143,6 @@ export default class EditOrderScreen extends React.Component {
             autoCapitalize = "none"
             value = {this.state.name}
             onChangeText = {name => this.nameOnChange(name)}
-          />
-          <TextInput style = {styles.textInput}
-            underlineColorAndroid = "transparent"
-            placeholder = "Date"
-            placeholderTextColor = "#888"
-            autoCapitalize = "none"
-            value = {this.state.date}
-            onChangeText = {date => this.dateOnChange(date)}
           />
           <Picker
               selectedValue={parseInt(this.state.ready)}
@@ -172,7 +156,7 @@ export default class EditOrderScreen extends React.Component {
               <Text style={{color: "white", fontWeight: "bold"}}>UPDATE</Text>
           </Button>
 
-        </View>
+        </ScrollView>
 
       </MenuDrawer>
     )

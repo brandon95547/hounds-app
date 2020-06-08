@@ -38,7 +38,6 @@ $return = array(
   'success' => $success,
   'message' => $message,
   'order' => $row,
-  'sql' => $sql
 );
 
 echo json_encode($return);

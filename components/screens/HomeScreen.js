@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react'
 import * as Font from 'expo-font'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -39,7 +39,6 @@ export default class HomeScreen extends React.Component {
       'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
     this.setState({ assetsLoaded: true })
-    // console.log(user)
   }
 
   toggleOpen() {
@@ -73,7 +72,7 @@ export default class HomeScreen extends React.Component {
           >   
               <Header navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
               
-              <View style={styles.container}>
+              <ScrollView style={styles.container}>
                 <Image style={{ height: imageHeight, width: imageWidth, marginTop: 65 }} source={popcorn} />
                 
                 <Button onPress={() => this.props.navigation.navigate(continueButton)} style={styles.primaryButton} block>
@@ -88,7 +87,7 @@ export default class HomeScreen extends React.Component {
                       <Text style={styles.joinButtonsText}>Login</Text>
                   </Button>
                 </View>
-              </View>
+              </ScrollView>
 
           </MenuDrawer>
       )

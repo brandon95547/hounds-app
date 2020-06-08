@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -54,7 +54,7 @@ export default class StartScreen extends React.Component {
       >   
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <View style={componentStyles.interiorBody}>
+          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
             <Image style={{ width: imageWidth, height: imageHeight }} source={mainPhoto}/>
             <View style={{padding: 20}}>
               <Text style={componentStyles.textNode}>114 Raven Cir,</Text>
@@ -67,7 +67,7 @@ export default class StartScreen extends React.Component {
             <Button style={componentStyles.primaryButton} block onPress={() => this.props.navigation.navigate("StartPickup")}>
                 <Text style={{color: "white", fontWeight: "bold"}}>PROCEED TO MENU</Text>
             </Button>
-          </View>
+          </ScrollView>
 
       </MenuDrawer>
     )

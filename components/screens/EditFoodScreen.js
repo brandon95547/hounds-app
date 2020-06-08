@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, Picker, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Picker, Alert, ScrollView } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
-
-const dimensions = Dimensions.get('window')
-const imageHeight = Math.round(dimensions.width * 9 / 16)
-const imageWidth = dimensions.width
 
 export default class EditFoodScreen extends React.Component {
   constructor(props) {
@@ -103,10 +99,10 @@ export default class EditFoodScreen extends React.Component {
               /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
+              { text: 'OK', onPress: () => {} },
             ],
             { cancelable: false }
           );
@@ -124,10 +120,10 @@ export default class EditFoodScreen extends React.Component {
               /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => console.log('OK Pressed') },
+              { text: 'OK', onPress: () => {} },
             ],
             { cancelable: false }
           );
@@ -158,7 +154,7 @@ export default class EditFoodScreen extends React.Component {
       >   
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <View style={styles.container}>
+          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>EDIT ITEM: </Text>
           </View>
@@ -198,7 +194,7 @@ export default class EditFoodScreen extends React.Component {
               <Text style={{color: "white", fontWeight: "bold"}}>UPDATE</Text>
           </Button>
 
-        </View>
+        </ScrollView>
 
       </MenuDrawer>
     )

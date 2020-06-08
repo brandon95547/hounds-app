@@ -42,10 +42,31 @@ export default class SideBar extends React.Component {
     <Right>
       <Icon type="FontAwesome" name="lock" />
     </Right>
-  </ListItem> : <Text></Text>;
+  </ListItem> : <></>;
+
+    const loginLink = user !== null ? <ListItem>
+    <Left>
+      <TouchableOpacity onPress={() => {this.logOut()}}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
+    </Left>
+    <Right>
+      <Icon type="FontAwesome" name="lock" />
+    </Right>
+  </ListItem> : <></>;
 
     return (
       <List>
+        <ListItem selected>
+          <Left>
+            <TouchableOpacity onPress={this.props.toggleOpen}>
+              <Text>Close Menu</Text>
+            </TouchableOpacity>
+          </Left>
+          <Right>
+            <Icon onPress={this.props.toggleOpen} type="FontAwesome" name="close" />
+          </Right>
+        </ListItem>
         <ListItem selected>
           <Left>
             <TouchableOpacity onPress={() => {this.props.navigation.navigate("Home")}}>
@@ -54,6 +75,16 @@ export default class SideBar extends React.Component {
           </Left>
           <Right>
             <Icon type="FontAwesome" name="home" />
+          </Right>
+        </ListItem>
+        <ListItem>
+          <Left>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate("MyOrders")}}>
+            <Text>My Orders</Text>
+          </TouchableOpacity>
+          </Left>
+          <Right>
+            <Icon type="Entypo" name="list" />
           </Right>
         </ListItem>
         <ListItem>
@@ -67,16 +98,7 @@ export default class SideBar extends React.Component {
           </Right>
         </ListItem>
         {adminLink}
-        <ListItem>
-          <Left>
-            <TouchableOpacity onPress={() => {this.logOut()}}>
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </Left>
-          <Right>
-            <Icon type="FontAwesome" name="lock" />
-          </Right>
-        </ListItem>
+        {loginLink}
       </List>
     );
   }

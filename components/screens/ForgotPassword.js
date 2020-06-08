@@ -1,17 +1,13 @@
 import React from 'react'
-import { Vibration, Platform, View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage, Picker, AppState, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, TextInput, Alert } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 // custom components
 import Header from '../Header'
 import NavBar from '../NavBar'
 import SideBar from '../SideBar'
-import ReactDOM from "react-dom"
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 import UserContext from '../../UserContext'
-import { Notifications } from 'expo'
-import Constants from 'expo-constants'
-import * as Permissions from 'expo-permissions'
 
 export default class ForgotPassword extends React.Component {
   constructor(props) {
@@ -20,9 +16,6 @@ export default class ForgotPassword extends React.Component {
     this.state = {
       open: false,
       email: "",
-      seconds: 5,
-      expoPushToken: "",
-      notification: {},
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -37,80 +30,6 @@ export default class ForgotPassword extends React.Component {
   
   componentWillUnmount() {
 
-  }
-
-  askPermissions = async () => {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-    let finalStatus = existingStatus
-    if (existingStatus !== granted) {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-      finalStatus = status
-    }
-    if (finalStatus !== granted) {
-      return false
-    }
-    return true
-  }
-
-  async checkMultiPermissions() {
-    const { status, expires, permissions } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS,
-      Permissions.CONTACTS
-    )
-
-    console.log('status')
-    console.log(status)
-    console.log('expires')
-    console.log(expires)
-    console.log('permissions')
-    console.log(permissions)
-
-    if (status !== 'granted') {
-      alert('Hey! You have not enabled selected permissions')
-    }
-  }
-
-  registerForPushNotificationsAsync = async () => {
-    if (Constants.isDevice) {
-      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-      let finalStatus = existingStatus
-      if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-        finalStatus = status
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!')
-        return
-      }
-      token = await Notifications.getExpoPushTokenAsync()
-      console.log(token)
-      this.setState({ expoPushToken: token })
-    } else {
-      alert('Must use physical device for Push Notifications')
-    }
-
-    if (Platform.OS === 'android') {
-      Notifications.createChannelAndroidAsync('default', {
-        name: 'default',
-        sound: true,
-        priority: 'max',
-        vibrate: [0, 250, 250, 250],
-      })
-    }
-  }
-
-  _handleNotification = notification => {
-    Vibration.vibrate()
-    console.log(notification)
-    this.setState({ notification: notification })
-  }
-
-  sendNotificationImmediately = async () => {
-    let notificationId = await Notifications.presentLocalNotificationAsync({
-      title: 'This is crazy',
-      body: 'Your mind will blow after reading this',
-    })
-    console.log(notificationId) // can be saved in AsyncStorage or send to server
   }
 
   drawerContent = () => {
@@ -137,10 +56,10 @@ export default class ForgotPassword extends React.Component {
           /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {},
             style: 'cancel',
           },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => {} },
         ],
         { cancelable: false }
       );
@@ -159,10 +78,10 @@ export default class ForgotPassword extends React.Component {
             /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
             {
               text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
+              onPress: () => {},
               style: 'cancel',
             },
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
+            { text: 'OK', onPress: () => {} },
           ],
           { cancelable: false }
         );
@@ -207,15 +126,7 @@ export default class ForgotPassword extends React.Component {
 
         <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
         
-        {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Origin: {this.state.notification.origin}</Text>
-            <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
-          </View>
-          <Button title={'Press to Send Notification'} onPress={() => this.sendNotificationImmediately()} />
-        </View> */}
-
-        <View style={styles.container}>
+        <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>Forgot Password</Text>
           </View>
@@ -230,11 +141,10 @@ export default class ForgotPassword extends React.Component {
               <Text style={{color: "white", fontWeight: "bold"}}>Submit</Text>
           </Button>
           
-        </View>
+        </ScrollView>
 
         </MenuDrawer>
     )
-    // <Text>{this.state.todoInput}</Text> inside <View>
   }
 }
 const styles = StyleSheet.create({

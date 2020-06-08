@@ -1,17 +1,17 @@
 {
-  "name": "MyApp",
-  "displayName": "MyApp",
+  "name": "Hounds Drive In",
+  "displayName": "Hounds Drive In",
   "expo": {
-    "name": "MyApp",
+    "name": "Hounds Drive In",
     "description": "No description",
-    "slug": "MyApp",
+    "slug": "hounds-drive-in",
     "privacy": "public",
     "sdkVersion": "37.0.0",
-    "version": "1.0",
+    "version": "1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/img/icon.png",
-    "scheme": "myapp",
+    "scheme": "houndsdrivein",
     "splash": {
       "image": "./assets/img/splash.png",
       "resizeMode": "contain",
@@ -24,14 +24,14 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.mycompany.myapp",
+      "bundleIdentifier": "com.bluechipadvertising.houndsdrivein",
       "buildNumber": "1.0.22",
       "associatedDomains": [
-        "applinks:myapp.herokuapp.com"
+        "applinks:houndsdrivein.bluechipadvertising.com"
       ]
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.bluechipadvertising.houndsdrivein",
       "versionCode": 1
     }
     }

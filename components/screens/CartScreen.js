@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, AsyncStorage, Modal, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, Alert, ScrollView } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -9,12 +9,6 @@ import { WebView } from 'react-native-webview';
 import { globals, componentStyles, colors } from '../GlobalStyles'
 
 import UserContext from '../../UserContext'
-
-import mapImage from '../../assets/img/map.png'
-
-const dimensions = Dimensions.get('window')
-const imageHeight = Math.round(dimensions.width * 9 / 16)
-const imageWidth = dimensions.width
 
 export default class CartScreen extends React.Component {
   constructor(props) {
@@ -93,20 +87,20 @@ export default class CartScreen extends React.Component {
           /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {},
             style: 'cancel',
           },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => {} },
         ],
         { cancelable: false }
       );
     }
     else if(data.title === 'cancel') {
       this.setState({ showModal: false });
-      console.log('order cancelled');
+      // console.log('order cancelled');
     }
     else {
-      console.log(data.title);
+      // console.log(data.title);
       return;
     }
   }
@@ -121,17 +115,18 @@ export default class CartScreen extends React.Component {
       }
     })
     let cartSummary = {
-      items: cartData,
+      items: foodItems,
       amt: (.30 + total + Math.ceil((total * .0675) * 100)/100).toFixed(2),
       method: "VISA",
     }
     cartSummary = JSON.stringify(cartSummary);
-    // console.log("order data", orderData)
+
+    // console.log("order data", cartData)
     let _this = this
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        console.log("response", this.responseText);
+        // console.log("response", this.responseText);
         let response = JSON.parse(this.responseText)
         
         // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
@@ -262,7 +257,7 @@ export default class CartScreen extends React.Component {
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <View style={styles.container}>
+          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
             <View style={styles.pageTitleWrap}>
               <Text style={styles.pageTitle}>Review Order</Text>
             </View>
@@ -270,7 +265,7 @@ export default class CartScreen extends React.Component {
             {this.getCartItems()}
             {this.navigateTo()}
             
-          </View>
+          </ScrollView>
           
 
       </MenuDrawer>

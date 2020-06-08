@@ -1,19 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import RaptorForm from '../forms/RaptorForm'
-import ReactDOM from "react-dom"
 import * as Font from 'expo-font'
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
-// this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
-
-const dimensions = Dimensions.get('window')
-const imageHeight = Math.round(dimensions.width * 9 / 16)
-const imageWidth = dimensions.width
 
 export default class StartScreen extends React.Component {
   constructor(props) {

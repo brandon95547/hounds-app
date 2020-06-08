@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, TextInput, AsyncStorage, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, TextInput, AsyncStorage, Alert } from 'react-native';
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base';
 // custom components
@@ -79,10 +79,10 @@ export default class NewAccount extends React.Component {
           /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {},
             style: 'cancel',
           },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => {} },
         ],
         { cancelable: false }
       );
@@ -97,10 +97,28 @@ export default class NewAccount extends React.Component {
           /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            onPress: () => {},
             style: 'cancel',
           },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => {} },
+        ],
+        { cancelable: false }
+      );
+      return
+    }
+
+    if(this.state.password === "") {
+      Alert.alert(
+        'Alert',
+        "Invalid password",
+        [
+          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => {} },
         ],
         { cancelable: false }
       );
@@ -119,10 +137,10 @@ export default class NewAccount extends React.Component {
             /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
             {
               text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
+              onPress: () => {},
               style: 'cancel',
             },
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
+            { text: 'OK', onPress: () => {} },
           ],
           { cancelable: false }
         );
@@ -164,7 +182,7 @@ export default class NewAccount extends React.Component {
 
         <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
         
-        <View style={styles.container}>
+        <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>New Account</Text>
           </View>
@@ -201,7 +219,7 @@ export default class NewAccount extends React.Component {
               <Text style={{color: "white", fontWeight: "bold"}}>CREATE NEW ACCOUNT</Text>
           </Button>
 
-        </View>
+        </ScrollView>
 
         </MenuDrawer>
     );

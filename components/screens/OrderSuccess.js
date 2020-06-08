@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Icon, Button } from 'native-base';
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header';
@@ -26,16 +26,14 @@ export default class OrderSuccess extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
-    // this.sendOrderNumber()
     let _this = this
     const { orderID } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
         let response = JSON.parse(this.responseText)
 
-        // console.log(response);
-        
         let foodItems = JSON.parse(response.order.food_order_items)
         foodItems = foodItems.items.filter(item => item !== null && item.quantity != 0)
         _this.setState({ items: foodItems })
@@ -49,11 +47,6 @@ export default class OrderSuccess extends React.Component {
         _this.setState({ total: total })
         _this.setState({ tax: tax })
         
-        // console.log(foodItems.items)
-        
-        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
-        // localStorage.setItem('user', response.user)
-        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
           // set user state from context
           // setUser(JSON.parse(response.user))
@@ -75,35 +68,6 @@ export default class OrderSuccess extends React.Component {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 6);
   }
 
-  sendOrderNumber() {
-    var _this = this
-    var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText);
-        // console.log(response)
-        
-        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
-        // localStorage.setItem('user', response.user);
-        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
-        if(response.success) {
-          // _this._storeData("user", response.user)
-          // set user state from context
-          // setUser(JSON.parse(response.user))
-          // setTimeout(() => {
-          //   _this.props.navigation.navigate('Home');
-          // }, 1500);
-        }
-      }
-    }
-
-    var theUrl = "http://bluechipadvertising.com/generateOrder.php";
-    xmlhttp.open("POST", theUrl);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({orderNumber: _this.generateRandomString() }));
-
-  }
-
   drawerContent = () => {
     return (
       <TouchableOpacity style={componentStyles.animatedBox}>
@@ -118,7 +82,9 @@ export default class OrderSuccess extends React.Component {
 
   render() {
     const { checkoutCart, orderID, user } = this.context
-    // console.log(this.state.items)
+
+    let theUser = user === null ? { name: "" } : user;
+
     return (
       <MenuDrawer 
         open={this.state.open} 
@@ -164,7 +130,7 @@ export default class OrderSuccess extends React.Component {
               </View>
               <View style={styles.subHeading2}>
                 <View>
-                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> {user.name}</Text>
+                  <Text style={styles.text}><Text style={styles.bold}>Order Name:</Text> {theUser.name}</Text>
                   <Text style={styles.text}><Text style={styles.bold}>Order Number:</Text> {orderID}</Text>
                 </View>
               </View>
