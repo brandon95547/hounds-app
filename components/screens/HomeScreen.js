@@ -7,6 +7,7 @@ import Header from '../Header'
 import SideBar from '../SideBar'
 import styled from 'styled-components'
 import { globals, componentStyles, colors } from '../GlobalStyles'
+import * as Print from 'expo-print';
 
 // this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
@@ -24,7 +25,8 @@ export default class HomeScreen extends React.Component {
     this.state = {
       open: false,
       assetsLoaded: false,
-      user: null
+      user: null,
+      selectedPrinter: null
     }
       
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -50,6 +52,12 @@ export default class HomeScreen extends React.Component {
       <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
+    )
+  }
+
+  print() {
+    Print.printAsync(
+      {html: "test print"}
     )
   }
 
@@ -87,6 +95,7 @@ export default class HomeScreen extends React.Component {
                       <Text style={styles.joinButtonsText}>Login</Text>
                   </Button>
                 </View>
+
               </ScrollView>
 
           </MenuDrawer>

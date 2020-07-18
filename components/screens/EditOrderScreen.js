@@ -6,6 +6,7 @@ import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
+import * as Print from 'expo-print';
 
 export default class EditOrderScreen extends React.Component {
   constructor(props) {
@@ -31,7 +32,35 @@ export default class EditOrderScreen extends React.Component {
     // this.setState({ date: orderToEdit[1] })
     // this.setState({ category: orderToEdit[2] })
     this.setState({ itemID: orderToEdit[1] })
+    this.setState({ ready: orderToEdit[3] })
     // this.setState({ isAvailable: orderToEdit[4] })
+  }
+
+  print = (id, name) => {
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        // let response = this.responseText
+        console.log(response)
+        let printHtml = '<div>Order ID: ' + id + '</div>'
+        printHtml += '<div>Name: ' + name + '</div>'
+        response.items.map((rowData, rowIndex) => (
+          printHtml += '<div>Item: ' + rowData.title + ', Quantity: ' + rowData.quantity + '</div>'
+        ))
+        printHtml += '<div>Paid with PayPal</div>'
+        printHtml += '<div>Amt Paid: ' + response.amt + '</div>'
+        console.log(printHtml);
+        Print.printAsync(
+          {html: printHtml}
+        )
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/getReceipt.php?id=" + id
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ action: "get-items" }))
   }
 
   drawerContent = () => {
@@ -135,6 +164,12 @@ export default class EditOrderScreen extends React.Component {
           <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
           <View style={styles.pageTitleWrap}>
             <Text style={styles.pageTitle}>EDIT ORDER: </Text>
+          </View>
+          <View>
+            <Button light onPress={() => this.print(orderToEdit[1], orderToEdit[0])} style={{marginTop: 16, paddingRight: 14}} iconLeft>
+              <Icon style={{color: "#111"}} name='print' />
+              <Text style={{ color: "#333" }}>Print Order</Text>
+            </Button>
           </View>
           <TextInput style = {styles.textInput}
             underlineColorAndroid = "transparent"

@@ -26,7 +26,11 @@ export default class AdminFoodScreen extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
-    this.getOrders()
+    var _this = this;
+    _this.getOrders()
+    setInterval(function() { 
+      _this.getOrders()
+    }, 15000);
     setTimeout(() => {
       this.setState({ assetsLoaded: true })
     }, 2000);
@@ -39,7 +43,6 @@ export default class AdminFoodScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         setOrderItems(response)
-        
       }
     }
 
@@ -96,7 +99,7 @@ export default class AdminFoodScreen extends React.Component {
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
                         rowData.map((cellData, cellIndex) => (
-                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
+                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? (cellData == 1 ? <Button full light onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button>) : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>

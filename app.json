@@ -7,7 +7,7 @@
     "slug": "hounds-drive-in",
     "privacy": "public",
     "sdkVersion": "37.0.0",
-    "version": "1",
+    "version": "1.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/img/icon.png",
@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.bluechipadvertising.houndsdrivein",
-      "versionCode": 1
+      "versionCode": 2
     }
     }
   }

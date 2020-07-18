@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, CheckBox, AsyncStorage, Picker } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, CheckBox } from 'react-native';
 import { Left, Right, Icon, Drawer } from 'native-base';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { colors } from '../GlobalStyles';
@@ -9,35 +9,25 @@ export default class RaptorForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: "",
-      value: '',
-      checkInputValue: 0,
-      type: 'default',
       checked: {},
       cart: [],
-      itemIndex: 0
+      modalVisible: false,
+      foodOptions: '',
+      lettuceChecked: false,
+      itemToUpdate: 0
     }
 
-    this.handleChange = this.handleChange.bind(this)
     this.checkboxChange = this.checkboxChange.bind(this)
   }
 
   static contextType = UserContext
 
-  componentDidMount() {
-    this.getFoodItems()
+  setModalVisible(value) {
+    this.setState({ modalVisible: value })
   }
 
-  _storeData = async (key, data) => {
-    try {
-      await AsyncStorage.setItem(key, data);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
-  textInputChange(text) {
-    this.setState({ text: text })
+  componentDidMount() {
+    this.getFoodItems()
   }
 
   checkboxChange(index, key, price, title, quantity) {
@@ -46,14 +36,18 @@ export default class RaptorForm extends React.Component {
     currentChecked[key] = quantity
     this.setState({ checked: currentChecked })
     let cartItems = this.state.cart
-
+    
+    this.setState({ itemToUpdate: index })
+    this.setModalVisible(true);
+    
     let cartData = {
       key: key,
       price: price,
       title: title,
-      quantity: quantity
-    }
-
+      quantity: quantity,
+      condiments: []
+    }   
+    
     cartItems[index] = cartData
     setCartData(cartItems)
 	}
@@ -80,20 +74,36 @@ export default class RaptorForm extends React.Component {
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
   }
 
+  /*
+  The purpose of this method is to add condiments for food items when adding items to a cart
+  */
+  updateFoodItem(item) {
+    const { isLoggedIn, setCartData, setCartTotal } = this.context
+    prevCart = this.state.cart[this.state.itemToUpdate]
+
+    // check if the item is already added to the cart
+    var index = prevCart.condiments.indexOf(item);
+
+    switch(item) {
+      case 'lettuce' :
+        this.setState({ lettuceChecked: !this.state.lettuceChecked })
+        if(!this.state.lettuceChecked) {
+          if(index === -1) {
+            prevCart.condiments.push(item)
+          }
+        }
+        else if(index === 0) {
+          prevCart.condiments.splice(index, 1);
+        }
+        break;
+      }
+      console.log(prevCart);
+      setCartData(prevCart)
+  }
+
   buildItems() {
     const { publicFoodItems } = this.context
     const state = this.state;
-    const textInput = (key, index, price, title) => (
-      <>
-        <TextInput style = {RaptorFormStyles.textInput}
-          underlineColorAndroid = "transparent"
-          placeholder = "0"
-          placeholderTextColor = "#9a73ef"
-          autoCapitalize = "none"
-          onChangeText = {(quantity) => this.checkboxChange(index, key, price, title, quantity)}
-        />
-      </>
-    );
     const textInput2 = (key, index, price, title) => (
       <>
         <Picker
@@ -123,9 +133,40 @@ export default class RaptorForm extends React.Component {
     const wrapper = (data) => {
       return <Text style={RaptorFormStyles.cell}>{data}</Text>
     }
+    const foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
+          <Text>Select your options:</Text>
+          <CheckBox
+            value={this.state.lettuceChecked}
+            onValueChange={() => this.updateFoodItem('lettuce')}
+            style={styles.checkbox}
+          />
+        </View>
     return (
       <View style={RaptorFormStyles.container}>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>HOT FOODS</Text></View>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.innerContainer}>
+            {foodOptions}
+
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>FROM THE GRILL</Text></View>
         <Table style={{ marginBottom: 24 }}>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
@@ -140,7 +181,7 @@ export default class RaptorForm extends React.Component {
             ))
           }
         </Table>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>SNACKS &amp; CANDY</Text></View>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>SNACKS</Text></View>
          <Table style={{ marginBottom: 24 }}>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
@@ -155,7 +196,7 @@ export default class RaptorForm extends React.Component {
             ))
           }
         </Table>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>DRINKS</Text></View>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>BEVERAGES</Text></View>
          <Table style={{ marginBottom: 24 }}>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
@@ -170,7 +211,7 @@ export default class RaptorForm extends React.Component {
             ))
           }
         </Table>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>ICE CREAM</Text></View>
+        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>MISCELLANEIOUS</Text></View>
          <Table style={{ marginBottom: 24 }}>
           <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
           {
@@ -185,39 +226,8 @@ export default class RaptorForm extends React.Component {
             ))
           }
         </Table>
-        <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>MISC</Text></View>
-        <Table>
-          <Row data={this.props.tableHead} style={RaptorFormStyles.tableHeading} textStyle={RaptorFormStyles.rowTextStyle}/>
-          {
-            publicFoodItems[4].map((rowData, rowIndex) => (
-              <TableWrapper key={rowIndex} style={RaptorFormStyles.tableWrapper}>
-                {
-                  rowData.map((cellData, cellIndex) => (
-                    cellIndex != 3 ? <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(rowData[3], rowData[3], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/> : <Text key={cellIndex}></Text>
-                  ))
-                }
-              </TableWrapper>
-            ))
-          }
-        </Table>
       </View>
     )
-  }
-  /*
-  title, price
-
-  $items[] = array(
-      0 => $row['food_title'],
-      1 => $row['food_price'],
-      2 => $row['food_category'],
-      3 => $row['food_id'],
-      4 => $row['in_stock'],
-      5 => $row['food_key']
-    );
-  */
-  // <Cell key={cellIndex} data={cellIndex === 2 ? textInput2(cellData, rowData[2], rowData[1], rowData[0]) : cellIndex === 1 ? '$' + cellData : wrapper(cellData)} textStyle={RaptorFormStyles.text}/>
-  handleChange(event) {
-    this.setState({value: event.target.value})
   }
 
   render() {
@@ -228,6 +238,41 @@ export default class RaptorForm extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+  },
+  innerContainer: {
+    alignItems: 'center',
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
 
 const RaptorFormStyles = StyleSheet.create({
   container: {

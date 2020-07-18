@@ -23,11 +23,10 @@ $items3 = array();
 $items4 = array();
 $items5 = array();
 
-$cat1 = $conn->query("select * from food where active = 1 and food_category = 'HOT FOODS' and in_stock = 1");
-$cat2 = $conn->query("select * from food where active = 1 and food_category = 'SNACKS & CANDY' and in_stock = 1");
-$cat3 = $conn->query("select * from food where active = 1 and food_category = 'DRINKS' and in_stock = 1");
-$cat4 = $conn->query("select * from food where active = 1 and food_category = 'ICE CREAM' and in_stock = 1");
-$cat5 = $conn->query("select * from food where active = 1 and food_category = 'MISC' and in_stock = 1");
+$cat1 = $conn->query("select * from food where active = 1 and food_category = 'FROM THE GRILL' and in_stock = 1");
+$cat2 = $conn->query("select * from food where active = 1 and food_category = 'SNACKS' and in_stock = 1");
+$cat3 = $conn->query("select * from food where active = 1 and food_category = 'BEVERAGES' and in_stock = 1");
+$cat4 = $conn->query("select * from food where active = 1 and food_category = 'MISCELLANEIOUS' and in_stock = 1");
 
 if($cat1->num_rows > 0) {
   while($row = $cat1->fetch_assoc()) {
@@ -62,16 +61,6 @@ if($cat3->num_rows > 0) {
 if($cat4->num_rows > 0) {
   while($row = $cat4->fetch_assoc()) {
     $items4[] = array(
-      0 => $row['food_title'],
-      1 => $row['food_price'],
-      2 => $row['in_stock'],
-      3 => $row['food_id']
-    );
-  }
-}
-if($cat5->num_rows > 0) {
-  while($row = $cat5->fetch_assoc()) {
-    $items5[] = array(
       0 => $row['food_title'],
       1 => $row['food_price'],
       2 => $row['in_stock'],
