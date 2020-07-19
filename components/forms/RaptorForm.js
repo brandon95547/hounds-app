@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, CheckBox, Alert } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, CheckBox, Alert } from 'react-native'
 import { Left, Right, Icon, Drawer } from 'native-base'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import { colors } from '../GlobalStyles'
@@ -21,6 +21,22 @@ export default class RaptorForm extends React.Component {
       slawChecked: false,
       cheeseChecked: false,
       jalapenosChecked: false,
+      ketchupChecked: false,
+      mustardChecked: false,
+      ranchChecked: false,
+      honeyMustardChecked: false,
+      butterChecked: false,
+      bbqChecked: false,
+      // drinks
+      cokeChecked: false,
+      cokeZeroChecked: false,
+      spriteChecked: false,
+      sundropChecked: false,
+      cherryLemonSundropChecked: false,
+      cherryFantaChecked: false,
+      drPepperChecked: false,
+      goldPeakTeaChecked: false,
+      countryTimeLemonadeChecked: false,
       itemToUpdate: 0,
       itemToUpdateTitle: '',
     }
@@ -47,7 +63,34 @@ export default class RaptorForm extends React.Component {
     
     this.setState({ itemToUpdate: index })
     this.setState({ itemToUpdateTitle: title })
-    this.setModalVisible(true)
+
+    // if the food item doesn't equal pizza, don't show any condiments options
+    let itemsThatNeedOptions = [
+      "Hamburger",
+      "Cheeseburger",
+      "Chicken Sandwich",
+      "Thick Fried Bologna Burger",
+      "Hotdog (100% Beef)",
+      "Corndog",
+      "BBQ Sandwich",
+      "Chicken Tenders (4 piece)",
+      "Chicken Wings (5 piece)",
+      "Mozzerella Cheese Sticks",
+      "Fried Pickles",
+      "French Fries",
+      "Onion Rings",
+      "Small Popcorn",
+      "Large Popcorn",
+      "Nachos w/cheese",
+      "Small Drink 12 oz",
+      "Large Drink 20 oz",
+      "Souvenir Cup 44 oz",
+      "Souvenir Cup Refill",
+    ]
+
+    if(itemsThatNeedOptions.includes(title)) {
+      this.setModalVisible(true)
+    }
     
     let cartData = {
       key: key,
@@ -60,11 +103,6 @@ export default class RaptorForm extends React.Component {
     cartItems[index] = cartData
     setCartData(cartItems)
 	}
-
-  getItems(index) {
-    var categories = ["HOT FOODS", "SNACKS & CANDY", "DRINKS", "ICE CREAM", "MISCELLANEOUS"]
-    return this.props.tableItems[index]
-  }
 
   getFoodItems() {
     const { setPublicFoodItems } = this.context
@@ -119,6 +157,51 @@ export default class RaptorForm extends React.Component {
       case 'jalapenos' :
         this.setState({ jalapenosChecked: !this.state.jalapenosChecked })
       break
+      case 'ketchup' :
+        this.setState({ ketchupChecked: !this.state.ketchupChecked })
+      break
+      case 'mustard' :
+        this.setState({ mustardChecked: !this.state.mustardChecked })
+      break
+      case 'ranch' :
+        this.setState({ ranchChecked: !this.state.ranchChecked })
+      break
+      case 'honeymustard' :
+        this.setState({ honeyMustardChecked: !this.state.honeyMustardChecked })
+      break
+      case 'bbq' :
+        this.setState({ bbqChecked: !this.state.bbqChecked })
+      break
+      case 'butter' :
+        this.setState({ butterChecked: !this.state.butterChecked })
+      break
+      case 'coke' :
+        this.setState({ cokeChecked: !this.state.cokeChecked })
+      break
+      case 'cokeZero' :
+        this.setState({ cokeZeroChecked: !this.state.cokeZeroChecked })
+      break
+      case 'sprite' :
+        this.setState({ spriteChecked: !this.state.spriteChecked })
+      break
+      case 'sundrop' :
+        this.setState({ sundropChecked: !this.state.sundropChecked })
+      break
+      case 'cherrylemonsundrop' :
+        this.setState({ cherryLemonSundropChecked: !this.state.cherryLemonSundropChecked })
+      break
+      case 'cherryfanta' :
+        this.setState({ cherryFantaChecked: !this.state.cherryFantaChecked })
+      break
+      case 'drpepper' :
+        this.setState({ drPepperChecked: !this.state.drPepperChecked })
+      break
+      case 'goldpeaktea' :
+        this.setState({ goldPeakTeaChecked: !this.state.goldPeakTeaChecked })
+      break
+      case 'countrytimelemonade' :
+        this.setState({ countryTimeLemonadeChecked: !this.state.countryTimeLemonadeChecked })
+      break
     }
 
     if(index === -1) {
@@ -167,7 +250,7 @@ export default class RaptorForm extends React.Component {
     }
 
     const condiments = {
-      lettuce : <View style={styles.flexTable}>
+      lettuce : <View style={styles.foodOption}>
             <Text style={{ flex: 1 }}>Lettuce</Text>
             <CheckBox
               value={this.state.lettuceChecked}
@@ -175,7 +258,7 @@ export default class RaptorForm extends React.Component {
               style={styles.checkbox}
             />
           </View>,
-      tomato : <View style={styles.flexTable}>
+      tomato : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Tomato</Text>
         <CheckBox
           value={this.state.tomatoChecked}
@@ -183,7 +266,7 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      pickles : <View style={styles.flexTable}>
+      pickles : <View style={styles.foodOption}>
       <Text style={{ flex: 1 }}>Pickles</Text>
         <CheckBox
           value={this.state.picklesChecked}
@@ -191,7 +274,7 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      onion : <View style={styles.flexTable}>
+      onion : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Onion</Text>
         <CheckBox
           value={this.state.onionChecked}
@@ -199,7 +282,7 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      chili : <View style={styles.flexTable}>
+      chili : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Chili</Text>
         <CheckBox
           value={this.state.chiliChecked}
@@ -207,7 +290,7 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      slaw : <View style={styles.flexTable}>
+      slaw : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Slaw</Text>
         <CheckBox
           value={this.state.slawChecked}
@@ -215,7 +298,7 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      cheese : <View style={styles.flexTable}>
+      cheese : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Cheese</Text>
         <CheckBox
           value={this.state.cheeseChecked}
@@ -223,14 +306,134 @@ export default class RaptorForm extends React.Component {
           style={styles.checkbox}
         />
       </View>,
-      jalapenos : <View style={styles.flexTable}>
+      jalapenos : <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>Jalapenos</Text>
         <CheckBox
           value={this.state.jalapenosChecked}
           onValueChange={() => this.updateFoodItem('jalapenos')}
           style={styles.checkbox}
         />
-      </View>
+      </View>,
+      ketchup : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Ketchup</Text>
+        <CheckBox
+          value={this.state.ketchupChecked}
+          onValueChange={() => this.updateFoodItem('ketchup')}
+          style={styles.checkbox}
+        />
+      </View>,
+      mustard : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Mustard</Text>
+        <CheckBox
+          value={this.state.mustardChecked}
+          onValueChange={() => this.updateFoodItem('mustard')}
+          style={styles.checkbox}
+        />
+      </View>,
+      ranch : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Ranch</Text>
+        <CheckBox
+          value={this.state.ranchChecked}
+          onValueChange={() => this.updateFoodItem('ranch')}
+          style={styles.checkbox}
+        />
+      </View>,
+      honeymustard : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Honey Mustard</Text>
+        <CheckBox
+          value={this.state.honeyChecked}
+          onValueChange={() => this.updateFoodItem('honeymustard')}
+          style={styles.checkbox}
+        />
+      </View>,
+      bbq : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>BBQ</Text>
+        <CheckBox
+          value={this.state.bbqChecked}
+          onValueChange={() => this.updateFoodItem('bbq')}
+          style={styles.checkbox}
+        />
+      </View>,
+      butter : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Butter</Text>
+        <CheckBox
+          value={this.state.butterChecked}
+          onValueChange={() => this.updateFoodItem('butter')}
+          style={styles.checkbox}
+        />
+      </View>,
+      coke : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Coke</Text>
+        <CheckBox
+          value={this.state.cokeChecked}
+          onValueChange={() => this.updateFoodItem('coke')}
+          style={styles.checkbox}
+        />
+      </View>,
+      cokeZero : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Coke Zero</Text>
+        <CheckBox
+          value={this.state.cokeZeroChecked}
+          onValueChange={() => this.updateFoodItem('cokezero')}
+          style={styles.checkbox}
+        />
+      </View>,
+      sprite : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Sprite</Text>
+        <CheckBox
+          value={this.state.spriteChecked}
+          onValueChange={() => this.updateFoodItem('sprite')}
+          style={styles.checkbox}
+        />
+      </View>,
+      sundrop : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Sundrop</Text>
+        <CheckBox
+          value={this.state.sundropChecked}
+          onValueChange={() => this.updateFoodItem('sundrop')}
+          style={styles.checkbox}
+        />
+      </View>,
+      cherryLemonSundrop : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Cherry Lemon Sundrop</Text>
+        <CheckBox
+          value={this.state.cherryLemonSundropChecked}
+          onValueChange={() => this.updateFoodItem('cherrylemonsundrop')}
+          style={styles.checkbox}
+        />
+      </View>,
+      cherryFanta : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Cherry Fanta</Text>
+        <CheckBox
+          value={this.state.cherryFantaChecked}
+          onValueChange={() => this.updateFoodItem('cherryfanta')}
+          style={styles.checkbox}
+        />
+      </View>,
+      drPepper : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Dr Pepper</Text>
+        <CheckBox
+          value={this.state.drPepperChecked}
+          onValueChange={() => this.updateFoodItem('drpepper')}
+          style={styles.checkbox}
+        />
+      </View>,
+      goldPeakTea : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Gold Peak Tea</Text>
+        <CheckBox
+          value={this.state.goldPeakTeaChecked}
+          onValueChange={() => this.updateFoodItem('goldpeaktea')}
+          style={styles.checkbox}
+        />
+      </View>,
+      countryTimeLemonade : <View style={styles.foodOption}>
+        <Text style={{ flex: 1 }}>Country Time Lemonade</Text>
+        <CheckBox
+          value={this.state.countryTimeLemonadeChecked}
+          onValueChange={() => this.updateFoodItem('countrytimelemonade')}
+          style={styles.checkbox}
+        />
+      </View>,
     }
 
     let foodOptions = <Text></Text>
@@ -238,9 +441,9 @@ export default class RaptorForm extends React.Component {
       case 'Hamburger' :
       case 'Cheeseburger' :
       case 'Chicken Sandwich' :
-      case 'Thick Fried Balogna Burger' :
-        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
-          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+      case 'Thick Fried Bologna Burger' :
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
           {condiments.lettuce}
           {condiments.tomato}
           {condiments.pickles}
@@ -249,30 +452,95 @@ export default class RaptorForm extends React.Component {
           {condiments.slaw}
           {condiments.cheese}
           {condiments.jalapenos}
-        </View>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
+          {condiments.ketchup}
+          {condiments.mustard}
+          {condiments.ranch}
+          {condiments.honeymustard}
+          {condiments.bbq}
+        </ScrollView>
       break
 
       case 'Hotdog (100% Beef)' :
       case 'Corndog' :
-        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
-          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
           {condiments.onion}
           {condiments.chili}
           {condiments.slaw}
           {condiments.cheese}
           {condiments.jalapenos}
-        </View>
+        </ScrollView>
       break
 
       case 'BBQ Sandwich' :
-        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
-          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
           {condiments.pickles}
           {condiments.onion}
           {condiments.slaw}
           {condiments.jalapenos}
-        </View>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
+          {condiments.ketchup}
+          {condiments.mustard}
+          {condiments.ranch}
+          {condiments.honeymustard}
+        </ScrollView>
       break
+
+      case 'Chicken Tenders (4 piece)' :
+      case 'Chicken Wings (5 piece)' :
+      case 'Mozzerella Cheese Sticks' :
+      case 'Fried Pickles' :
+      case 'French Fries' :
+      case 'Onion Rings' :
+
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
+          {condiments.ketchup}
+          {condiments.mustard}
+          {condiments.ranch}
+          {condiments.honeymustard}
+          {condiments.bbq}
+        </ScrollView>
+      break
+
+      case 'Small Popcorn' :
+      case 'Large Popcorn' :
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+          {condiments.butter}
+        </ScrollView>
+      break
+      
+      case 'Nachos w/cheese' :
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+          {condiments.chili}
+          {condiments.cheese}
+          {condiments.jalapenos}
+        </ScrollView>
+      break
+      
+      case 'Small Drink 12 oz' :
+      case 'Large Drink 20 oz' :
+      case 'Souvenir Cup 44 oz' :
+      case 'Souvenir Cup Refill' :
+
+        foodOptions = <ScrollView contentContainerStyle={styles.foodOptionContainer}>
+          <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+          {condiments.coke}
+          {condiments.cokeZero}
+          {condiments.sprite}
+          {condiments.sundrop}
+          {condiments.cherryLemonSundrop}
+          {condiments.cherryFanta}
+          {condiments.drPepper}
+          {condiments.goldPeakTea}
+          {condiments.countryTimeLemonade}
+        </ScrollView>
+      break
+
     }
 
     return (
@@ -286,18 +554,16 @@ export default class RaptorForm extends React.Component {
         }}
       >
         <View style={styles.modalContainer}>
-          <View style={styles.innerContainer}>
-            {foodOptions}
+          {foodOptions}
 
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible)
-              }}
-            >
-              <Text style={styles.textStyle}>CLOSE OPTIONS</Text>
-            </TouchableHighlight>
-          </View>
+          <TouchableHighlight
+            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+            onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }}
+          >
+            <Text style={styles.modalButton}>CLOSE OPTIONS</Text>
+          </TouchableHighlight>
         </View>
       </Modal>
         <View style={RaptorFormStyles.heading}><Text style={RaptorFormStyles.headingText}>FROM THE GRILL</Text></View>
@@ -374,10 +640,31 @@ export default class RaptorForm extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  flexTable: {
+  foodOption: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 5,
+    marginBottom: 5
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  foodOptionContainer: { 
+    backgroundColor: 'white', 
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 16,
+    paddingBottom: 16
+  },
+  foodOptionHeading: {
+    backgroundColor: "#cb4a4a",
+    padding: 6
+  },
+  foodOptionHeadingText: {
+    color: "white"
   },
   centeredView: {
     flex: 1,
@@ -392,15 +679,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'grey',
+    padding: 30
   },
   innerContainer: {
     alignItems: 'center',
+    padding: 40
   },
   openButton: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    marginTop: 12
   },
   textStyle: {
     color: "white",
