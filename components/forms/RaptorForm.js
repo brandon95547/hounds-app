@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, CheckBox, Alert } from 'react-native';
-import { Left, Right, Icon, Drawer } from 'native-base';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import { colors } from '../GlobalStyles';
+import React, { Component, useState } from 'react'
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, CheckBox, Alert } from 'react-native'
+import { Left, Right, Icon, Drawer } from 'native-base'
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
 
 export default class RaptorForm extends React.Component {
@@ -47,7 +47,7 @@ export default class RaptorForm extends React.Component {
     
     this.setState({ itemToUpdate: index })
     this.setState({ itemToUpdateTitle: title })
-    this.setModalVisible(true);
+    this.setModalVisible(true)
     
     let cartData = {
       key: key,
@@ -91,49 +91,49 @@ export default class RaptorForm extends React.Component {
     prevCart = this.state.cart[this.state.itemToUpdate]
 
     // check if the item is already added to the cart
-    var index = prevCart.condiments.indexOf(item);
+    var index = prevCart.condiments.indexOf(item)
     console.log(index)
 
     switch(item) {
       case 'lettuce' :
         this.setState({ lettuceChecked: !this.state.lettuceChecked })
-      break;
+      break
       case 'tomato' :
         this.setState({ tomatoChecked: !this.state.tomatoChecked })
-      break;
+      break
       case 'pickles' :
         this.setState({ picklesChecked: !this.state.picklesChecked })
-      break;
+      break
       case 'onion' :
         this.setState({ onionChecked: !this.state.onionChecked })
-      break;
+      break
       case 'chili' :
         this.setState({ chiliChecked: !this.state.chiliChecked })
-      break;
+      break
       case 'slaw' :
         this.setState({ slawChecked: !this.state.slawChecked })
-      break;
+      break
       case 'cheese' :
         this.setState({ cheeseChecked: !this.state.cheeseChecked })
-      break;
+      break
       case 'jalapenos' :
         this.setState({ jalapenosChecked: !this.state.jalapenosChecked })
-      break;
+      break
     }
 
     if(index === -1) {
       prevCart.condiments.push(item)
     }
     else {
-      prevCart.condiments.splice(index, 1);
+      prevCart.condiments.splice(index, 1)
     }
-    console.log(prevCart);
+    console.log(prevCart)
     setCartData(prevCart)
   }
 
   buildItems() {
     const { publicFoodItems } = this.context
-    const state = this.state;
+    const state = this.state
     const textInput2 = (key, index, price, title) => (
       <>
         <Picker
@@ -166,78 +166,113 @@ export default class RaptorForm extends React.Component {
       return <Text style={RaptorFormStyles.cell}>{data}</Text>
     }
 
-    let foodOptions = <Text></Text>
-    switch(this.state.itemToUpdateTitle) {
-      case 'Hamburger' :
-        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
-          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
-          <View style={styles.flexTable}>
+    const condiments = {
+      lettuce : <View style={styles.flexTable}>
             <Text style={{ flex: 1 }}>Lettuce</Text>
             <CheckBox
               value={this.state.lettuceChecked}
               onValueChange={() => this.updateFoodItem('lettuce')}
               style={styles.checkbox}
             />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Tomato</Text>
-            <CheckBox
-              value={this.state.tomatoChecked}
-              onValueChange={() => this.updateFoodItem('tomato')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Pickles</Text>
-            <CheckBox
-              value={this.state.picklesChecked}
-              onValueChange={() => this.updateFoodItem('pickles')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Onion</Text>
-            <CheckBox
-              value={this.state.onionChecked}
-              onValueChange={() => this.updateFoodItem('onion')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Chili</Text>
-            <CheckBox
-              value={this.state.chiliChecked}
-              onValueChange={() => this.updateFoodItem('chili')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Slaw</Text>
-            <CheckBox
-              value={this.state.slawChecked}
-              onValueChange={() => this.updateFoodItem('slaw')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Cheese</Text>
-            <CheckBox
-              value={this.state.cheeseChecked}
-              onValueChange={() => this.updateFoodItem('cheese')}
-              style={styles.checkbox}
-            />
-          </View>
-          <View style={styles.flexTable}>
-            <Text style={{ flex: 1 }}>Jalapenos</Text>
-            <CheckBox
-              value={this.state.jalapenosChecked}
-              onValueChange={() => this.updateFoodItem('jalapenos')}
-              style={styles.checkbox}
-            />
-          </View>
-        </View>
-      break;
+          </View>,
+      tomato : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Tomato</Text>
+        <CheckBox
+          value={this.state.tomatoChecked}
+          onValueChange={() => this.updateFoodItem('tomato')}
+          style={styles.checkbox}
+        />
+      </View>,
+      pickles : <View style={styles.flexTable}>
+      <Text style={{ flex: 1 }}>Pickles</Text>
+        <CheckBox
+          value={this.state.picklesChecked}
+          onValueChange={() => this.updateFoodItem('pickles')}
+          style={styles.checkbox}
+        />
+      </View>,
+      onion : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Onion</Text>
+        <CheckBox
+          value={this.state.onionChecked}
+          onValueChange={() => this.updateFoodItem('onion')}
+          style={styles.checkbox}
+        />
+      </View>,
+      chili : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Chili</Text>
+        <CheckBox
+          value={this.state.chiliChecked}
+          onValueChange={() => this.updateFoodItem('chili')}
+          style={styles.checkbox}
+        />
+      </View>,
+      slaw : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Slaw</Text>
+        <CheckBox
+          value={this.state.slawChecked}
+          onValueChange={() => this.updateFoodItem('slaw')}
+          style={styles.checkbox}
+        />
+      </View>,
+      cheese : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Cheese</Text>
+        <CheckBox
+          value={this.state.cheeseChecked}
+          onValueChange={() => this.updateFoodItem('cheese')}
+          style={styles.checkbox}
+        />
+      </View>,
+      jalapenos : <View style={styles.flexTable}>
+        <Text style={{ flex: 1 }}>Jalapenos</Text>
+        <CheckBox
+          value={this.state.jalapenosChecked}
+          onValueChange={() => this.updateFoodItem('jalapenos')}
+          style={styles.checkbox}
+        />
+      </View>
+    }
 
+    let foodOptions = <Text></Text>
+    switch(this.state.itemToUpdateTitle) {
+      case 'Hamburger' :
+      case 'Cheeseburger' :
+      case 'Chicken Sandwich' :
+      case 'Thick Fried Balogna Burger' :
+        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
+          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+          {condiments.lettuce}
+          {condiments.tomato}
+          {condiments.pickles}
+          {condiments.onion}
+          {condiments.chili}
+          {condiments.slaw}
+          {condiments.cheese}
+          {condiments.jalapenos}
+        </View>
+      break
+
+      case 'Hotdog (100% Beef)' :
+      case 'Corndog' :
+        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
+          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+          {condiments.onion}
+          {condiments.chili}
+          {condiments.slaw}
+          {condiments.cheese}
+          {condiments.jalapenos}
+        </View>
+      break
+
+      case 'BBQ Sandwich' :
+        foodOptions = <View style={{ backgroundColor: 'white', width: '80%', padding: 10, marginBottom: 10 }}>
+          <View><Text style={{ fontWeight: "bold" }}>Select your options:</Text></View>
+          {condiments.pickles}
+          {condiments.onion}
+          {condiments.slaw}
+          {condiments.jalapenos}
+        </View>
+      break
     }
 
     return (
@@ -247,7 +282,7 @@ export default class RaptorForm extends React.Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert("Modal has been closed.")
         }}
       >
         <View style={styles.modalContainer}>
@@ -257,7 +292,7 @@ export default class RaptorForm extends React.Component {
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
+                this.setModalVisible(!this.state.modalVisible)
               }}
             >
               <Text style={styles.textStyle}>CLOSE OPTIONS</Text>
@@ -376,7 +411,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center"
   }
-});
+})
 
 const RaptorFormStyles = StyleSheet.create({
   container: {
@@ -464,4 +499,4 @@ const RaptorFormStyles = StyleSheet.create({
   submitButton: {
     marginTop: 24
   }
-});
+})
