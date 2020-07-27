@@ -8,6 +8,8 @@ import SideBar from '../SideBar'
 import styled from 'styled-components'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import * as Print from 'expo-print';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 // this is our clobal context module to store global session state across screens
 import UserContext from '../../UserContext'
@@ -25,14 +27,44 @@ export default class HomeScreen extends React.Component {
     this.state = {
       open: false,
       assetsLoaded: false,
-      user: null,
-      selectedPrinter: null
+      selectedPrinter: null,
+      notification: {},
+      token: '',
     }
       
     this.toggleOpen = this.toggleOpen.bind(this)
   }
   
   static contextType = UserContext
+
+  async registerForPushNotificationsAsync() {
+    const { isLoggedIn, user, setUser } = this.context
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+    // this.setState({token})
+    user.token = token;
+    setUser(user);
+    
+  }
   
   async componentDidMount() {
     const { isLoggedIn, user } = this.context
@@ -41,7 +73,24 @@ export default class HomeScreen extends React.Component {
       'poppins-normal': require('../../assets/fonts/Poppins_400_normal.ttf')
     });
     this.setState({ assetsLoaded: true })
+
+    if(user !== null) {
+      // NOTIFICATIONS
+      this.registerForPushNotificationsAsync();
+      // Handle notifications that are received or selected while the app
+      // is open. If the app was closed and then opened by tapping the
+      // notification (rather than just tapping the app icon to open it),
+      // this function will fire on the next tick after the app starts
+      // with the notification data.
+      this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    }
+
   }
+
+  _handleNotification = (notification) => {
+    this.setState({notification: notification});
+    console.log(state);
+  };
 
   toggleOpen() {
     this.setState({ open: !this.state.open })

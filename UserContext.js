@@ -26,6 +26,19 @@ class UserProvider extends Component {
 
   setUser = user => {
     this.setState(prevState => ({ user }))
+
+    var xmlhttp = new XMLHttpRequest()
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        console.log(response);
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/setUser.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ user: user }))
   }
 
   setAdminFoodItems = adminFoodItems => {
