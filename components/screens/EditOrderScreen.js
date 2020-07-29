@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Picker, Alert, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, Picker, Alert, ScrollView, ActivityIndicator } from 'react-native'
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
@@ -18,6 +18,7 @@ export default class EditOrderScreen extends React.Component {
       itemID: 0,
       name: "",
       ready: 0,
+      showUpdateButton: true
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -94,11 +95,12 @@ export default class EditOrderScreen extends React.Component {
   updateItem() {
     let _this = this
     let state = this.state
+    _this.setState({ showUpdateButton: false });
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-
+        _this.setState({ showUpdateButton: true });
         if(response.success) {
           // _this.getFoodItems()
           Alert.alert(
@@ -187,9 +189,14 @@ export default class EditOrderScreen extends React.Component {
               <Picker.Item label="Yes" value={1} />
               <Picker.Item label="No" value={0} />
             </Picker>
+          {this.state.showUpdateButton && 
           <Button onPress={() => this.updateItem()} block style={styles.submitButton}>
               <Text style={{color: "white", fontWeight: "bold"}}>UPDATE</Text>
           </Button>
+          }
+          {!this.state.showUpdateButton && 
+          <ActivityIndicator size="large" color="#0000ff" />
+          }
 
         </ScrollView>
 

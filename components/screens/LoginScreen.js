@@ -56,7 +56,7 @@ export default class LoginScreen extends React.Component {
 
   processAccountCreation() {
     let _this = this
-    const { user, setUser } = this.context
+    const { user, setUser, token } = this.context
     // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
       // this.refs.childToast.showToast(colors.green, "Invalid email")
@@ -102,6 +102,8 @@ export default class LoginScreen extends React.Component {
         if(response.success) {
           // set user state from context
           setUser(JSON.parse(response.user))
+          _this.updateUserToken(JSON.parse(response.user));
+          // _this.updateUserToken(response.user);
           setTimeout(() => {
             _this.props.navigation.navigate('Home')
           }, 1500)
@@ -114,6 +116,21 @@ export default class LoginScreen extends React.Component {
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 0, phone: this.state.phone}))
 
+  }
+
+  updateUserToken(user) {
+    var xmlhttp = new XMLHttpRequest()
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let response = JSON.parse(this.responseText)
+        console.log(response);
+      }
+    }
+
+    var theUrl = "http://bluechipadvertising.com/setUser.php"
+    xmlhttp.open("POST", theUrl)
+    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
+    xmlhttp.send(JSON.stringify({ user: user }))
   }
 
   emailIsValid (email) {

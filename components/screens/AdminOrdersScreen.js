@@ -7,6 +7,7 @@ import Header from '../Header'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
+import { Audio, Video } from 'expo-av';
 
 export default class AdminFoodScreen extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ export default class AdminFoodScreen extends React.Component {
       assetsLoaded: false,
       open: false,
       foodItems: [],
-      tableHead: ["Name", "ID", "Ready", "Edit"]
+      tableHead: ["Name", "ID", "Ready", "Edit"],
+      played: []
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -36,13 +38,31 @@ export default class AdminFoodScreen extends React.Component {
     }, 2000);
   }
 
+  async playAudio() {
+    const playbackObject = await Audio.Sound.createAsync(
+      { uri: 'http://bluechipadvertising.com/109662__grunz__success.wav' },
+      { shouldPlay: true }
+    );
+  }
+
   getOrders() {
+    var _this = this;
+    var neworder = false;
     const { setOrderItems } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         setOrderItems(response)
+        for (var [index, value] of response.entries()) {
+          if(value[3] == 0 && _this.state.played.indexOf(index) === -1) {
+            _this.state.played.push(index);
+            neworder = true;
+          }
+        }
+        if(neworder) {
+          _this.playAudio();
+        }
       }
     }
 

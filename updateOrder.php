@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 // Load Composer's autoloader
 require "vendor/autoload.php";
+require_once __DIR__.'/vendor2/autoload.php';
 require "settings.php";
 
 $servername = "127.0.0.1";
@@ -38,10 +39,13 @@ if(!empty($id)) {
   if($emailResult->num_rows > 0 && $ready == 1) {
     $emailRow = $emailResult->fetch_assoc();
     $email = $emailRow['user_name'];
+    $token = $emailRow['token'];
+    $foodOrderId = $emailRow['food_order_id'];
     $name = $emailRow['name'];
     $subject = "Hounds Order Status";
     $message = "Your food order is ready. Please provide your name and order ID when arriving:\n\nName: $name\nOrder ID: $id";
     processEmail($name, $email, $subject, $message);
+    sendNotification($token, $foodOrderId);
   }
 
   if($result->affected_rows == 0) {
@@ -60,6 +64,25 @@ $return = array(
   'message' => $message,
   'data' => array($id, $ready, $message)
 );
+
+function sendNotification($token, $foodOrderId) {
+  $channelName = '';
+  $recipient= $token;
+
+  // You can quickly bootup an expo instance
+  $expo = \ExponentPhpSDK\Expo::normalSetup();
+
+  // Subscribe the recipient to the server
+  $expo->subscribe($channelName, $recipient);
+
+  // Build the notification data
+  // $notification = ['body' => 'Hello World!'];
+
+  $notification = ['body' => 'Hounds Order Ready!', 'data'=> json_encode(array('message' => 'Your order is ready for pickup. Please bring your order ID (' . $foodOrderId . ') with you.'))];
+
+  // Notify an interest with a notification
+  $expo->notify([$channelName], $notification);
+}
 
 function processEmail($name, $email, $subject, $message) {
   // Instantiation and passing `true` enables exceptions

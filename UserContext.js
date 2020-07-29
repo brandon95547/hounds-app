@@ -21,24 +21,16 @@ class UserProvider extends Component {
     publicFoodItems: [
       [],[],[],[],[]
     ],
-    orderID: ""
+    orderID: "",
+    token: null
   }
 
   setUser = user => {
     this.setState(prevState => ({ user }))
-
-    var xmlhttp = new XMLHttpRequest()
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText)
-        console.log(response);
-      }
-    }
-
-    var theUrl = "http://bluechipadvertising.com/setUser.php"
-    xmlhttp.open("POST", theUrl)
-    xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
-    xmlhttp.send(JSON.stringify({ user: user }))
+  }
+  
+  setToken = token => {
+    this.setState(prevState => ({ token }))
   }
 
   setAdminFoodItems = adminFoodItems => {
@@ -116,9 +108,10 @@ class UserProvider extends Component {
     try {
       const value = await AsyncStorage.getItem('user');
       // console.log("my value", value);
-      if (value !== null) {
+      if (value !== 'null') {
         // We have data!!
         this.setUser(JSON.parse(value))
+        console.log('is logged in', value);
       }
     } catch (error) {
       // Error retrieving data
@@ -127,6 +120,7 @@ class UserProvider extends Component {
 
   render() {
     const { children } = this.props
+    const { token } = this.state
     const { cartData } = this.state
     const { itemToEdit } = this.state
     const { orderToEdit } = this.state
@@ -138,6 +132,7 @@ class UserProvider extends Component {
     const { user } = this.state
     const { cartTotal } = this.state
     const { setUser } = this
+    const { setToken } = this
     const { isLoggedIn } = this
     const { setCartData } = this
     const { setCartTotal } = this
@@ -162,7 +157,9 @@ class UserProvider extends Component {
           adminFoodItems,
           orderItems,
           publicFoodItems,
+          token,
           setUser,
+          setToken,
           isLoggedIn,
           setCartData,
           setCartTotal,
