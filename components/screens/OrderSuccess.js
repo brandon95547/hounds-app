@@ -16,7 +16,8 @@ export default class OrderSuccess extends React.Component {
       open: false,
       items: [],
       total: 0,
-      tax: 0
+      tax: 0,
+      condimentsItems: []
     }
 
     this.toggleOpen = this.toggleOpen.bind(this);
@@ -31,7 +32,6 @@ export default class OrderSuccess extends React.Component {
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
         let response = JSON.parse(this.responseText)
 
         let foodItems = JSON.parse(response.order.food_order_items)
@@ -39,11 +39,42 @@ export default class OrderSuccess extends React.Component {
         _this.setState({ items: foodItems })
 
         let total = 0
+        let condimentsItems = []
         foodItems.forEach((subItem, subIndex) => {
           total += (subItem.price * parseInt(subItem.quantity))
+
+          let condiments = []
+
+          subItem.condiments.forEach((cItem, cIndex) => {
+            condiments.push(cItem.substring(0, cItem.length - 2));
+          });
+
+          if(condiments.length > 0) {
+            condiments.forEach((c1Item, cIndex) => {
+              let cPrice = 0;
+              if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
+                cPrice = .50;
+              }
+              if(c1Item == 'chocolateSyrup' || c1Item == 'strawberrySyrup') {
+                cPrice = 1.00;
+              }
+              if(cPrice != 0) {
+                total += cPrice;
+              }
+              if(cPrice != 0) {
+                condimentsItems.push({
+                  title: c1Item,
+                  price: cPrice
+                })
+              }
+            })
+            _this.setState({ condimentsItems: condimentsItems })
+          }
+
         })
+
         let tax = Math.ceil((total * .0675) * 100)/100
-        total = (.30 + total + Math.ceil((total * .0675) * 100)/100)
+        total = (.30 + total + tax)
         _this.setState({ total: total })
         _this.setState({ tax: tax })
         
@@ -142,10 +173,20 @@ export default class OrderSuccess extends React.Component {
                   return (<View key={subIndex} style={styles.stepDetail}><Text style={{ fontSize: 15 }}>{subItem.title} (x{subItem.quantity})</Text><Text style={styles.stepDetailText}>${(subItem.price * subItem.quantity).toFixed(2)}</Text></View>)
                 })
               }
+              {
+                this.state.condimentsItems.map((cItem, cIndex) => {
+                  return (<View key={cIndex} style={styles.stepDetail}><Text style={{ fontSize: 15 }}>{cItem.title}</Text><Text style={styles.stepDetailText}>{cItem.price}</Text></View>)
+                })
+              }
+              
               <View style={{ marginTop: 8 }}>
                 <View style={styles.stepDetail}>
+                  <Text style={{ fontSize: 15 }}>Convenience Fee</Text>
+                  <Text style={styles.stepDetailText}>${.30}</Text>
+                </View>
+                <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Subtotal</Text>
-                  <Text style={styles.stepDetailText}>${this.state.total.toFixed(2)}</Text>
+                  <Text style={styles.stepDetailText}>${this.state.total - this.state.tax}</Text>
                 </View>
                 <View style={styles.stepDetail}>
                   <Text style={{ fontSize: 15 }}>Taxes</Text>

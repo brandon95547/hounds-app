@@ -24,14 +24,15 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.bluechipadvertising.houndsdrivein",
+      "bundleIdentifier": "com.raptorwebsolutions.houndsdriveinapp",
       "buildNumber": "1.0.22",
       "associatedDomains": [
         "applinks:houndsdrivein.bluechipadvertising.com"
       ]
     },
     "android": {
-      "package": "com.bluechipadvertising.houndsdrivein",
+      "package": "com.raptorwebsolutions.houndsdriveinapp",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 2,
     }
     }

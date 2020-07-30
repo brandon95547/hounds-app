@@ -32,7 +32,7 @@ export default class AdminFoodScreen extends React.Component {
     _this.getOrders()
     setInterval(function() { 
       _this.getOrders()
-    }, 15000);
+    }, 10000);
     setTimeout(() => {
       this.setState({ assetsLoaded: true })
     }, 2000);
@@ -50,16 +50,18 @@ export default class AdminFoodScreen extends React.Component {
     var neworder = false;
     const { setOrderItems } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    var played = this.state.played;
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         setOrderItems(response)
         for (var [index, value] of response.entries()) {
           if(value[3] == 0 && _this.state.played.indexOf(index) === -1) {
-            _this.state.played.push(index);
+            played.push(index);
+            _this.setState({ played: played })
             neworder = true;
           }
-        }
+        } 
         if(neworder) {
           _this.playAudio();
         }

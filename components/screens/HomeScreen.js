@@ -35,7 +35,6 @@ export default class HomeScreen extends React.Component {
       
     this.toggleOpen = this.toggleOpen.bind(this)
 
-    console.log('constructor');
   }
   
   static contextType = UserContext
@@ -99,7 +98,6 @@ export default class HomeScreen extends React.Component {
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-        console.log(response);
       }
     }
 

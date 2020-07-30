@@ -77,9 +77,6 @@ export default class RaptorForm extends React.Component {
     this.setState({ itemToUpdateTitle: title })
     this.setState({ itemToUpdateQuantity: quantity })
 
-    // console.log('cart', cartItems);
-
-    // if the food item doesn't equal pizza, don't show any condiments options
     let itemsThatNeedOptions = [
       "Hamburger",
       "Cheeseburger",
@@ -105,7 +102,7 @@ export default class RaptorForm extends React.Component {
       "Homemade Cookies"
     ]
 
-    if(itemsThatNeedOptions.includes(title) && quantity !== 0) {
+    if(itemsThatNeedOptions.includes(title) && quantity != 0) {
       this.setModalVisible(true)
     }
 
@@ -125,6 +122,9 @@ export default class RaptorForm extends React.Component {
       cartItems[index].price = price;
       cartItems[index].title = title;
       cartItems[index].quantity = quantity;
+      if(quantity == 0) {
+        cartItems[index].condiments = [];
+      }
     }
     
     setCartData(cartItems)
@@ -335,7 +335,6 @@ export default class RaptorForm extends React.Component {
 
   buildItems() {
     const { publicFoodItems } = this.context
-    // console.log(publicFoodItems);
     const state = this.state
     const foodItemDropdown = (key, index, price, title) => (
       <>

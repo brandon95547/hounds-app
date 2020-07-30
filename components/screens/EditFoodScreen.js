@@ -96,7 +96,6 @@ export default class EditFoodScreen extends React.Component {
             'Alert',
             "Update successful",
             [
-              /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
                 onPress: () => {},
@@ -106,18 +105,12 @@ export default class EditFoodScreen extends React.Component {
             ],
             { cancelable: false }
           );
-          // set user state from context
-          // setUser(JSON.parse(response.user))
-          setTimeout(() => {
-            // _this.props.navigation.navigate('Home')
-          }, 1500)
         }
         else {
           Alert.alert(
             'Alert',
             "Update failed",
             [
-              /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
                 onPress: () => {},
@@ -138,8 +131,6 @@ export default class EditFoodScreen extends React.Component {
   }
 
   render() {
-
-    // console.log('available:', this.state.isAvailable);
 
     const { itemToEdit } = this.context
 

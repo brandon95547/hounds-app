@@ -4,7 +4,6 @@ import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 // custom components
 import Header from '../Header'
-import NavBar from '../NavBar'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 import UserContext from '../../UserContext'
@@ -57,14 +56,11 @@ export default class LoginScreen extends React.Component {
   processAccountCreation() {
     let _this = this
     const { user, setUser, token } = this.context
-    // if the email isn't valid
     if(!this.emailIsValid(this.state.email)) {
-      // this.refs.childToast.showToast(colors.green, "Invalid email")
       Alert.alert(
         'Alert',
         'Email invalid',
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -82,12 +78,10 @@ export default class LoginScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         
-        // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
         Alert.alert(
           'Alert',
           response.message,
           [
-            /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
             {
               text: 'Cancel',
               onPress: () => {},
@@ -97,13 +91,11 @@ export default class LoginScreen extends React.Component {
           ],
           { cancelable: false }
         );
-        // localStorage.setItem('user', response.user)
-        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
-          // set user state from context
-          setUser(JSON.parse(response.user))
-          _this.updateUserToken(JSON.parse(response.user));
-          // _this.updateUserToken(response.user);
+          let tempUser = JSON.parse(response.user);
+          tempUser.token = token
+          setUser(tempUser)
+          _this.updateUserToken(tempUser);
           setTimeout(() => {
             _this.props.navigation.navigate('Home')
           }, 1500)
@@ -123,7 +115,6 @@ export default class LoginScreen extends React.Component {
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-        console.log(response);
       }
     }
 

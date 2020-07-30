@@ -4,7 +4,6 @@ import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 // custom components
 import Header from '../Header'
-import NavBar from '../NavBar'
 import SideBar from '../SideBar'
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles'
 import UserContext from '../../UserContext'
@@ -53,7 +52,6 @@ export default class ForgotPassword extends React.Component {
         'Alert',
         "Invalid email",
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -66,7 +64,7 @@ export default class ForgotPassword extends React.Component {
       return
     }
 
-    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    var xmlhttp = new XMLHttpRequest()
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
@@ -75,7 +73,6 @@ export default class ForgotPassword extends React.Component {
           'Alert',
           response.message,
           [
-            /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
             {
               text: 'Cancel',
               onPress: () => {},
@@ -85,8 +82,6 @@ export default class ForgotPassword extends React.Component {
           ],
           { cancelable: false }
         );
-        // localStorage.setItem('user', response.user)
-        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
           setTimeout(() => {
             _this.props.navigation.navigate('Login')

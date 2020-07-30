@@ -86,7 +86,6 @@ export default class CartScreen extends React.Component {
         'Alert',
         "Order successful, please wait...",
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -99,10 +98,8 @@ export default class CartScreen extends React.Component {
     }
     else if(data.title === 'cancel') {
       this.setState({ showModal: false });
-      // console.log('order cancelled');
     }
     else {
-      // console.log(data.title);
       return;
     }
   }
@@ -123,12 +120,10 @@ export default class CartScreen extends React.Component {
     }
     cartSummary = JSON.stringify(cartSummary);
 
-    // console.log("order data", cartData)
     let _this = this
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        // console.log("response", this.responseText);
         let response = JSON.parse(this.responseText)
         
         // _this.refs.childToast.showToast(response.success ? colors.green : colors.failure, response.message)
@@ -136,7 +131,6 @@ export default class CartScreen extends React.Component {
           setOrderId(response.order_id)
           setTimeout(() => {
             _this.props.navigation.navigate('OrderSuccess')
-            // console.log(cartData);
           }, 1500)
         }
       }
@@ -157,8 +151,6 @@ export default class CartScreen extends React.Component {
     let total = 0
     const paypalItems = [];
 
-    console.log(foodItems);
-            
     foodItems.forEach((subItem, subIndex) => {
       if(parseInt(subItem.quantity) != 0) {
         paypalItems.push(
@@ -194,8 +186,8 @@ export default class CartScreen extends React.Component {
           if(subItem.quantity > 1) {
             items.push([<Text style={styles.condimentText}>#1</Text>, '', ''])
           }
-          let cPrice = '';
           c1.forEach((c1Item) => {
+            let cPrice = '';
             if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
               cPrice = .50;
             }
@@ -219,8 +211,8 @@ export default class CartScreen extends React.Component {
         }
         if(c2.length > 0) {
           items.push([<Text style={styles.condimentText}>#2</Text>, '', ''])
-          let cPrice = '';
           c2.forEach((c1Item) => {
+            let cPrice = '';
             if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
               cPrice = .50;
             }
@@ -244,8 +236,8 @@ export default class CartScreen extends React.Component {
         }
         if(c3.length > 0) {
           items.push([<Text style={styles.condimentText}>#3</Text>, '', ''])
-          let cPrice = '';
           c3.forEach((c1Item) => {
+            let cPrice = '';
             if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
               cPrice = .50;
             }
@@ -307,8 +299,6 @@ export default class CartScreen extends React.Component {
         }
     ]
 
-    // console.log(this.state.create_payment_json);
-
     const cartTable = items.length > 0 ? <><Table>
     <Row data={["Item", "Price", "Quantity"]} style={styles.tableHeading} textStyle={styles.rowTextStyle}/>
       {
@@ -351,7 +341,7 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: this.state.stagingEndpoint }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: this.state.productionEndpoint }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
@@ -359,6 +349,10 @@ export default class CartScreen extends React.Component {
           <ScrollView style={styles.container}>
             <View style={styles.pageTitleWrap}>
               <Text style={styles.pageTitle}>Review Order</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("StartPickup")}> 
+                <Text style={{ color: 'red' }}>Start Over</Text>
+              </TouchableOpacity>
+              
             </View>
 
             {this.getCartItems()}
@@ -404,11 +398,14 @@ const styles = StyleSheet.create({
     marginBottom: 6
   }, 
   pageTitleWrap: {
-    marginBottom: 24
+    marginBottom: 24,
+    display: 'flex',
+    flexDirection: 'row'
   },
   pageTitle: {
     fontSize: 17,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    flex: 1
   },
   adjustGap: {
     marginTop: 0

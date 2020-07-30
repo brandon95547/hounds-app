@@ -33,6 +33,8 @@ export default class SideBar extends React.Component {
   render() {
     const { user } = this.context
 
+    let continueButton = user ? "Cart" : "Login";
+
     const adminLink = user !== null && (user.user_name == 'houndsdriveintheater@gmail.com' || user.user_name == 'brandon95547@gmail.com') ? <ListItem>
     <Left>
       <TouchableOpacity onPress={() => {this.props.navigation.navigate("Admin")}}>
@@ -89,7 +91,7 @@ export default class SideBar extends React.Component {
         </ListItem>
         <ListItem>
           <Left>
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("Cart")}}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate(continueButton)}}>
             <Text>Cart</Text>
           </TouchableOpacity>
           </Left>

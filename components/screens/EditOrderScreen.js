@@ -18,7 +18,8 @@ export default class EditOrderScreen extends React.Component {
       itemID: 0,
       name: "",
       ready: 0,
-      showUpdateButton: true
+      showUpdateButton: true,
+      printHtml: ''
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -30,31 +31,76 @@ export default class EditOrderScreen extends React.Component {
   componentDidMount() {
     const { orderToEdit } = this.context
     this.setState({ name: orderToEdit[0] })
-    // this.setState({ date: orderToEdit[1] })
-    // this.setState({ category: orderToEdit[2] })
     this.setState({ itemID: orderToEdit[1] })
     this.setState({ ready: orderToEdit[3] })
-    // this.setState({ isAvailable: orderToEdit[4] })
+    this.generatePrintScreen()
   }
 
-  print = (id, name) => {
-    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+  generatePrintScreen() {
+
+    const { orderToEdit } = this.context
+    var _this = this
+
+    let id = orderToEdit[1]
+    let name = orderToEdit[0]
+
+    var xmlhttp = new XMLHttpRequest()
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
-        // let response = this.responseText
-        console.log(response)
-        let printHtml = '<div>Order ID: ' + id + '</div>'
-        printHtml += '<div>Name: ' + name + '</div>'
-        response.items.map((rowData, rowIndex) => (
-          printHtml += '<div>Item: ' + rowData.title + ', Quantity: ' + rowData.quantity + '</div>'
-        ))
-        printHtml += '<div>Paid with PayPal</div>'
-        printHtml += '<div>Amt Paid: ' + response.amt + '</div>'
-        console.log(printHtml);
-        Print.printAsync(
-          {html: printHtml}
-        )
+        let printHtml = '<div><strong>Order ID</strong>: ' + id + '</div>'
+        printHtml += '<div><strong>Name:</strong> ' + name + '<br><br></div>'
+
+        response.items.forEach((subItem, subIndex) => {
+
+          printHtml += '<div><strong>' + subItem.title + '</strong>, Quantity: ' + subItem.quantity + '</div>'
+
+          let c1 = []
+          let c2 = []
+          let c3 = []
+
+          subItem.condiments.forEach((cItem, cIndex) => {
+            switch(cItem.substring(cItem.length - 1, cItem.length)) {
+              case '0' :
+                c1.push(cItem.substring(0, cItem.length - 2));
+              break;
+              case '1' :
+                c2.push(cItem.substring(0, cItem.length - 2));
+              break;
+              case '2' :
+                c3.push(cItem.substring(0, cItem.length - 2));
+              break;
+            }
+          });
+
+          let c1Markup = '';
+          if(c1.length > 0) {
+            c1.forEach((c1Item) => {
+              c1Markup += c1Item + ',';
+            })
+            printHtml += '<div> &nbsp;&nbsp;&nbsp; #1' + '(' + c1Markup + ')</div>';
+          }
+          let c2Markup = '';
+          if(c2.length > 0) {
+            c2.forEach((c2Item) => {
+              c2Markup += c2Item + ',';
+            })
+            printHtml += '<div> &nbsp;&nbsp;&nbsp; #2' + '(' + c2Markup + ')</div>';
+          }
+          let c3Markup = '';
+          if(c3.length > 0) {
+            c3.forEach((c3Item) => {
+              c3Markup += c3Item + ',';
+            })
+            printHtml += '<div> &nbsp;&nbsp;&nbsp; #3' + '(' + c3Markup + ')</div>';
+          }
+        });
+
+        printHtml += "<div><br><br><br></div>";
+
+        _this.setState({ printHtml: printHtml })
+        _this.setState({ assetsLoaded: true })
+
       }
     }
 
@@ -62,6 +108,12 @@ export default class EditOrderScreen extends React.Component {
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
+  }
+
+  print = () => {
+      Print.printAsync(
+        {html: this.state.printHtml}
+      )
   }
 
   drawerContent = () => {
@@ -102,12 +154,10 @@ export default class EditOrderScreen extends React.Component {
         let response = JSON.parse(this.responseText)
         _this.setState({ showUpdateButton: true });
         if(response.success) {
-          // _this.getFoodItems()
           Alert.alert(
             'Alert',
             "Update successful",
             [
-              /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
                 onPress: () => {},
@@ -117,18 +167,12 @@ export default class EditOrderScreen extends React.Component {
             ],
             { cancelable: false }
           );
-          // set user state from context
-          // setUser(JSON.parse(response.user))
-          setTimeout(() => {
-            // _this.props.navigation.navigate('Home')
-          }, 1500)
         }
         else {
           Alert.alert(
             'Alert',
             "Update failed",
             [
-              /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
               {
                 text: 'Cancel',
                 onPress: () => {},
@@ -150,58 +194,65 @@ export default class EditOrderScreen extends React.Component {
 
   render() {
 
-    const { orderToEdit } = this.context
+    const { assetsLoaded } = this.state
 
-    return (
-      <MenuDrawer 
-        open={this.state.open} 
-        drawerContent={this.drawerContent()}
-        drawerPercentage={65}
-        animationTime={250}
-        overlay={true}
-        opacity={0.4}
-      >   
-          <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
-          
-          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
-          <View style={styles.pageTitleWrap}>
-            <Text style={styles.pageTitle}>EDIT ORDER: </Text>
-          </View>
-          <View>
-            <Button light onPress={() => this.print(orderToEdit[1], orderToEdit[0])} style={{marginTop: 16, paddingRight: 14}} iconLeft>
-              <Icon style={{color: "#111"}} name='print' />
-              <Text style={{ color: "#333" }}>Print Order</Text>
+    if(assetsLoaded) {
+      return (
+        <MenuDrawer 
+          open={this.state.open} 
+          drawerContent={this.drawerContent()}
+          drawerPercentage={65}
+          animationTime={250}
+          overlay={true}
+          opacity={0.4}
+        >   
+            <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
+            
+            <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
+            <View style={styles.pageTitleWrap}>
+              <Text style={styles.pageTitle}>EDIT ORDER: </Text>
+            </View>
+            <View>
+              <Button light onPress={() => this.print()} style={{marginTop: 16, paddingRight: 14}} iconLeft>
+                <Icon style={{color: "#111"}} name='print' />
+                <Text style={{ color: "#333" }}>Print Order</Text>
+              </Button>
+            </View>
+            <TextInput style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "Name"
+              placeholderTextColor = "#888"
+              autoCapitalize = "none"
+              value = {this.state.name}
+              onChangeText = {name => this.nameOnChange(name)}
+            />
+            <Picker
+                selectedValue={parseInt(this.state.ready)}
+                style={ styles.picker }
+                onValueChange={(itemValue, itemIndex) => this.readyOnChange(itemValue)}
+              >
+                <Picker.Item label="Yes" value={1} />
+                <Picker.Item label="No" value={0} />
+              </Picker>
+            {this.state.showUpdateButton && 
+            <Button onPress={() => this.updateItem()} block style={styles.submitButton}>
+                <Text style={{color: "white", fontWeight: "bold"}}>UPDATE</Text>
             </Button>
-          </View>
-          <TextInput style = {styles.textInput}
-            underlineColorAndroid = "transparent"
-            placeholder = "Name"
-            placeholderTextColor = "#888"
-            autoCapitalize = "none"
-            value = {this.state.name}
-            onChangeText = {name => this.nameOnChange(name)}
-          />
-          <Picker
-              selectedValue={parseInt(this.state.ready)}
-              style={ styles.picker }
-              onValueChange={(itemValue, itemIndex) => this.readyOnChange(itemValue)}
-            >
-              <Picker.Item label="Yes" value={1} />
-              <Picker.Item label="No" value={0} />
-            </Picker>
-          {this.state.showUpdateButton && 
-          <Button onPress={() => this.updateItem()} block style={styles.submitButton}>
-              <Text style={{color: "white", fontWeight: "bold"}}>UPDATE</Text>
-          </Button>
-          }
-          {!this.state.showUpdateButton && 
-          <ActivityIndicator size="large" color="#0000ff" />
-          }
+            }
+            {!this.state.showUpdateButton && 
+            <ActivityIndicator size="large" color="#0000ff" />
+            }
 
-        </ScrollView>
+          </ScrollView>
 
-      </MenuDrawer>
-    )
+        </MenuDrawer>
+      )
+    }
+    else {
+      return(
+        <View><Text>Loading</Text></View>
+      )
+    }
   }
 }
 

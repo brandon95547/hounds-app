@@ -4,7 +4,6 @@ import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base';
 // custom components
 import Header from '../Header';
-import NavBar from '../NavBar';
 import SideBar from '../SideBar';
 import ReactDOM from "react-dom";
 import { globals, componentStyles, colors, spacingStyles } from '../GlobalStyles';
@@ -76,7 +75,6 @@ export default class NewAccount extends React.Component {
         'Alert',
         "Invalid email",
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -94,7 +92,6 @@ export default class NewAccount extends React.Component {
         'Alert',
         "Invalid name",
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -112,7 +109,6 @@ export default class NewAccount extends React.Component {
         'Alert',
         "Invalid password",
         [
-          /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
           {
             text: 'Cancel',
             onPress: () => {},
@@ -134,7 +130,6 @@ export default class NewAccount extends React.Component {
           'Alert',
           response.message,
           [
-            /* { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') }, */
             {
               text: 'Cancel',
               onPress: () => {},
@@ -144,8 +139,6 @@ export default class NewAccount extends React.Component {
           ],
           { cancelable: false }
         );
-        // localStorage.setItem('user', response.user);
-        // match the timeout from show alert before switching pages because the component will not be available to setState, if not
         if(response.success) {
           _this._storeData("user", response.user)
           setUser(JSON.parse(response.user))
