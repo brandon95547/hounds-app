@@ -132,7 +132,7 @@ export default class HomeScreen extends React.Component {
     const { assetsLoaded } = this.state
     const { user } = this.context
 
-    let continueButton = user ? "Start" : "Login";
+    let continueButton = user ? "StartPickup" : "Login";
 
     if(assetsLoaded) {
       return (

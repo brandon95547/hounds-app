@@ -27,6 +27,14 @@ export default class RaptorForm extends React.Component {
       honeyMustardChecked: [],
       butterChecked: [],
       bbqChecked: [],
+      mayoChecked: [],
+      powderedChecked: [],
+      cinnamonSugarChecked: [],
+      chocolateSyrupChecked: [],
+      strawberrySyrupChecked: [],
+      chocolateChipChecked: [],
+      oatmealRaisinChecked: [],
+      peanutButterChecked: [],
       // drinks
       cokeChecked: [],
       cokeZeroChecked: [],
@@ -82,7 +90,7 @@ export default class RaptorForm extends React.Component {
       "BBQ Sandwich",
       "Chicken Tenders (4 piece)",
       "Chicken Wings (5 piece)",
-      "Mozzerella Cheese Sticks",
+      "Mozzarella Cheese Sticks",
       "Fried Pickles",
       "French Fries",
       "Onion Rings",
@@ -93,13 +101,13 @@ export default class RaptorForm extends React.Component {
       "Large Drink 20 oz",
       "Souvenir Cup 44 oz",
       "Souvenir Cup Refill",
+      "Funnel Cake",
+      "Homemade Cookies"
     ]
 
     if(itemsThatNeedOptions.includes(title) && quantity !== 0) {
       this.setModalVisible(true)
     }
-
-    console.log(cartItems);
 
     let cart = {
       key: key,
@@ -268,6 +276,46 @@ export default class RaptorForm extends React.Component {
         current[itemIndex+which] = !current[itemIndex+which];
         this.setState({ countryTimeLemonadeChecked: current })
       break
+      case 'mayo' :
+        var current = this.state.mayoChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ mayoChecked: current })
+      break
+      case 'powdered' :
+        var current = this.state.powderedChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ powderedChecked: current })
+      break
+      case 'cinnamonSugar' :
+        var current = this.state.cinnamonSugarChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ cinnamonSugarChecked: current })
+      break
+      case 'chocolateSyrup' :
+        var current = this.state.chocolateSyrupChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ chocolateSyrupChecked: current })
+      break
+      case 'strawberrySyrup' :
+        var current = this.state.strawberrySyrupChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ strawberrySyrupChecked: current })
+      break
+      case 'chocolateChip' :
+        var current = this.state.chocolateChipChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ chocolateChipChecked: current })
+      break
+      case 'oatmealRaisin' :
+        var current = this.state.oatmealRaisinChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ oatmealRaisinChecked: current })
+      break
+      case 'peanutButter' :
+        var current = this.state.peanutButterChecked;
+        current[itemIndex+which] = !current[itemIndex+which];
+        this.setState({ peanutButterChecked: current })
+      break
     }
 
     if(index === -1) {
@@ -339,6 +387,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[10], 'ranch', 0)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[10], 'honeymustard', 0)}
         {displayCondiment('BBQ', this.state.bbqChecked[10], 'bbq', 0)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[10], 'mayo', 0)}
         </>
       break;
       case 'Cheeseburger' :
@@ -350,7 +399,6 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Onion', this.state.onionChecked[20], 'onion', 0)}
         {displayCondiment('Chili', this.state.chiliChecked[20], 'chili', 0)}
         {displayCondiment('Slaw', this.state.slawChecked[20], 'slaw', 0)}
-        {displayCondiment('Cheese', this.state.cheeseChecked[20], 'cheese', 0)}
         {displayCondiment('Jalapenos', this.state.jalapenosChecked[20], 'jalapenos', 0)}
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[20], 'ketchup', 0)}
@@ -358,6 +406,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[20], 'ranch', 0)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[20], 'honeymustard', 0)}
         {displayCondiment('BBQ', this.state.bbqChecked[20], 'bbq', 0)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[20], 'mayo', 0)}
         </>
       break;
       case 'Chicken Sandwich' :
@@ -377,6 +426,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[50], 'ranch', 0)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[50], 'honeymustard', 0)}
         {displayCondiment('BBQ', this.state.bbqChecked[50], 'bbq', 0)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[50], 'mayo', 0)}
         </>
       break;
       case 'Thick Fried Bologna Burger' :
@@ -396,6 +446,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[60], 'ranch', 0)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[60], 'honeymustard', 0)}
         {displayCondiment('BBQ', this.state.bbqChecked[60], 'bbq', 0)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[60], 'mayo', 0)}
         </>
       break;
       case 'Hotdog (100% Beef)' :
@@ -458,7 +509,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('BBQ', this.state.bbqChecked[90], 'bbq', 0)}
         </>
       break;
-      case 'Mozzerella Cheese Sticks' :
+      case 'Mozzarella Cheese Sticks' :
         foodOptions = <>
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[100], 'ketchup', 0)}
@@ -574,6 +625,23 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Country Time Lemonade', this.state.countryTimeLemonadeChecked[340], 'countryTimeLemonade', 0)}
         </>
       break;
+      case 'Funnel Cake' :
+        foodOptions = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Powdered', this.state.powderedChecked[230], 'powdered', 0)}
+        {displayCondiment('Cinnamon Sugar', this.state.cinnamonSugarChecked[230], 'cinnamonSugar', 0)}
+        {displayCondiment('Chocolate Syrup', this.state.chocolateSyrupChecked[230], 'chocolateSyrup', 0)}
+        {displayCondiment('Strawberry Syrup', this.state.strawberrySyrupChecked[230], 'strawberrySyrup', 0)}
+        </>
+      break;
+      case 'Homemade Cookies' :
+        foodOptions = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Chocolate Chip', this.state.chocolateChipChecked[300], 'chocolateChip', 0)}
+        {displayCondiment('Oatmeal Raisin', this.state.oatmealRaisinChecked[300], 'oatmealRaisin', 0)}
+        {displayCondiment('Peanut Butter', this.state.peanutButterChecked[300], 'peanutButter', 0)}
+        </>
+      break;
 
     }
 
@@ -596,6 +664,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[11], 'ranch', 1)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[11], 'honeymustard', 1)}
         {displayCondiment('BBQ', this.state.bbqChecked[11], 'bbq', 1)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[11], 'mayo', 1)}
         </>
       break;
       case 'Cheeseburger' :
@@ -607,7 +676,6 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Onion', this.state.onionChecked[21], 'onion', 1)}
         {displayCondiment('Chili', this.state.chiliChecked[21], 'chili', 1)}
         {displayCondiment('Slaw', this.state.slawChecked[21], 'slaw', 1)}
-        {displayCondiment('Cheese', this.state.cheeseChecked[21], 'cheese', 1)}
         {displayCondiment('Jalapenos', this.state.jalapenosChecked[21], 'jalapenos', 1)}
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[21], 'ketchup', 1)}
@@ -615,6 +683,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[21], 'ranch', 1)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[21], 'honeymustard', 1)}
         {displayCondiment('BBQ', this.state.bbqChecked[21], 'bbq', 1)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[21], 'mayo', 1)}
         </>
       break;
       case 'Chicken Sandwich' :
@@ -634,6 +703,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[51], 'ranch', 1)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[51], 'honeymustard', 1)}
         {displayCondiment('BBQ', this.state.bbqChecked[51], 'bbq', 1)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[51], 'mayo', 1)}
         </>
       break;
       case 'Thick Fried Bologna Burger' :
@@ -653,6 +723,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[61], 'ranch', 1)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[61], 'honeymustard', 1)}
         {displayCondiment('BBQ', this.state.bbqChecked[61], 'bbq', 1)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[61], 'mayo', 1)}
         </>
       break;
       case 'Hotdog (100% Beef)' :
@@ -715,7 +786,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('BBQ', this.state.bbqChecked[91], 'bbq', 1)}
         </>
       break;
-      case 'Mozzerella Cheese Sticks' :
+      case 'Mozzarella Cheese Sticks' :
         foodOptions2 = <>
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[101], 'ketchup', 1)}
@@ -831,6 +902,23 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Country Time Lemonade', this.state.countryTimeLemonadeChecked[341], 'countryTimeLemonade', 1)}
         </>
       break;
+      case 'Funnel Cake' :
+        foodOptions2 = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Powdered', this.state.powderedChecked[231], 'powdered', 1)}
+        {displayCondiment('Cinnamon Sugar', this.state.cinnamonSugarChecked[231], 'cinnamonSugar', 1)}
+        {displayCondiment('Chocolate Syrup', this.state.chocolateSyrupChecked[231], 'chocolateSyrup', 1)}
+        {displayCondiment('Strawberry Syrup', this.state.strawberrySyrupChecked[231], 'strawberrySyrup', 1)}
+        </>
+      break;
+      case 'Homemade Cookies' :
+        foodOptions2 = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Chocolate Chip', this.state.chocolateChipChecked[301], 'chocolateChip', 1)}
+        {displayCondiment('Oatmeal Raisin', this.state.oatmealRaisinChecked[301], 'oatmealRaisin', 1)}
+        {displayCondiment('Peanut Butter', this.state.peanutButterChecked[301], 'peanutButter', 1)}
+        </>
+      break;
 
     }
     let foodOptions3 = <Text></Text>
@@ -852,6 +940,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[12], 'ranch', 2)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[12], 'honeymustard', 2)}
         {displayCondiment('BBQ', this.state.bbqChecked[12], 'bbq', 2)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[12], 'mayo', 2)}
         </>
       break;
       case 'Cheeseburger' :
@@ -863,7 +952,6 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Onion', this.state.onionChecked[22], 'onion', 2)}
         {displayCondiment('Chili', this.state.chiliChecked[22], 'chili', 2)}
         {displayCondiment('Slaw', this.state.slawChecked[22], 'slaw', 2)}
-        {displayCondiment('Cheese', this.state.cheeseChecked[22], 'cheese', 2)}
         {displayCondiment('Jalapenos', this.state.jalapenosChecked[22], 'jalapenos', 2)}
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[22], 'ketchup', 2)}
@@ -871,6 +959,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[22], 'ranch', 2)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[22], 'honeymustard', 2)}
         {displayCondiment('BBQ', this.state.bbqChecked[22], 'bbq', 2)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[22], 'mayo', 2)}
         </>
       break;
       case 'Chicken Sandwich' :
@@ -890,6 +979,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[52], 'ranch', 2)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[52], 'honeymustard', 2)}
         {displayCondiment('BBQ', this.state.bbqChecked[52], 'bbq', 2)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[52], 'mayo', 2)}
         </>
       break;
       case 'Thick Fried Bologna Burger' :
@@ -909,6 +999,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Ranch', this.state.ranchChecked[62], 'ranch', 2)}
         {displayCondiment('Honey Mustard', this.state.honeyMustardChecked[62], 'honeymustard', 2)}
         {displayCondiment('BBQ', this.state.bbqChecked[62], 'bbq', 2)}
+        {displayCondiment('Mayonnaise', this.state.mayoChecked[62], 'mayo', 2)}
         </>
       break;
       case 'Hotdog (100% Beef)' :
@@ -971,7 +1062,7 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('BBQ', this.state.bbqChecked[92], 'bbq', 2)}
         </>
       break;
-      case 'Mozzerella Cheese Sticks' :
+      case 'Mozzarella Cheese Sticks' :
         foodOptions3 = <>
         <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select Sauce:</Text></View>
         {displayCondiment('Ketchup', this.state.ketchupChecked[102], 'ketchup', 2)}
@@ -1085,6 +1176,23 @@ export default class RaptorForm extends React.Component {
         {displayCondiment('Dr Pepper', this.state.drPepperChecked[342], 'drPepper', 2)}
         {displayCondiment('Gold Peak Tea', this.state.goldPeakTeaChecked[342], 'goldPeakTea', 2)}
         {displayCondiment('Country Time Lemonade', this.state.countryTimeLemonadeChecked[342], 'countryTimeLemonade', 2)}
+        </>
+      break;
+      case 'Funnel Cake' :
+        foodOptions3 = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Powdered', this.state.powderedChecked[232], 'powdered', 2)}
+        {displayCondiment('Cinnamon Sugar', this.state.cinnamonSugarChecked[232], 'cinnamonSugar', 2)}
+        {displayCondiment('Chocolate Syrup', this.state.chocolateSyrupChecked[232], 'chocolateSyrup', 2)}
+        {displayCondiment('Strawberry Syrup', this.state.strawberrySyrupChecked[232], 'strawberrySyrup', 2)}
+        </>
+      break;
+      case 'Homemade Cookies' :
+        foodOptions3 = <>
+        <View style={styles.foodOptionHeading}><Text style={styles.foodOptionHeadingText}>Select your options:</Text></View>
+        {displayCondiment('Chocolate Chip', this.state.chocolateChipChecked[302], 'chocolateChip', 2)}
+        {displayCondiment('Oatmeal Raisin', this.state.oatmealRaisinChecked[302], 'oatmealRaisin', 2)}
+        {displayCondiment('Peanut Butter', this.state.peanutButterChecked[302], 'peanutButter', 2)}
         </>
       break;
 

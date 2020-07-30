@@ -28,7 +28,9 @@ export default class CartScreen extends React.Component {
             return_url: "http://18.191.104.234:3001/success",
             cancel_url: "http://18.191.104.234:3001/cancel"
         }
-      }
+      },
+      stagingEndpoint: 'http://fbbf3b9ddad1.ngrok.io',
+      productionEndpoint: 'http://18.191.104.234:3001'
     }
     
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -154,6 +156,8 @@ export default class CartScreen extends React.Component {
     let items = []
     let total = 0
     const paypalItems = [];
+
+    console.log(foodItems);
             
     foodItems.forEach((subItem, subIndex) => {
       if(parseInt(subItem.quantity) != 0) {
@@ -168,6 +172,101 @@ export default class CartScreen extends React.Component {
         )
         total += (subItem.price * parseInt(subItem.quantity))
         items.push([subItem.title, '$' + parseFloat(subItem.price).toFixed(2), parseInt(subItem.quantity)])
+        
+        // tally up condiments
+        let c1 = []
+        let c2 = []
+        let c3 = []
+        subItem.condiments.forEach((cItem, cIndex) => {
+          switch(cItem.substring(cItem.length - 1, cItem.length)) {
+            case '0' :
+              c1.push(cItem.substring(0, cItem.length - 2));
+            break;
+            case '1' :
+              c2.push(cItem.substring(0, cItem.length - 2));
+            break;
+            case '2' :
+              c3.push(cItem.substring(0, cItem.length - 2));
+            break;
+          }
+        });
+        if(c1.length > 0) {
+          if(subItem.quantity > 1) {
+            items.push([<Text style={styles.condimentText}>#1</Text>, '', ''])
+          }
+          let cPrice = '';
+          c1.forEach((c1Item) => {
+            if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
+              cPrice = .50;
+            }
+            if(c1Item == 'chocolateSyrup' || c1Item == 'strawberrySyrup') {
+              cPrice = 1.00;
+            }
+            if(cPrice !== '') {
+              total += cPrice;
+              paypalItems.push(
+                {
+                  name: c1Item,
+                  sku: c1Item.replace(/\s+/g, '-').toLowerCase(),
+                  price: cPrice,
+                  currency: "USD",
+                  quantity: 1
+                }
+              )
+            }
+            items.push([<Text style={styles.condimentText}>    {c1Item}</Text>, <Text style={styles.condimentText}>{cPrice}</Text>, '-'])
+          })
+        }
+        if(c2.length > 0) {
+          items.push([<Text style={styles.condimentText}>#2</Text>, '', ''])
+          let cPrice = '';
+          c2.forEach((c1Item) => {
+            if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
+              cPrice = .50;
+            }
+            if(c1Item == 'chocolateSyrup' || c1Item == 'strawberrySyrup') {
+              cPrice = 1.00;
+            }
+            if(cPrice !== '') {
+              total += cPrice;
+              paypalItems.push(
+                {
+                  name: c1Item,
+                  sku: c1Item.replace(/\s+/g, '-').toLowerCase(),
+                  price: cPrice,
+                  currency: "USD",
+                  quantity: 1
+                }
+              )
+            }
+            items.push([<Text style={styles.condimentText}>    {c1Item}</Text>, <Text style={styles.condimentText}>{cPrice}</Text>, '-'])
+          })
+        }
+        if(c3.length > 0) {
+          items.push([<Text style={styles.condimentText}>#3</Text>, '', ''])
+          let cPrice = '';
+          c3.forEach((c1Item) => {
+            if(c1Item == 'chili' || c1Item == 'slaw' || c1Item == 'cheese' || c1Item == 'jalapenos') {
+              cPrice = .50;
+            }
+            if(c1Item == 'chocolateSyrup' || c1Item == 'strawberrySyrup') {
+              cPrice = 1.00;
+            }
+            if(cPrice !== '') {
+              total += cPrice;
+              paypalItems.push(
+                {
+                  name: c1Item,
+                  sku: c1Item.replace(/\s+/g, '-').toLowerCase(),
+                  price: cPrice,
+                  currency: "USD",
+                  quantity: 1
+                }
+              )
+            }
+            items.push([<Text style={styles.condimentText}>    {c1Item}</Text>, <Text style={styles.condimentText}>{cPrice}</Text>, '-'])
+          })
+        }
       }
     });
 
@@ -252,12 +351,12 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: "http://18.191.104.234:3001" }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: this.state.stagingEndpoint }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
           
-          <ScrollView style={{...componentStyles.paddingBox, ...colors.bgWhite}}>
+          <ScrollView style={styles.container}>
             <View style={styles.pageTitleWrap}>
               <Text style={styles.pageTitle}>Review Order</Text>
             </View>
@@ -277,12 +376,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 16
+    padding: 16,
   },
   fee: {
     marginTop: 16,
     marginBottom: 8,
     fontSize: 16
+  },
+  condimentText: {
+    color: '#377760'
   },
   rowTextStyle: {
     fontSize: 16
@@ -290,15 +392,16 @@ const styles = StyleSheet.create({
   tableWrapper: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingTop: 3,
+    paddingBottom: 3,
     paddingLeft: 18
   },
   tableHeading: {
     backgroundColor: "#EEE",
     paddingBottom: 10,
     paddingTop: 10,
-    paddingLeft: 18
+    paddingLeft: 18,
+    marginBottom: 6
   }, 
   pageTitleWrap: {
     marginBottom: 24
@@ -314,6 +417,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     width: "75%",
     alignSelf: "center",
-    marginTop: 50
+    marginTop: 30,
+    marginBottom: 60
   },
 })
