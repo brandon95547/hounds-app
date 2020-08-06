@@ -11,6 +11,7 @@ vendor/
 web-build/
 web-report/
 settings.php
+google-services.json
 
 # macOS
 .DS_Store

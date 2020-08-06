@@ -124,6 +124,7 @@ export default class RaptorForm extends React.Component {
       cartItems[index].quantity = quantity;
       if(quantity == 0) {
         cartItems[index].condiments = [];
+        _this.emptyCondimentsByIndex(index);
       }
     }
     
@@ -145,6 +146,226 @@ export default class RaptorForm extends React.Component {
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
+  }
+
+  emptyCondimentsByIndex(index) {
+      // lettuce
+      var current = this.state.lettuceChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ lettuceChecked: current })
+
+      // tomato
+      var current = this.state.tomatoChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ tomatoChecked: current })
+      
+      // pickles
+      var current = this.state.picklesChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ picklesChecked: current })
+
+      // onion
+      var current = this.state.onionChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ onionChecked: current })
+
+      // chili
+      var current = this.state.chiliChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ chiliChecked: current })
+
+      // slaw
+      var current = this.state.slawChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ slawChecked: current })
+      
+      // cheese
+      var current = this.state.cheeseChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cheeseChecked: current })
+      
+      // jalapenos
+      var current = this.state.jalapenosChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ jalapenosChecked: current })
+      
+      // ketchup
+      var current = this.state.ketchupChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ ketchupChecked: current })
+      
+      // mustard
+      var current = this.state.mustardChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ mustardChecked: current })
+      
+      // ranch
+      var current = this.state.ranchChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ ranchChecked: current })
+      
+      // honey mustard
+      var current = this.state.honeyMustardChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ honeyMustardChecked: current })
+      
+      // butter
+      var current = this.state.butterChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ butterChecked: current })
+      
+      // BBQ
+      var current = this.state.bbqChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ bbqChecked: current })
+      
+      // mayo
+      var current = this.state.mayoChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ mayoChecked: current })
+      
+      // powdered sugar
+      var current = this.state.powderedChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ powderedChecked: current })
+      
+      // cinnamon sugar
+      var current = this.state.cinnamonSugarChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cinnamonSugarChecked: current })
+      
+      // chocolate syrup
+      var current = this.state.chocolateSyrupChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ chocolateSyrupChecked: current })
+      
+      // strawberry syrup
+      var current = this.state.strawberrySyrupChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ strawberrySyrupChecked: current })
+      
+      // chocolate chip
+      var current = this.state.chocolateChipChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ chocolateChipChecked: current })
+      
+      // oatmeal raisin
+      var current = this.state.oatmealRaisinChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ oatmealRaisinChecked: current })
+      
+      // peanut butter
+      var current = this.state.peanutButterChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ peanutButterChecked: current })
+      
+      // coke
+      var current = this.state.cokeChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cokeChecked: current })
+      
+      // coke zero
+      var current = this.state.cokeZeroChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cokeZeroChecked: current })
+      
+      // sprite
+      var current = this.state.spriteChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ spriteChecked: current })
+      
+      // sun drop
+      var current = this.state.sundropChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ sundropChecked: current })
+      
+      // cherry lemon sun drop
+      var current = this.state.cherryLemonSundropChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cherryLemonSundropChecked: current })
+      
+      // cherry fanta
+      var current = this.state.cherryFantaChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ cherryFantaChecked: current })
+      
+      // dr pepper
+      var current = this.state.drPepperChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ drPepperChecked: current })
+      
+      // gold peak tea
+      var current = this.state.goldPeakTeaChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ goldPeakTeaChecked: current })
+      
+      // country time lemonade
+      var current = this.state.countryTimeLemonadeChecked;
+      current[index+0] = false;
+      current[index+1] = false;
+      current[index+2] = false;
+      this.setState({ countryTimeLemonadeChecked: current })
+      
   }
 
   /*

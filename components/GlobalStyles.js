@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 const colors = {
-  primary: 'rgb(247,68,68)',
-  secondary: '#FF9999',
+  primary: '#DB5E58', // red
+  secondary: '#FF9999', // red
   green: "rgb(30, 191, 191)",
+  cool: "#2ec9d1",
   money: "green",
   failure: "orange",
   other: 'purple',
@@ -163,6 +164,10 @@ const componentStyles = {
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12
+  },
+  buttonCool: {
+    color: "white",
+    backgroundColor: colors.cool
   },
   textNode: {
     fontSize: 16

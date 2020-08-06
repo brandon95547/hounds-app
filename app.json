@@ -33,7 +33,7 @@
     "android": {
       "package": "com.raptorwebsolutions.houndsdriveinapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 2,
+      "versionCode": 2
     }
     }
   }

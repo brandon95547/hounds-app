@@ -45,7 +45,9 @@ if(!empty($id)) {
     $subject = "Hounds Order Status";
     $message = "Your food order is ready. Please provide your name and order ID when arriving:\n\nName: $name\nOrder ID: $id";
     processEmail($name, $email, $subject, $message);
-    sendNotification($token, $foodOrderId);
+    if(!empty($token)) {
+      sendNotification($token, $foodOrderId);
+    }
   }
 
   if($result->affected_rows == 0) {
@@ -61,7 +63,7 @@ else {
 
 $return = array(
   'success' => $success,
-  'message' => $message,
+  'message' => '',
   'data' => array($id, $ready, $message)
 );
 

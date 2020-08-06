@@ -99,6 +99,7 @@ export default class EditOrderScreen extends React.Component {
         printHtml += "<div><br><br><br></div>";
 
         _this.setState({ printHtml: printHtml })
+        // console.log(printHtml);
         _this.setState({ assetsLoaded: true })
 
       }
@@ -150,9 +151,11 @@ export default class EditOrderScreen extends React.Component {
     _this.setState({ showUpdateButton: false });
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     xmlhttp.onreadystatechange = function () {
+      console.log('status', this.status);
       if (this.readyState == 4 && this.status == 200) {
-        let response = JSON.parse(this.responseText)
         _this.setState({ showUpdateButton: true });
+        console.log('testing');
+        let response = JSON.parse(this.responseText)
         if(response.success) {
           Alert.alert(
             'Alert',
@@ -250,7 +253,10 @@ export default class EditOrderScreen extends React.Component {
     }
     else {
       return(
-        <View><Text>Loading</Text></View>
+        <>
+        <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
+        <View><Text style={{fontSize: 24, marginTop: 10}}>Loading...</Text></View>
+        </>
       )
     }
   }

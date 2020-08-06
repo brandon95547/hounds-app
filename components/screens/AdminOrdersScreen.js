@@ -18,7 +18,8 @@ export default class AdminFoodScreen extends React.Component {
       open: false,
       foodItems: [],
       tableHead: ["Name", "ID", "Ready", "Edit"],
-      played: []
+      played: [],
+      editButton: []
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -29,12 +30,12 @@ export default class AdminFoodScreen extends React.Component {
 
   componentDidMount() {
     var _this = this;
-    _this.getOrders()
     setInterval(function() { 
       _this.getOrders()
     }, 10000);
     setTimeout(() => {
       this.setState({ assetsLoaded: true })
+      this.getOrders();
     }, 2000);
   }
 
@@ -47,7 +48,6 @@ export default class AdminFoodScreen extends React.Component {
 
   getOrders() {
     var _this = this;
-    var neworder = false;
     const { setOrderItems } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
     var played = this.state.played;
@@ -55,16 +55,21 @@ export default class AdminFoodScreen extends React.Component {
       if (this.readyState == 4 && this.status == 200) {
         let response = JSON.parse(this.responseText)
         setOrderItems(response)
-        for (var [index, value] of response.entries()) {
-          if(value[3] == 0 && _this.state.played.indexOf(index) === -1) {
-            played.push(index);
-            _this.setState({ played: played })
-            neworder = true;
+        
+        var neworder = false;
+        response.forEach(function (value, index) {
+          if(value[3] == 0) {
+            if(_this.state.played.indexOf(index) === -1) {
+              played.push(index);
+              neworder = true;
+            }
           }
-        } 
+        })
+        _this.setState({ played: played })
         if(neworder) {
           _this.playAudio();
         }
+        
       }
     }
 
@@ -86,7 +91,7 @@ export default class AdminFoodScreen extends React.Component {
     this.setState({ open: !this.state.open })
   }
 
-  editOrder(item) {
+  editOrder(item, index) {
     const { setOrderToEdit } = this.context
     setOrderToEdit(item)
     this.props.navigation.navigate("EditOrder")
@@ -120,8 +125,9 @@ export default class AdminFoodScreen extends React.Component {
                   orderItems.map((rowData, rowIndex) => (
                     <TableWrapper key={rowIndex} style={styles.tableWrapper}>
                       {
+                        this.state.editButton[rowIndex] || this.state.editButton.length == 0 && 
                         rowData.map((cellData, cellIndex) => (
-                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? (cellData == 1 ? <Button full light onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button> : <Button full success onPress={() => this.editOrder(rowData)}><Text>Edit</Text></Button>) : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
+                          cellIndex != 4 ? <Cell key={cellIndex} data={cellIndex == 3 ? (cellData == 1 ? <Button full light onPress={() => this.editOrder(rowData, rowIndex)}><Text>Edit</Text></Button> : <Button style={componentStyles.buttonCool} full onPress={() => this.editOrder(rowData, rowIndex)}><Text style={{ color: "white" }}>Edit</Text></Button>) : cellData} textStyle={styles.text}/> : <Text key={cellIndex}></Text>
                         ))
                       }
                     </TableWrapper>

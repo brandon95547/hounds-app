@@ -152,6 +152,7 @@ export default class CartScreen extends React.Component {
     const paypalItems = [];
 
     foodItems.forEach((subItem, subIndex) => {
+
       if(parseInt(subItem.quantity) != 0) {
         paypalItems.push(
           {
@@ -182,7 +183,7 @@ export default class CartScreen extends React.Component {
             break;
           }
         });
-        if(c1.length > 0) {
+        if(c1.length > 0 && parseInt(subItem.quantity) >= 1) {
           if(subItem.quantity > 1) {
             items.push([<Text style={styles.condimentText}>#1</Text>, '', ''])
           }
@@ -209,7 +210,7 @@ export default class CartScreen extends React.Component {
             items.push([<Text style={styles.condimentText}>    {c1Item}</Text>, <Text style={styles.condimentText}>{cPrice}</Text>, '-'])
           })
         }
-        if(c2.length > 0) {
+        if(c2.length > 0 && parseInt(subItem.quantity) >= 2) {
           items.push([<Text style={styles.condimentText}>#2</Text>, '', ''])
           c2.forEach((c1Item) => {
             let cPrice = '';
@@ -234,7 +235,7 @@ export default class CartScreen extends React.Component {
             items.push([<Text style={styles.condimentText}>    {c1Item}</Text>, <Text style={styles.condimentText}>{cPrice}</Text>, '-'])
           })
         }
-        if(c3.length > 0) {
+        if(c3.length > 0 && parseInt(subItem.quantity) >= 3) {
           items.push([<Text style={styles.condimentText}>#3</Text>, '', ''])
           c3.forEach((c1Item) => {
             let cPrice = '';
@@ -349,7 +350,7 @@ export default class CartScreen extends React.Component {
           <ScrollView style={styles.container}>
             <View style={styles.pageTitleWrap}>
               <Text style={styles.pageTitle}>Review Order</Text>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("StartPickup")}> 
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("Home")}> 
                 <Text style={{ color: 'red' }}>Start Over</Text>
               </TouchableOpacity>
               
