@@ -28,6 +28,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 $success = true;
 $message = "";
 
+if($data === null) {
+  $data = $_POST;
+}
+
 $id = isset($data['id']) && !empty($data['id']) ? $conn->escape_string($data['id']) : '';
 $ready = isset($data['ready']) ? intval($data['ready']) : '';
 
@@ -35,7 +39,7 @@ if(!empty($id)) {
   $sql = "update food_order set ready='$ready' where food_order_id = $id";
   $result = $conn->query($sql);
 
-  $emailResult = $conn->query("select * from food_order inner join user on user.user_id = food_order.user_id where food_order_id = $id");
+  $emailResult = $conn->query("select user.user_name, user.token, food_order_id, user.name from food_order inner join user on user.user_id = food_order.user_id where food_order_id = $id");
   if($emailResult->num_rows > 0 && $ready == 1) {
     $emailRow = $emailResult->fetch_assoc();
     $email = $emailRow['user_name'];
@@ -44,9 +48,12 @@ if(!empty($id)) {
     $name = $emailRow['name'];
     $subject = "Hounds Order Status";
     $message = "Your food order is ready. Please provide your name and order ID when arriving:\n\nName: $name\nOrder ID: $id";
-    processEmail($name, $email, $subject, $message);
-    if(!empty($token)) {
-      sendNotification($token, $foodOrderId);
+    if($emailRow['notification_sent'] == 0) {
+      processEmail($name, $email, $subject, $message);
+      if(!empty($token)) {
+          sendNotification($token, $foodOrderId);
+          $conn->query("update food_order set notification_sent = 1 where food_order_id = $id");
+      }
     }
   }
 
@@ -63,8 +70,8 @@ else {
 
 $return = array(
   'success' => $success,
-  'message' => '',
-  'data' => array($id, $ready, $message)
+  'message' => $message,
+  'data' => $data
 );
 
 function sendNotification($token, $foodOrderId) {
