@@ -101,7 +101,7 @@ export default class HomeScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/setUser.php"
+    var theUrl = "http://bluechipadvertising.com/setUser.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ user: user }))

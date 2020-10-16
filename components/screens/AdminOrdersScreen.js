@@ -73,7 +73,7 @@ export default class AdminFoodScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/getOrderItems.php"
+    var theUrl = "http://bluechipadvertising.com/getOrderItems.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))

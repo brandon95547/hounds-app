@@ -142,7 +142,7 @@ export default class RaptorForm extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/getFoodItemsPublic.php"
+    var theUrl = "http://bluechipadvertising.com/getFoodItemsPublic.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))

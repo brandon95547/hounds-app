@@ -105,7 +105,7 @@ export default class EditOrderScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/getReceipt.php?id=" + id
+    var theUrl = "http://bluechipadvertising.com/getReceipt.php?site_id=1&id=" + id
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
@@ -189,7 +189,7 @@ export default class EditOrderScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/updateOrder.php"
+    var theUrl = "http://bluechipadvertising.com/updateOrder.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ id: state.itemID, ready: state.ready }))

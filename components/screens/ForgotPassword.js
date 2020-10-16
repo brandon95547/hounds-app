@@ -90,7 +90,7 @@ export default class ForgotPassword extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/signup.php?request=forgotPassword"
+    var theUrl = "http://bluechipadvertising.com/signup.php?request=forgotPassword&site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({email: this.state.email}))

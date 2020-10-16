@@ -149,7 +149,7 @@ export default class NewAccount extends React.Component {
       }
     };
 
-    var theUrl = "http://bluechipadvertising.com/signup.php";
+    var theUrl = "http://bluechipadvertising.com/signup.php?site_id=1";
     xmlhttp.open("POST", theUrl);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.send(JSON.stringify({name: this.state.name, email: this.state.email, password: this.state.password, createAccount: 1, phone: this.state.phone}));

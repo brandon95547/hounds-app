@@ -103,7 +103,7 @@ export default class LoginScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/signup.php"
+    var theUrl = "http://bluechipadvertising.com/signup.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: 0, phone: this.state.phone}))
@@ -118,7 +118,7 @@ export default class LoginScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/setUser.php"
+    var theUrl = "http://bluechipadvertising.com/setUser.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ user: user }))

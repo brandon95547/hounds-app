@@ -44,7 +44,7 @@ export default class MyOrdersScreen extends React.Component {
         }
       }
 
-      var theUrl = "http://bluechipadvertising.com/getOrderItemsUser.php?user_id=" + user.user_id
+      var theUrl = "http://bluechipadvertising.com/getOrderItemsUser.php?site_id=1&user_id=" + user.user_id
       xmlhttp.open("POST", theUrl)
       xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
       xmlhttp.send(JSON.stringify({ action: "get-items" }))

@@ -75,7 +75,7 @@ export default class EditFoodScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/getFoodItems.php"
+    var theUrl = "http://bluechipadvertising.com/getFoodItems.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ action: "get-items" }))
@@ -124,7 +124,7 @@ export default class EditFoodScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/updateItem.php"
+    var theUrl = "http://bluechipadvertising.com/updateItem.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ id: state.itemID, title: state.title, price: state.price, category: state.category, isAvailable: state.isAvailable }))

@@ -6,7 +6,6 @@
     "description": "No description",
     "slug": "hounds-drive-in",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
     "version": "1.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -18,9 +17,7 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "assetExts": [
-        "ttf"
-      ]
+      
     },
     "ios": {
       "supportsTablet": false,
@@ -35,5 +32,5 @@
       "googleServicesFile": "./google-services.json",
       "versionCode": 2
     }
-    }
   }
+}

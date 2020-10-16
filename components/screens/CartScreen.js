@@ -20,7 +20,6 @@ export default class CartScreen extends React.Component {
       open: false,
       showModal: false,
       create_payment_json: {
-        intent: "sale",
         payer: {
             payment_method: "paypal"
         },
@@ -136,7 +135,7 @@ export default class CartScreen extends React.Component {
       }
     }
 
-    var theUrl = "http://bluechipadvertising.com/trackOrder.php"
+    var theUrl = "http://bluechipadvertising.com/trackOrder.php?site_id=1"
     xmlhttp.open("POST", theUrl)
     xmlhttp.setRequestHeader("Content-Type", "application/jsoncharset=UTF-8")
     xmlhttp.send(JSON.stringify({ user_id: user.user_id, token: token, paymentId: paymentId, PayerID: PayerID, cartSummary: cartSummary }))
