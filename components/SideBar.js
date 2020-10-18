@@ -99,7 +99,6 @@ export default class SideBar extends React.Component {
             <Icon type="MaterialCommunityIcons" name="cart" />
           </Right>
         </ListItem>
-        {adminLink}
         {loginLink}
       </List>
     );
