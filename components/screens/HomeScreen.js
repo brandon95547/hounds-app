@@ -90,6 +90,7 @@ export default class HomeScreen extends React.Component {
 
   _handleNotification = (notification) => {
     this.setState({notification: notification.data.message});
+    console.log(notification);
     this.setModalVisible(true)
   };
 
