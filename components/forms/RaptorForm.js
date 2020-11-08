@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Picker, Modal, Alert } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Modal, Alert } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
+import Picker from '@react-native-community/picker'
 import { Left, Right, Icon, Drawer } from 'native-base'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import { colors } from '../GlobalStyles'
