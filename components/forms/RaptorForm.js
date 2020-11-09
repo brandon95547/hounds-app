@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ScrollView, Text, TouchableHighlight, Modal, Alert } from 'react-native'
-import CheckBox from '@react-native-community/checkbox'
+import { StyleSheet, View, ScrollView, Text, TouchableHighlight, Modal, Alert, Switch } from 'react-native'
 import { CustomPicker } from 'react-native-custom-picker'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import { colors } from '../GlobalStyles'
@@ -576,10 +575,12 @@ export default class RaptorForm extends React.Component {
     const displayCondiment = (title, value, label, ckey) => {
       return <View style={styles.foodOption}>
         <Text style={{ flex: 1 }}>{title}</Text>
-        <CheckBox
-          value={value}
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
           onValueChange={() => this.updateFoodItem(label, ckey)}
-          style={styles.checkbox}
+          value={value}
         />
       </View>
     }
