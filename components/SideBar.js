@@ -58,7 +58,7 @@ export default class SideBar extends React.Component {
   </ListItem> : <></>;
 
     return (
-      <List>
+      <List style={{marginTop: 40}}>
         <ListItem selected>
           <Left>
             <TouchableOpacity onPress={this.props.toggleOpen}>

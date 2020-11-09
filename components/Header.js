@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Platform } from 'react-native';
 import { Left, Right, Icon, Drawer, Container } from 'native-base';
 import { globals, componentStyles, headerStyles } from './GlobalStyles';
 import UserContext from '../UserContext'
@@ -11,11 +11,9 @@ const imageWidth = dimensions.width;
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
-        
     }
 
     static contextType = UserContext
-    
     
       render() {
         const { user } = this.context
@@ -38,16 +36,18 @@ export default class Header extends React.Component {
         }
         return (
             <>
-                <View style={headerStyles.viewContainer}>
-                    {leftButton}
-
-                    <View style={headerStyles.viewHamburger}>
-                        <TouchableOpacity style={headerStyles.hamburger} onPress={() => {this.props.navigation.navigate(continueButton)}}>
-                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='cart' />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={headerStyles.hamburger} onPress={this.props.toggleOpen}>
-                            <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='menu' />
-                        </TouchableOpacity>
+                <View style={{backgroundColor: "#505780", paddingTop: 36}}>
+                    <View style={Platform.OS == 'ios' ? headerStyles.viewContainer : headerStyles.viewAndroid}>
+                        {leftButton}
+    
+                        <View style={headerStyles.viewHamburger}>
+                            <TouchableOpacity style={headerStyles.hamburger} onPress={() => {this.props.navigation.navigate(continueButton)}}>
+                                <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='cart' />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={headerStyles.hamburger} onPress={this.props.toggleOpen}>
+                                <Icon style={{color: "white"}} type="MaterialCommunityIcons" name='menu' />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </>
