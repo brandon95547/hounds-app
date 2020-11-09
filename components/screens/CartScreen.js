@@ -341,7 +341,7 @@ export default class CartScreen extends React.Component {
         opacity={0.4}
       >   
         <Modal visible={this.state.showModal} inRequestClose={() => this.setState({ showModal: false })}>
-          <WebView source={{ uri: this.state.productionEndpoint }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm()"} javaScriptEnabled={true} />
+          <WebView source={{ uri: this.state.productionEndpoint }} onNavigationStateChange={data => this.handleResponse(data)} mixedContentMode={'compatibility'} injectedJavaScript={"document.getElementById('pricingData').value='" + JSON.stringify(this.state.create_payment_json) + "'; submitForm();"} javaScriptEnabled={true} onMessage={() => {}} />
         </Modal>
 
           <Header navigation={this.props.navigation} leftButton="interior" toggleOpen={this.toggleOpen} />
