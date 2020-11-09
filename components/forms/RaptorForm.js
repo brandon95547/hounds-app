@@ -1,9 +1,7 @@
-import React, { Component, useState } from 'react'
-import { StyleSheet, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Modal, Alert } from 'react-native'
+import React, { Component } from 'react'
+import { StyleSheet, View, ScrollView, Text, TouchableHighlight, Modal, Alert } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
-import Picker from '@react-native-community/picker'
 import { CustomPicker } from 'react-native-custom-picker'
-import { Left, Right, Icon, Drawer } from 'native-base'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import { colors } from '../GlobalStyles'
 import UserContext from '../../UserContext'
@@ -73,7 +71,7 @@ export default class RaptorForm extends React.Component {
     var currentChecked = this.state.checked
     currentChecked[key] = quantity
     this.setState({ checked: currentChecked })
-    
+
     let cartItems = cartData
 
     this.setState({ itemToUpdate: index })
@@ -105,7 +103,7 @@ export default class RaptorForm extends React.Component {
       "Homemade Cookies"
     ]
 
-    if(itemsThatNeedOptions.includes(title) && quantity != 0) {
+    if(itemsThatNeedOptions.includes(title) && quantity != 0 && quantity != null) {
       this.setModalVisible(true)
     }
 
@@ -560,26 +558,14 @@ export default class RaptorForm extends React.Component {
   buildItems() {
     const { publicFoodItems } = this.context
     const state = this.state
-    const options = ['One', 'Two', 'Three', 'Four', 'Five']
+    const options = ["0", 1, 2, 3]
     const foodItemDropdown = (key, index, price, title) => (
       <>
         <CustomPicker
           options={options}
-          onValueChange={value => {
-            Alert.alert('Selected Item', value || 'No item were selected!')
-          }}
-        />
-        {/* <Picker
-          style={RaptorFormStyles.onePicker} itemStyle={RaptorFormStyles.onePickerItem}
-          selectedValue={this.state.checked[key]}
-          style={RaptorFormStyles.picker}
+          value={this.state.checked[key]}
           onValueChange={(quantity) => this.updateFoodItemQuantity(index, key, price, title, quantity)}
-        >
-          <Picker.Item label="0" value="0" />
-          <Picker.Item label="1" value="1" />
-          <Picker.Item label="2" value="2" />
-          <Picker.Item label="3" value="3" />
-        </Picker> */}
+        />
       </>
     )
 
