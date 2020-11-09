@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight, AsyncStorage, Modal, Alert } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
 import Picker from '@react-native-community/picker'
+import { CustomPicker } from 'react-native-custom-picker'
 import { Left, Right, Icon, Drawer } from 'native-base'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 import { colors } from '../GlobalStyles'
@@ -559,9 +560,16 @@ export default class RaptorForm extends React.Component {
   buildItems() {
     const { publicFoodItems } = this.context
     const state = this.state
+    const options = ['One', 'Two', 'Three', 'Four', 'Five']
     const foodItemDropdown = (key, index, price, title) => (
       <>
-        <Picker
+        <CustomPicker
+          options={options}
+          onValueChange={value => {
+            Alert.alert('Selected Item', value || 'No item were selected!')
+          }}
+        />
+        {/* <Picker
           style={RaptorFormStyles.onePicker} itemStyle={RaptorFormStyles.onePickerItem}
           selectedValue={this.state.checked[key]}
           style={RaptorFormStyles.picker}
@@ -571,7 +579,7 @@ export default class RaptorForm extends React.Component {
           <Picker.Item label="1" value="1" />
           <Picker.Item label="2" value="2" />
           <Picker.Item label="3" value="3" />
-        </Picker>
+        </Picker> */}
       </>
     )
 
