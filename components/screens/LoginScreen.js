@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, TextInput, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native'
 import MenuDrawer from 'react-native-side-drawer'
 import { Button } from 'native-base'
 // custom components

@@ -562,6 +562,7 @@ export default class RaptorForm extends React.Component {
       <>
         <CustomPicker
           options={options}
+          textStyle={{fontSize: 24}}
           value={this.state.checked[key]}
           onValueChange={(quantity) => this.updateFoodItemQuantity(index, key, price, title, quantity)}
         />
@@ -1417,7 +1418,7 @@ export default class RaptorForm extends React.Component {
 
     }
 
-    let foodHeading = <Text style={{ color: '#111', fontSize: 18 }}>{this.state.itemToUpdateTitle}</Text>
+    let foodHeading = <Text style={{ color: '#111', fontSize: 18 }}>{this.state.itemToUpdateTitle.toUpperCase()}</Text>
 
     let foodOptionsMarkup = <><View style={styles.foodHeading}>{foodHeading}</View>{foodOptions}</>
     if(this.state.itemToUpdateQuantity >= 2) {
@@ -1540,7 +1541,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDD',
     paddingLeft: 12,
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
+    fontSize: 24,
   },
   modalButton: {
     color: "white",
@@ -1556,10 +1558,11 @@ const styles = StyleSheet.create({
   },
   foodOptionHeading: {
     backgroundColor: "#cb4a4a",
-    padding: 6
+    padding: 6,
   },
   foodOptionHeadingText: {
-    color: "white"
+    color: "white",
+    fontSize: 20
   },
   centeredView: {
     flex: 1,
@@ -1574,7 +1577,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'grey',
-    padding: 30
+    marginTop: 34
   },
   innerContainer: {
     alignItems: 'center',

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, Alert, ScrollView } from 'react-native'
-import { Icon, Button } from 'native-base'
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert, ScrollView } from 'react-native'
+import { Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { Table, TableWrapper, Row, Cell } from 'react-native-table-component'
 import SideBar from '../SideBar'
 import { WebView } from 'react-native-webview';
 import { globals, componentStyles, colors } from '../GlobalStyles'

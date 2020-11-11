@@ -1,13 +1,11 @@
-import React, { Component, useContext } from 'react'
+import React, { Component } from 'react'
 import * as Font from 'expo-font'
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, Modal, TouchableHighlight } from 'react-native'
-import { Icon, Button } from 'native-base'
+import { Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'
 import SideBar from '../SideBar'
-import styled from 'styled-components'
 import { globals, componentStyles, colors } from '../GlobalStyles'
-import * as Print from 'expo-print';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
@@ -28,7 +26,6 @@ export default class HomeScreen extends React.Component {
       open: false,
       modalVisible: false,
       assetsLoaded: false,
-      selectedPrinter: null,
       notification: {},
       token: '',
     }
@@ -117,12 +114,6 @@ export default class HomeScreen extends React.Component {
       <TouchableOpacity style={componentStyles.animatedBox}>
         <SideBar navigation={this.props.navigation} toggleOpen={this.toggleOpen} />
       </TouchableOpacity>
-    )
-  }
-
-  print() {
-    Print.printAsync(
-      {html: "test print"}
     )
   }
 

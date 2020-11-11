@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
 import { Icon, Button } from 'native-base'
 import MenuDrawer from 'react-native-side-drawer'
 import Header from '../Header'

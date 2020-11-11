@@ -27,6 +27,8 @@ export default class OrderSuccess extends React.Component {
   static contextType = UserContext
 
   componentDidMount() {
+    const { isLoggedIn, setCartData, setCartTotal } = this.context
+    
     let _this = this
     const { orderID } = this.context
     var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
@@ -79,6 +81,8 @@ export default class OrderSuccess extends React.Component {
         _this.setState({ tax: tax })
         
         if(response.success) {
+          setCartData([])
+          setCartTotal(0)
           // set user state from context
           // setUser(JSON.parse(response.user))
           setTimeout(() => {
