@@ -6,7 +6,7 @@
     "description": "No description",
     "slug": "hounds-drive-in",
     "privacy": "public",
-    "version": "1.4",
+    "version": "1.8",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/img/icon.png",
@@ -16,21 +16,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "packagerOpts": {
-      
-    },
+    "packagerOpts": {},
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.raptorwebsolutions.houndsdriveinapp",
       "buildNumber": "1.0.22",
-      "associatedDomains": [
-        "applinks:houndsdrivein.bluechipadvertising.com"
-      ]
+      "associatedDomains": ["applinks:houndsdrivein.bluechipadvertising.com"]
     },
     "android": {
       "package": "com.raptorwebsolutions.houndsdriveinapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 4
+      "versionCode": 8,
+      "permissions": [
+        "CAMERA",
+        "MEDIA_LIBRARY",
+        "CAMERA_ROLL",
+        "NOTIFICATIONS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     }
   }
 }

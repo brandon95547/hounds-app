@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import FormErrors from "./FormErrors";
 
 export default class SignupForm extends React.Component {
@@ -14,16 +14,12 @@ export default class SignupForm extends React.Component {
       formErrorsStatus: {
         show: false,
         message: "",
-        variant: "success"
-      }
+        variant: "success",
+      },
     };
 
-    this.handleChange = this
-      .handleChange
-      .bind(this);
-    this.handleSubmit = this
-      .handleSubmit
-      .bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // a new change event has to be written for every field OR use the method below
@@ -31,49 +27,44 @@ export default class SignupForm extends React.Component {
     this.setState({ email: event.target.value });
   } */
 
-  handleChange = (e) => this.setState({
-    [e.target.name]: e.target.value
-  });
+  handleChange = (e) =>
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   showAlert(alertStatus) {
     let _this = this;
     this.setState({
       formErrorsStatus: {
         show: true,
         variant: alertStatus.variant,
-        message: alertStatus.message
-      }
+        message: alertStatus.message,
+      },
     });
 
     setTimeout(function () {
       _this.setState({
         formErrorsStatus: {
-          show: false
-        }
+          show: false,
+        },
       });
     }, 2500);
   }
   handleSubmit(event) {
     let _this = this;
     event.preventDefault();
-    // console.log("Email submitted: " + this.state.email); console.log("Password
-    // submitted: " + this.state.password);
-
     if (this.state.email != "" && this.state.password != "") {
-
       var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
       xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           let response = JSON.parse(this.responseText);
           let alertStatus = {
-            variant: response.success
-              ? "success"
-              : "danger",
-            message: response.message
-          }
+            variant: response.success ? "success" : "danger",
+            message: response.message,
+          };
           _this.showAlert(alertStatus);
-          localStorage.setItem('user', response.user);
+          localStorage.setItem("user", response.user);
           // match the timeout from show alert before switching pages because the component will not be available to setState, if not
-          if(response.success) {
+          if (response.success) {
             setTimeout(() => {
               //_this.props.navigation.navigate('Home');
               window.location.reload();
@@ -84,9 +75,18 @@ export default class SignupForm extends React.Component {
 
       var theUrl = "http://bluechipadvertising.com/signup.php";
       xmlhttp.open("POST", theUrl);
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xmlhttp.send(JSON.stringify({email: this.state.email, password: this.state.password, createAccount: this.state.createAccount, phone: this.state.phone}));
-
+      xmlhttp.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8"
+      );
+      xmlhttp.send(
+        JSON.stringify({
+          email: this.state.email,
+          password: this.state.password,
+          createAccount: this.state.createAccount,
+          phone: this.state.phone,
+        })
+      );
     }
   }
 
@@ -153,26 +153,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 3,
     },
     shadowColor: "#171717",
-    shadowOpacity: 0.1
+    shadowOpacity: 0.1,
   },
   input: {
     backgroundColor: "#F3F3F3",
     flex: 1,
     fontSize: 18,
-    height: 35
+    height: 35,
   },
   addButton: {
     width: 100,
     backgroundColor: "#FFCE00",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   addButtonText: {
     color: "#171717",
     fontSize: 18,
-    fontWeight: "700"
-  }
+    fontWeight: "700",
+  },
 });
