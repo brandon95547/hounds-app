@@ -63,7 +63,7 @@
     "file-loader": "^6.0.0",
     "google-fonts-offline": "^0.1.5",
     "imagemin-cli": "^5.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "react-dev-tools": "0.0.1",
     "source-map-loader": "^0.2.4",
     "ts-loader": "^7.0.4",
